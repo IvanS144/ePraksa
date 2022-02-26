@@ -17,12 +17,11 @@ public class Internship {
             nullable = false)
     private Long internshipId;
 
-//    @Enumerated(EnumType.STRING)
-    @Basic
+    @Enumerated(EnumType.STRING)
     @Column(name = "Type",
             nullable = false,
             length = 7)
-    private String type;
+    private InternshipType type;
 
     @Basic
     @Column(name = "StartDate",

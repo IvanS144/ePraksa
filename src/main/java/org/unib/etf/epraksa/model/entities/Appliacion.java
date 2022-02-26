@@ -25,11 +25,11 @@ public class Appliacion implements Serializable {
             nullable = false)
     private Student student;
 
-    @Basic
+    @Enumerated(EnumType.STRING)
     @Column(name = "State",
             nullable = false,
             length = 45)
-    private String state;
+    private State state;
 
     @Basic
     @Column(name = "Report")

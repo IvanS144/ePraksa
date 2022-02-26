@@ -17,10 +17,10 @@ public class WorkDairy {
             nullable = false)
     private Long workDairyId;
 
-    @Basic
+    @Enumerated(EnumType.STRING)
     @Column(name = "STATE",
             length = 45)
-    private String state;
+    private State state;
 
     @Basic
     @Column(name = "CreatedAt",

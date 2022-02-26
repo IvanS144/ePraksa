@@ -34,18 +34,17 @@ public class User {
             length = 45)
     private String password;
 
-    @Basic
+    @Enumerated(EnumType.STRING)
     @Column(name = "ROLE",
             nullable = false,
             length = 45)
-    private String role;
+    private Role role;
 
-//    @Enumerated(EnumType.STRING)
-    @Basic
+    @Enumerated(EnumType.STRING)
     @Column(name = "USERTYPE",
             nullable = false,
             length = 45)
-    private String userType;
+    private UserType userType;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "AddressID",
