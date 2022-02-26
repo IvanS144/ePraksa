@@ -9,8 +9,7 @@ import java.util.List;
 @EqualsAndHashCode(callSuper = true)
 @Data
 @Entity
-@Inheritance(strategy=InheritanceType.JOINED)
-@PrimaryKeyJoinColumn(name = "ID")
+//@PrimaryKeyJoinColumn(name = "ID")
 @Table(name = "mentor")
 public class Mentor extends User{
 

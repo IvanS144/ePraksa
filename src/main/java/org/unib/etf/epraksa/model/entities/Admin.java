@@ -10,19 +10,18 @@ import javax.persistence.*;
 @EqualsAndHashCode(callSuper = true)
 @Data
 @Entity
-@Inheritance(strategy=InheritanceType.JOINED)
-@PrimaryKeyJoinColumn(name = "ID")
+//@PrimaryKeyJoinColumn(name = "ID")
 @Table(name = "admin")
 public class Admin extends User{
-//    @Id
-////    @GeneratedValue(strategy = GenerationType.IDENTITY)
-//    @Column(name = "ID",
+//@Id
+//////    @GeneratedValue(strategy = GenerationType.IDENTITY)
+//@Column(name = "ID",
 //            nullable = false)
-//    private Long id;
-//
-//    public Admin(Long id) {
+//   private Long id;
+
+//   public Admin(Long id) {
 //        this.id = id;
-//    }
+//   }
 
     @Basic
     @Column(name = "FirstName",

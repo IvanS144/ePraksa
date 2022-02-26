@@ -11,12 +11,11 @@ import java.util.List;
 @EqualsAndHashCode(callSuper = true)
 @Data
 @Entity
-@Inheritance(strategy=InheritanceType.JOINED)
-@PrimaryKeyJoinColumn(name = "ID")
+//@PrimaryKeyJoinColumn(name = "ID")
 @Table(name = "company")
 public class Company extends User{
 //    @Id
-////    @GeneratedValue(strategy = GenerationType.IDENTITY)
+//////    @GeneratedValue(strategy = GenerationType.IDENTITY)
 //    @Column(name = "ID",
 //            nullable = false)
 //    private Long id;

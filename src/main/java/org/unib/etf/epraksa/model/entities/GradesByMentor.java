@@ -22,9 +22,9 @@ public class GradesByMentor {
     private Integer technicalKnowledge;
 
     @Basic
-    @Column(name = "Resopnsibily",
+    @Column(name = "Responsibility",
             nullable = false)
-    private Integer resopnsibily;
+    private Integer resopnsibility;
 
     @Basic
     @Column(name = "Teamwork",

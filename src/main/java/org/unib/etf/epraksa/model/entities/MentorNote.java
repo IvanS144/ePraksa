@@ -7,7 +7,7 @@ import java.time.LocalDateTime;
 
 @Data
 @Entity
-@Table
+@Table(name="Mentor_note")
 public class MentorNote {
 
     @Id

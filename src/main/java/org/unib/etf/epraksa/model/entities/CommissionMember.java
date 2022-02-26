@@ -12,8 +12,8 @@ import java.util.List;
 @Data
 @Entity
 @Inheritance(strategy=InheritanceType.JOINED)
-@PrimaryKeyJoinColumn(name = "ID")
-@Table(name = "commision_member")
+//@PrimaryKeyJoinColumn(name = "ID")
+@Table(name = "commission_member")
 public class CommissionMember extends User{
 
 //    @Id
