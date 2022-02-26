@@ -2,23 +2,29 @@ package org.unib.etf.epraksa.model.entities;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.List;
 
+@NoArgsConstructor
+@EqualsAndHashCode(callSuper = true)
 @Data
 @Entity
 @Inheritance(strategy=InheritanceType.JOINED)
 @PrimaryKeyJoinColumn(name = "ID")
 @Table(name = "student")
-@EqualsAndHashCode(callSuper = true)
 public class Student extends User{
 
     @Id
     @Column(name = "ID",
             nullable = false)
     private Long id;
+
+    public Student(Long id) {
+        this.id = id;
+    }
 
     @Basic
     @Column(name = "FirstName",

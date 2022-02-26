@@ -2,16 +2,18 @@ package org.unib.etf.epraksa.model.entities;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.List;
 
+@NoArgsConstructor
+@EqualsAndHashCode(callSuper = true)
 @Data
 @Entity
 @Inheritance(strategy=InheritanceType.JOINED)
 @PrimaryKeyJoinColumn(name = "ID")
 @Table(name = "commision_member")
-@EqualsAndHashCode(callSuper = true)
 public class CommissionMember extends User{
 
     @Id
@@ -19,6 +21,10 @@ public class CommissionMember extends User{
     @Column(name = "ID",
             nullable = false)
     private Long id;
+
+    public CommissionMember(Long id) {
+        this.id = id;
+    }
 
     @Basic
     @Column(name = "FirstName",

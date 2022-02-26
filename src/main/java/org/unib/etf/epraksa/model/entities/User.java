@@ -68,7 +68,7 @@ public class User {
     private LocalDateTime lastModifiedDate;
 
     @OneToMany(mappedBy = "user",
-            fetch = FetchType.LAZY)
+    fetch = FetchType.LAZY)
     private List<Contact> contacts;
 
 

@@ -10,15 +10,22 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name = "student_has_internship")
 @IdClass(StudentHasInternshipPK.class)
-public class StudentHasInternship {
+public class StudentHasInternship{
 
     @Id
+    @Column(name = "ID")
+    private Long id;
+
+    @Id
+    @Column(name = "InternshipID")
+    private Long internshipId;
+
     @ManyToOne(fetch = FetchType.LAZY)
-    @Column(name = "ID",
+    @JoinColumn(name = "ID",
+            referencedColumnName = "ID",
             nullable = false)
     private Student student;
 
-    @Id
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "InternshipID",
             referencedColumnName = "InternshipID",

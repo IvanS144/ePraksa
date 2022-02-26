@@ -6,13 +6,13 @@ import lombok.EqualsAndHashCode;
 import javax.persistence.*;
 import java.util.List;
 
+//@EqualsAndHashCode(callSuper = true)
 @Data
 @Entity
-@Inheritance(strategy=InheritanceType.JOINED)
-@PrimaryKeyJoinColumn(name = "ID")
+//@Inheritance(strategy=InheritanceType.JOINED)
+//@PrimaryKeyJoinColumn(name = "ID")
 @Table(name = "mentor")
-@EqualsAndHashCode(callSuper = true)
-public class Mentor extends User{
+public class Mentor{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -43,8 +43,7 @@ public class Mentor extends User{
             nullable = false)
     private Integer isCurrentMentor;
 
-    @OneToMany(mappedBy = "mentor",
-            fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "mentor")
     private List<MentorNote> mentorNotes;
 
 

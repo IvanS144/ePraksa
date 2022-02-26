@@ -54,8 +54,7 @@ public class Address {
     @Column(name = "DeletedDate")
     private LocalDateTime deletedDate;
 
-    @OneToMany(mappedBy = "address",
-            fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "address")
     private List<User> users;
 
 }
