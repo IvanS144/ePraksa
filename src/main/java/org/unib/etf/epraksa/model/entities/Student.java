@@ -1,6 +1,7 @@
 package org.unib.etf.epraksa.model.entities;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -8,8 +9,11 @@ import java.util.List;
 
 @Data
 @Entity
+@Inheritance(strategy=InheritanceType.JOINED)
+@PrimaryKeyJoinColumn(name = "ID")
 @Table(name = "student")
-public class Student {
+@EqualsAndHashCode(callSuper = true)
+public class Student extends User{
 
     @Id
     @Column(name = "ID",
@@ -68,6 +72,7 @@ public class Student {
             length = 45)
     private String cycle;
 
-    @OneToMany(mappedBy = "student")
+    @OneToMany(mappedBy = "student",
+            fetch = FetchType.LAZY)
     private List<StudentHasInternship> studentHasInternships;
 }

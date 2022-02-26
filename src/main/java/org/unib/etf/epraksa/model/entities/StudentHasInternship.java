@@ -9,12 +9,12 @@ import java.time.LocalDateTime;
 @Data
 @Entity
 @Table(name = "student_has_internship")
-public class StudentHasInternship implements Serializable {
+@IdClass(StudentHasInternshipPK.class)
+public class StudentHasInternship {
 
     @Id
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "ID",
-            referencedColumnName = "ID",
+    @Column(name = "ID",
             nullable = false)
     private Student student;
 

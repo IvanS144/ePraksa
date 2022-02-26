@@ -133,7 +133,8 @@ public class Internship {
     @Column(name = "DeletedDate")
     private LocalDateTime deletedDate;
 
-    @OneToMany(mappedBy = "internship")
+    @OneToMany(mappedBy = "internship",
+            fetch = FetchType.LAZY)
     private List<StudentHasInternship> studentHasInternships;
 
 }

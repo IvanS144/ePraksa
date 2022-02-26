@@ -1,13 +1,17 @@
 package org.unib.etf.epraksa.model.entities;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import javax.persistence.*;
 
 @Data
 @Entity
+@Inheritance(strategy=InheritanceType.JOINED)
+@PrimaryKeyJoinColumn(name = "ID")
 @Table(name = "admin")
-public class Admin {
+@EqualsAndHashCode(callSuper = true)
+public class Admin extends User{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID",

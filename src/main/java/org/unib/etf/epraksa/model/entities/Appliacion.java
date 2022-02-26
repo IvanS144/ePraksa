@@ -9,7 +9,8 @@ import java.time.LocalDateTime;
 @Data
 @Entity
 @Table(name = "appliacion")
-public class Appliacion implements Serializable {
+@IdClass(AppliacionPK.class)
+public class Appliacion{
 
     @Id
     @ManyToOne(fetch = FetchType.LAZY)

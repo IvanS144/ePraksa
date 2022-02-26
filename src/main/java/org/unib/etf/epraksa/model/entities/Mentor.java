@@ -1,14 +1,18 @@
 package org.unib.etf.epraksa.model.entities;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import javax.persistence.*;
 import java.util.List;
 
 @Data
 @Entity
+@Inheritance(strategy=InheritanceType.JOINED)
+@PrimaryKeyJoinColumn(name = "ID")
 @Table(name = "mentor")
-public class Mentor {
+@EqualsAndHashCode(callSuper = true)
+public class Mentor extends User{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -39,7 +43,8 @@ public class Mentor {
             nullable = false)
     private Integer isCurrentMentor;
 
-    @OneToMany(mappedBy = "mentor")
+    @OneToMany(mappedBy = "mentor",
+            fetch = FetchType.LAZY)
     private List<MentorNote> mentorNotes;
 
 

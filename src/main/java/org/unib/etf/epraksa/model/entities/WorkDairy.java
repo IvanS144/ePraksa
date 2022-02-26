@@ -36,7 +36,8 @@ public class WorkDairy {
     @Column(name = "DeletedDate")
     private LocalDateTime deletedDate;
 
-    @OneToMany(mappedBy = "workDairy")
+    @OneToMany(mappedBy = "workDairy",
+            fetch = FetchType.LAZY)
     private List<WorkDairyEntry> workDairyEntries;
 
 }

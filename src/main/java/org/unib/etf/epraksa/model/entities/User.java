@@ -9,6 +9,7 @@ import java.util.List;
 @Data
 @Entity
 @Table(name = "user")
+@Inheritance(strategy=InheritanceType.JOINED)
 public class User {
 
     @Id
@@ -66,7 +67,8 @@ public class User {
             nullable = false)
     private LocalDateTime lastModifiedDate;
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user",
+            fetch = FetchType.LAZY)
     private List<Contact> contacts;
 
 
