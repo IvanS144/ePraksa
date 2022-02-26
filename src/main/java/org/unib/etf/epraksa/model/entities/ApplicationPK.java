@@ -10,14 +10,14 @@ import java.io.Serializable;
 @Data
 @NoArgsConstructor
 @Embeddable
-public class AppliacionPK implements Serializable {
+public class ApplicationPK implements Serializable {
 
     @Column(name="InternshipId")
     private Long internshipId;
     @Column(name="StudentId")
     private Long studentId;
 
-    public AppliacionPK(Long internshipId, Long studentId) {
+    public ApplicationPK(Long internshipId, Long studentId) {
         this.internshipId = internshipId;
         this.studentId = studentId;
     }

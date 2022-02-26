@@ -8,10 +8,11 @@ import java.time.LocalDateTime;
 
 @Data
 @Entity
-@Table(name = "appliacion")
-public class Appliacion implements Serializable{
+@Table(name = "application")
+public class Application implements Serializable{
 
-    @EmbeddedId AppliacionPK id;
+    @EmbeddedId
+    ApplicationPK id;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @MapsId("internshipId")

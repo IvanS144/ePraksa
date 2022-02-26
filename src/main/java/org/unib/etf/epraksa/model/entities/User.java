@@ -55,7 +55,7 @@ public class User {
 
     @Basic
     @Column(name = "DeletedDate")
-    private LocalDateTime deletadDate;
+    private LocalDateTime deletedDate;
 
     @Basic
     @Column(name = "CreatedAt",
