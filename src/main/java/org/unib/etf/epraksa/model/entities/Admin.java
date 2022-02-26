@@ -14,15 +14,15 @@ import javax.persistence.*;
 @PrimaryKeyJoinColumn(name = "ID")
 @Table(name = "admin")
 public class Admin extends User{
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "ID",
-            nullable = false)
-    private Long id;
-
-    public Admin(Long id) {
-        this.id = id;
-    }
+//    @Id
+////    @GeneratedValue(strategy = GenerationType.IDENTITY)
+//    @Column(name = "ID",
+//            nullable = false)
+//    private Long id;
+//
+//    public Admin(Long id) {
+//        this.id = id;
+//    }
 
     @Basic
     @Column(name = "FirstName",

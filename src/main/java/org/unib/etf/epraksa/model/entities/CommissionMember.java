@@ -16,15 +16,15 @@ import java.util.List;
 @Table(name = "commision_member")
 public class CommissionMember extends User{
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "ID",
-            nullable = false)
-    private Long id;
-
-    public CommissionMember(Long id) {
-        this.id = id;
-    }
+//    @Id
+////    @GeneratedValue(strategy = GenerationType.IDENTITY)
+//    @Column(name = "ID",
+//            nullable = false)
+//    private Long id;
+//
+//    public CommissionMember(Long id) {
+//        this.id = id;
+//    }
 
     @Basic
     @Column(name = "FirstName",

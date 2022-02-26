@@ -17,14 +17,14 @@ import java.util.List;
 @Table(name = "student")
 public class Student extends User{
 
-    @Id
-    @Column(name = "ID",
-            nullable = false)
-    private Long id;
-
-    public Student(Long id) {
-        this.id = id;
-    }
+//    @Id
+//    @Column(name = "ID",
+//            nullable = false)
+//    private Long id;
+//
+//    public Student(Long id) {
+//        this.id = id;
+//    }
 
     @Basic
     @Column(name = "FirstName",

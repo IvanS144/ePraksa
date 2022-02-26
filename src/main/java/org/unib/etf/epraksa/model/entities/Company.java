@@ -15,15 +15,15 @@ import java.util.List;
 @PrimaryKeyJoinColumn(name = "ID")
 @Table(name = "company")
 public class Company extends User{
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "ID",
-            nullable = false)
-    private Long id;
-
-    public Company(Long id) {
-        this.id = id;
-    }
+//    @Id
+////    @GeneratedValue(strategy = GenerationType.IDENTITY)
+//    @Column(name = "ID",
+//            nullable = false)
+//    private Long id;
+//
+//    public Company(Long id) {
+//        this.id = id;
+//    }
 
     @Basic
     @Column(name = "Name",

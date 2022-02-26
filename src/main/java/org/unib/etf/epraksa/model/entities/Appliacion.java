@@ -9,23 +9,25 @@ import java.time.LocalDateTime;
 @Data
 @Entity
 @Table(name = "appliacion")
-@IdClass(AppliacionPK.class)
-public class Appliacion{
+//@IdClass(AppliacionPK.class)
+public class Appliacion implements Serializable{
+
+//    @Id
+//    @Column(name = "InternshipID")
+//    private Long internshipId;
+//
+//    @Id
+//    @Column(name = "StudentID")
+//    private Long studentId;
 
     @Id
-    @Column(name = "InternshipID")
-    private Long internshipId;
-
-    @Id
-    @Column(name = "StudentID")
-    private Long studentId;
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "InternshipID",
             referencedColumnName = "InternshipID",
             nullable = false)
     private Internship internship;
 
+    @Id
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "StudentID",
             referencedColumnName = "ID",

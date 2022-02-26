@@ -14,11 +14,11 @@ import java.util.List;
 @Table(name = "mentor")
 public class Mentor extends User{
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "ID",
-            nullable = false)
-    private Long id;
+//    @Id
+////    @GeneratedValue(strategy = GenerationType.IDENTITY)
+//    @Column(name = "ID",
+//            nullable = false)
+//    private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "CompanyID",
