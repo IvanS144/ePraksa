@@ -38,7 +38,7 @@ public class Appliacion implements Serializable{
     private String report;
 
     @Basic
-    @Column(name = "MotivationLetter")
+    @Column(name = "MotivationalLetter")
     private String motivationLetter;
 
     @Basic
