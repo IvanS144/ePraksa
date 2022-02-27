@@ -19,10 +19,10 @@ public class User {
     private Long Id;
 
     @Basic
-    @Column(name = "Username",
+    @Column(name = "Loginmail",
             nullable = false,
             length = 45)
-    private String username;
+    private String loginMail;
 
     @Basic
     @Column(name = "IsActive",
