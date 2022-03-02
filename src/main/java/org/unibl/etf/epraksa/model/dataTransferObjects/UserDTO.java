@@ -1,6 +1,7 @@
 package org.unibl.etf.epraksa.model.dataTransferObjects;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -9,6 +10,7 @@ import org.unibl.etf.epraksa.model.entities.Role;
 import java.util.Collection;
 import java.util.List;
 @Data
+@NoArgsConstructor
 public class UserDTO implements UserDetails {
     private Long id;
     private String loginMail;
