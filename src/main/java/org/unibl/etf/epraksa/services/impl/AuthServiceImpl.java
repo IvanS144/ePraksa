@@ -36,13 +36,13 @@ public class AuthServiceImpl implements AuthService {
     public ResponseEntity<Object> login(LoginRequest request) {
         ResponseEntity<Object> response = null;
         try {
-            UserDTO user = ePraksaUserDetailsService.loadUserByUsername(request.getLoginMail());
+            UserDTO user = ePraksaUserDetailsService.loadUserByUsername(request.getEmail());
             if(!user.isEnabled())
                 throw new Exception();
             Authentication authenticate = authenticationManager
                     .authenticate(
                             new UsernamePasswordAuthenticationToken(
-                                    request.getLoginMail(), request.getPassword()
+                                    request.getEmail(), request.getPassword()
                             )
                     );
             user = (UserDTO) authenticate.getPrincipal();
