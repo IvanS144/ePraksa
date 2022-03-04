@@ -101,7 +101,7 @@ public class Internship {
     @Basic
     @Column(name = "IsAccepted",
             nullable = false)
-    private Integer isAccepted;
+    private Boolean isAccepted;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "MentorID",
