@@ -52,4 +52,18 @@ public class InternshipServiceImpl implements InternshipService {
                 .map(e -> modelMapper.map(e, replyClass))
                 .collect(Collectors.toList());
     }
+
+    @Override
+    public void setFinishedStatus(Long internshipId, Boolean isFinished) {
+        if(!internshipRepository.existsById(internshipId))
+        {
+            throw new NotFoundException("Ta praksa ne postoji");
+        }
+        else
+        {
+            Internship internship = internshipRepository.getById(internshipId);
+            internship.setIsFinished(isFinished);
+            internshipRepository.saveAndFlush(internship);
+        }
+    }
 }

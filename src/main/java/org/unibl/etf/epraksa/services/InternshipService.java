@@ -6,4 +6,5 @@ public interface InternshipService {
 
     public void setAcceptanceStatus(Long internshipId, Boolean isAccepted);
     <T> List<T> filter(Long id, String type, Boolean isPublished, Class<T> replyClass);
+    void setFinishedStatus(Long internshipId, Boolean isFinished);
 }
