@@ -3,15 +3,15 @@ package org.unibl.etf.epraksa.model.dataTransferObjects;
 import lombok.Data;
 import org.unibl.etf.epraksa.model.entities.InternshipType;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @Data
 public class InternshipDTO {
     private Long internshipId;
     private CompanyDTO company;
     private InternshipType internshipType;
-    private LocalDateTime startDate;
-    private LocalDateTime endDate;
+    private LocalDate startDate;
+    private LocalDate endDate;
     private String[] cycles;
     private String description;
     private String details;
@@ -22,7 +22,7 @@ public class InternshipDTO {
     private Boolean requiredCV;
     private Boolean requiredLetter;
     private String link;
-    private LocalDateTime submissionDue;
+    private LocalDate submissionDue;
     private Boolean isPublished;
     private MentorDTO mentor;
     private String[] courses;
