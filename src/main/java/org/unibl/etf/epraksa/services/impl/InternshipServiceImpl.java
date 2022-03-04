@@ -46,7 +46,7 @@ public class InternshipServiceImpl implements InternshipService {
     @Override
     public <T> T insert(InternshipRequest request, Class<T> replyClass) {
         Internship internship = modelMapper.map(request, Internship.class);
-        if(internship.getSubmissionDue().isAfter(internship.getStartDate()) || internship.getStartDate().isBefore(internship.getEndDate()) || internship.getStartDate().isEqual(internship.getEndDate()))
+        if(internship.getSubmissionDue().isAfter(internship.getStartDate()) || internship.getEndDate().isBefore(internship.getStartDate()) || internship.getStartDate().isEqual(internship.getEndDate()))
             throw new BadRequestException("Datumi nisu validni");
         internship.setInternshipId(null);
         internship.setIsPublished(false);
