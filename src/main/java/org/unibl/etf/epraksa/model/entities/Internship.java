@@ -3,7 +3,7 @@ package org.unibl.etf.epraksa.model.entities;
 import lombok.Data;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.List;
 
 @Data
@@ -21,16 +21,16 @@ public class Internship {
     @Column(name = "Type",
             nullable = false,
             length = 7)
-    private InternshipType type;
+    private InternshipType internshipType;
 
     @Basic
     @Column(name = "StartDate",
             nullable = false)
-    private LocalDateTime startDate;
+    private LocalDate startDate;
 
     @Basic
     @Column(name = "EndDAte")
-    private LocalDateTime endDate;
+    private LocalDate endDate;
 
     @Basic
     @Column(name = "Cycles",
@@ -65,17 +65,17 @@ public class Internship {
     @Basic
     @Column(name = "Field",
             nullable = false)
-    private String field;
+    private String internshipField;
 
     @Basic
     @Column(name = "CvRequired",
             nullable = false)
-    private Boolean cvRequired;
+    private Boolean requiredCV;
 
     @Basic
     @Column(name = "LetterRequired",
             nullable = false)
-    private Boolean letterRequired;
+    private Boolean requiredLetter;
 
     @Basic
     @Column(name = "Link",
@@ -85,7 +85,7 @@ public class Internship {
     @Basic
     @Column(name = "SubmissionDue",
             nullable = false)
-    private LocalDateTime submissionDue;
+    private LocalDate submissionDue;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "CompanyID",
@@ -121,16 +121,16 @@ public class Internship {
     @Basic
     @Column(name = "CreatedAt",
             nullable = false)
-    private LocalDateTime createdAt;
+    private LocalDate createdAt;
 
     @Basic
     @Column(name = "LastModifiedDate",
             nullable = false)
-    private LocalDateTime lastModifiedDate;
+    private LocalDate lastModifiedDate;
 
     @Basic
     @Column(name = "DeletedDate")
-    private LocalDateTime deletedDate;
+    private LocalDate deletedDate;
 
     @OneToMany(mappedBy = "internship",
             fetch = FetchType.LAZY)
