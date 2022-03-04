@@ -21,4 +21,10 @@ public class InternshipController {
     {
         internshipService.setAcceptanceStatus(internshipId, isAccepted);
     }
+
+    @PutMapping("/{internshipId}/{isFinished}")
+    public void setFinishedStatus(@PathVariable Long internshipId, @PathVariable Boolean isFinished)
+    {
+        internshipService.setFinishedStatus(internshipId, isFinished);
+    }
 }
