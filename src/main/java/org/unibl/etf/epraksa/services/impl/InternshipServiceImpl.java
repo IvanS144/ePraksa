@@ -1,10 +1,15 @@
 package org.unibl.etf.epraksa.services.impl;
 
+import org.springframework.stereotype.Service;
 import org.unibl.etf.epraksa.exceptions.NotFoundException;
 import org.unibl.etf.epraksa.model.entities.Internship;
 import org.unibl.etf.epraksa.repositories.InternshipRepository;
 import org.unibl.etf.epraksa.services.InternshipService;
 
+import javax.transaction.Transactional;
+
+@Service
+@Transactional
 public class InternshipServiceImpl implements InternshipService {
     private final InternshipRepository internshipRepository;
 
