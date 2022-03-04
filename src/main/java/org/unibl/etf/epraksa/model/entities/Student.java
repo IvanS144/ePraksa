@@ -5,7 +5,7 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.List;
 
 @NoArgsConstructor
@@ -52,7 +52,7 @@ public class Student extends User{
     @Basic
     @Column(name = "BirthDate",
             nullable = false)
-    private LocalDateTime birthDate;
+    private LocalDate birthDate;
 
     @Basic
     @Column(name = "Faculty",

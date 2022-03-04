@@ -3,7 +3,7 @@ package org.unibl.etf.epraksa.model.entities;
 import lombok.Data;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.List;
 
 @Data
@@ -43,16 +43,16 @@ public class Address {
     @Basic
     @Column(name = "CreatedAt",
             nullable = false)
-    private LocalDateTime createdAt;
+    private LocalDate createdAt;
 
     @Basic
     @Column(name = "LastModifiedDate",
             nullable = false)
-    private LocalDateTime lastModifiedDate;
+    private LocalDate lastModifiedDate;
 
     @Basic
     @Column(name = "DeletedDate")
-    private LocalDateTime deletedDate;
+    private LocalDate deletedDate;
 
     @OneToMany(mappedBy = "address",
             fetch = FetchType.LAZY)
