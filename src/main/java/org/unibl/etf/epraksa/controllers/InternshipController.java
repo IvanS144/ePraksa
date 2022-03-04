@@ -1,10 +1,11 @@
 package org.unibl.etf.epraksa.controllers;
 
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.unibl.etf.epraksa.model.dataTransferObjects.InternshipDTO;
+import org.unibl.etf.epraksa.model.requests.InternshipRequest;
 import org.unibl.etf.epraksa.services.InternshipService;
+
+import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/internships")
@@ -26,5 +27,11 @@ public class InternshipController {
     public void setFinishedStatus(@PathVariable Long internshipId, @PathVariable Boolean isFinished)
     {
         internshipService.setFinishedStatus(internshipId, isFinished);
+    }
+
+    @PostMapping
+    public InternshipDTO addInternship(@RequestBody @Valid InternshipRequest request)
+    {
+        return internshipService.insert(request, InternshipDTO.class);
     }
 }

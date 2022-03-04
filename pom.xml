@@ -46,6 +46,25 @@
             <version>2.4.4</version>
         </dependency>
         <dependency>
+            <groupId>com.vladmihalcea</groupId>
+            <artifactId>hibernate-types-55</artifactId>
+            <version>2.14.0</version>
+        </dependency>
+        <dependency>
+
+            <groupId>io.springfox</groupId>
+
+            <artifactId>springfox-boot-starter</artifactId>
+
+            <version>3.0.0</version>
+
+        </dependency>
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger-ui</artifactId>
+            <version>3.0.0</version>
+        </dependency>
+        <dependency>
             <groupId>io.jsonwebtoken</groupId>
             <artifactId>jjwt</artifactId>
             <version>0.9.1</version>

@@ -1,6 +1,13 @@
 package org.unibl.etf.epraksa.model.entities;
 
+import com.vladmihalcea.hibernate.type.json.JsonType;
 import lombok.Data;
+import org.hibernate.annotations.Type;
+import org.hibernate.annotations.TypeDef;
+import org.hibernate.annotations.TypeDefs;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -8,7 +15,11 @@ import java.util.List;
 
 @Data
 @Entity
+@EntityListeners(AuditingEntityListener.class)
 @Table(name = "internship")
+@TypeDefs({
+        @TypeDef(name = "json", typeClass = JsonType.class)
+})
 public class Internship {
 
     @Id
@@ -31,11 +42,10 @@ public class Internship {
     @Basic
     @Column(name = "EndDAte")
     private LocalDate endDate;
-
-    @Basic
+    @Type(type="json")
     @Column(name = "Cycles",
-            nullable = false)
-    private String cycles;
+            nullable = false, columnDefinition = "json")
+    private String[] cycles;
 
     @Basic
     @Column(name = "Description",
@@ -113,19 +123,19 @@ public class Internship {
             nullable = false)
     private Boolean isFinished;
 
-    @Basic
+    @Type(type="json")
     @Column(name = "Courses",
-            nullable = false)
-    private String courses;
+            nullable = false, columnDefinition = "json")
+    private String[] courses;
 
-    @Basic
     @Column(name = "CreatedAt",
             nullable = false)
+    @CreatedDate
     private LocalDate createdAt;
 
-    @Basic
     @Column(name = "LastModifiedDate",
             nullable = false)
+    @LastModifiedDate
     private LocalDate lastModifiedDate;
 
     @Basic

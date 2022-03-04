@@ -1,20 +1,29 @@
 package org.unibl.etf.epraksa.services.impl;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.unibl.etf.epraksa.exceptions.NotFoundException;
 import org.unibl.etf.epraksa.model.entities.Internship;
+import org.unibl.etf.epraksa.model.requests.InternshipRequest;
 import org.unibl.etf.epraksa.repositories.InternshipRepository;
 import org.unibl.etf.epraksa.services.InternshipService;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 
 @Service
 @Transactional
 public class InternshipServiceImpl implements InternshipService {
     private final InternshipRepository internshipRepository;
+    private final ModelMapper modelMapper;
 
-    public InternshipServiceImpl(InternshipRepository internshipRepository) {
+    @PersistenceContext
+    private EntityManager entityManager;
+
+    public InternshipServiceImpl(InternshipRepository internshipRepository, ModelMapper modelMapper) {
         this.internshipRepository = internshipRepository;
+        this.modelMapper = modelMapper;
     }
 
     @Override
@@ -29,6 +38,18 @@ public class InternshipServiceImpl implements InternshipService {
             internship.setIsAccepted(isAccepted);
             internshipRepository.saveAndFlush(internship);
         }
+
+    }
+
+    @Override
+    public <T> T insert(InternshipRequest request, Class<T> replyClass) {
+        Internship internship = modelMapper.map(request, Internship.class);
+        internship.setInternshipId(null);
+        internship.setIsPublished(false);
+        internship.setIsFinished(false);
+        internship=internshipRepository.saveAndFlush(internship);
+        entityManager.refresh(internship);
+        return modelMapper.map(internship, replyClass);
 
     }
 
