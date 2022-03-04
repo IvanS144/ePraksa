@@ -99,8 +99,7 @@ public class Internship {
     private Boolean isPublished;
 
     @Basic
-    @Column(name = "IsAccepted",
-            nullable = false)
+    @Column(name = "IsAccepted")
     private Boolean isAccepted;
 
     @ManyToOne(fetch = FetchType.LAZY)
