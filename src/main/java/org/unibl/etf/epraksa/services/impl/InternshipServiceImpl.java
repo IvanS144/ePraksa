@@ -22,6 +22,7 @@ public class InternshipServiceImpl implements InternshipService {
         {
             Internship internship = internshipRepository.getById(internshipId);
             internship.setIsAccepted(isAccepted);
+            internshipRepository.saveAndFlush(internship);
         }
 
     }
