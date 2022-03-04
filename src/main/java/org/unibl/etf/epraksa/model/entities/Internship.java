@@ -97,7 +97,7 @@ public class Internship {
             nullable = false)
     private LocalDate submissionDue;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "CompanyID",
             referencedColumnName = "ID",
             nullable = false)
