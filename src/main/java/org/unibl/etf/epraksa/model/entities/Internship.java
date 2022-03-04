@@ -70,12 +70,12 @@ public class Internship {
     @Basic
     @Column(name = "CvRequired",
             nullable = false)
-    private Integer cvRequired;
+    private Boolean cvRequired;
 
     @Basic
     @Column(name = "LetterRequired",
             nullable = false)
-    private Integer letterRequired;
+    private Boolean letterRequired;
 
     @Basic
     @Column(name = "Link",
@@ -96,7 +96,7 @@ public class Internship {
     @Basic
     @Column(name = "IsPublished",
             nullable = false)
-    private Integer isPublished;
+    private Boolean isPublished;
 
     @Basic
     @Column(name = "IsAccepted",
@@ -112,7 +112,7 @@ public class Internship {
     @Basic
     @Column(name = "IsFinished",
             nullable = false)
-    private Integer isFinished;
+    private Boolean isFinished;
 
     @Basic
     @Column(name = "Courses",
