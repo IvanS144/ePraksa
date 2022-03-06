@@ -1,6 +1,7 @@
 package org.unibl.etf.epraksa.model.entities;
 
 import lombok.Data;
+import org.unibl.etf.epraksa.model.entities.json.OpinionByMentorJSON;
 
 import javax.persistence.*;
 import java.time.LocalDate;

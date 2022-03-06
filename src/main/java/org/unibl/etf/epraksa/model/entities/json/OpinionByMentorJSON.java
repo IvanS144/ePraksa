@@ -3,7 +3,7 @@ package org.unibl.etf.epraksa.model.entities.json;
 import lombok.Data;
 
 @Data
-public class OpinionByMentor {
+public class OpinionByMentorJSON {
     private Long id;
     private String mentor;
     private String periodOfInternshipFrom;

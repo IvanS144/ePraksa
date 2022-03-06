@@ -6,8 +6,10 @@ import org.unibl.etf.epraksa.exceptions.BadRequestException;
 import org.unibl.etf.epraksa.exceptions.NotFoundException;
 import org.unibl.etf.epraksa.model.entities.Internship;
 import org.unibl.etf.epraksa.model.entities.InternshipType;
+import org.unibl.etf.epraksa.model.entities.ReportByMentor;
 import org.unibl.etf.epraksa.model.requests.InternshipRequest;
 import org.unibl.etf.epraksa.repositories.InternshipRepository;
+import org.unibl.etf.epraksa.repositories.ReportByMentorRepository;
 import org.unibl.etf.epraksa.services.InternshipService;
 
 import javax.persistence.EntityManager;
@@ -21,13 +23,15 @@ import java.util.stream.Collectors;
 public class InternshipServiceImpl implements InternshipService {
     private final InternshipRepository internshipRepository;
     private final ModelMapper modelMapper;
+    private final ReportByMentorRepository reportByMentorRepository;
 
     @PersistenceContext
     private EntityManager entityManager;
 
-    public InternshipServiceImpl(InternshipRepository internshipRepository, ModelMapper modelMapper) {
+    public InternshipServiceImpl(InternshipRepository internshipRepository, ModelMapper modelMapper, ReportByMentorRepository reportByMentorRepository) {
         this.internshipRepository = internshipRepository;
         this.modelMapper = modelMapper;
+        this.reportByMentorRepository = reportByMentorRepository;
     }
 
     @Override
@@ -79,5 +83,13 @@ public class InternshipServiceImpl implements InternshipService {
             internship.setIsFinished(isFinished);
             internshipRepository.saveAndFlush(internship);
         }
+    }
+
+    @Override
+    public ReportByMentor getReport(Long studentId, Long internshipId) {
+        ReportByMentor reportByMentor = reportByMentorRepository.getReport(studentId,internshipId);
+        if(reportByMentor == null)
+            reportByMentor = new ReportByMentor();
+        return reportByMentor;
     }
 }

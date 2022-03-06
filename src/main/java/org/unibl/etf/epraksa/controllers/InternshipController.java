@@ -49,6 +49,6 @@ public class InternshipController {
     public ReportByMentor getReportFromMentor(@PathVariable(name = "internshipId") Long internshipId,
                                               @PathVariable(name = "studentId") Long studentId){
 
-        return null;
+        return internshipService.getReport(studentId, internshipId);
     }
 }
