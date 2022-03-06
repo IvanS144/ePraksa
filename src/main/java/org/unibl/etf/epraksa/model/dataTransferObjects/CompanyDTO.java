@@ -1,5 +1,6 @@
 package org.unibl.etf.epraksa.model.dataTransferObjects;
 
+
 import lombok.Data;
 
 @Data
