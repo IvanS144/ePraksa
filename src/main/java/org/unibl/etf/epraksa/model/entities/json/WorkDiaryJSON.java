@@ -7,7 +7,7 @@ import org.unibl.etf.epraksa.model.entities.Student;
 public class WorkDiaryJSON {
     private Long id;
     private Student student;
-    private String brojIndeksa;
-    private String studijskiProgram;
-    private String imePrezimeStrucnogMentora;
+    private String indexNumber;
+    private String studyProgram;
+    private String mentorsNameSurname;
 }

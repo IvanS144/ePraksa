@@ -4,7 +4,7 @@ import lombok.Data;
 
 @Data
 public class StudentObligationsJSON {
-    private String redniBroj;
-    private String opisObaveze;
+    private String serialNumber;
+    private String descriptionOfTheObligation;
     private Long id;
 }

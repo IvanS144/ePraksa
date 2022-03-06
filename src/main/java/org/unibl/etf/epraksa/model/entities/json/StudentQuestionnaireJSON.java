@@ -6,5 +6,5 @@ import lombok.Data;
 public class StudentQuestionnaireJSON {
     private Long id;
     private String[] input;
-    private String licniKomentarMentora;
+    private String mentorsComment;
 }

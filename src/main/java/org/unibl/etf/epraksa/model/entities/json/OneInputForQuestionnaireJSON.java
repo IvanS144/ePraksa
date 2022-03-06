@@ -5,6 +5,6 @@ import lombok.Data;
 @Data
 public class OneInputForQuestionnaireJSON {
     private Long id;
-    private String pitanje;
-    private AnswerToTheQuestionnaireENUM odgovor;
+    private String question;
+    private AnswerToTheQuestionnaireENUM answer;
 }

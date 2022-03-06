@@ -5,10 +5,10 @@ import lombok.Data;
 @Data
 public class OpinionByMentor {
     private Long id;
-    private String strucniMentor;
-    private String periodTrajanjaPrakseOd;
-    private String periodTrajanjaPrakseDo;
-    private String brojDana;
-    private String brojSati;
-    private String[] obaveze;
+    private String mentor;
+    private String periodOfInternshipFrom;
+    private String periodOfInternshipUntil;
+    private String numberOfDays;
+    private String numberOfHours;
+    private String[] obligations;
 }
