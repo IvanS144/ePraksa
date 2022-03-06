@@ -1,14 +1,25 @@
 package org.unibl.etf.epraksa.model.entities;
 
+import com.vladmihalcea.hibernate.type.json.JsonType;
 import lombok.Data;
+import org.hibernate.annotations.Type;
+import org.hibernate.annotations.TypeDef;
+import org.hibernate.annotations.TypeDefs;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.List;
 
 @Data
 @Entity
+@EntityListeners(AuditingEntityListener.class)
 @Table(name = "internship")
+@TypeDefs({
+        @TypeDef(name = "json", typeClass = JsonType.class)
+})
 public class Internship {
 
     @Id
@@ -21,21 +32,20 @@ public class Internship {
     @Column(name = "Type",
             nullable = false,
             length = 7)
-    private InternshipType type;
+    private InternshipType internshipType;
 
     @Basic
     @Column(name = "StartDate",
             nullable = false)
-    private LocalDateTime startDate;
+    private LocalDate startDate;
 
     @Basic
     @Column(name = "EndDAte")
-    private LocalDateTime endDate;
-
-    @Basic
+    private LocalDate endDate;
+    @Type(type="json")
     @Column(name = "Cycles",
-            nullable = false)
-    private String cycles;
+            nullable = false, columnDefinition = "json")
+    private String[] cycles;
 
     @Basic
     @Column(name = "Description",
@@ -65,17 +75,17 @@ public class Internship {
     @Basic
     @Column(name = "Field",
             nullable = false)
-    private String field;
+    private String internshipField;
 
     @Basic
     @Column(name = "CvRequired",
             nullable = false)
-    private Boolean cvRequired;
+    private Boolean requiredCV;
 
     @Basic
     @Column(name = "LetterRequired",
             nullable = false)
-    private Boolean letterRequired;
+    private Boolean requiredLetter;
 
     @Basic
     @Column(name = "Link",
@@ -85,7 +95,7 @@ public class Internship {
     @Basic
     @Column(name = "SubmissionDue",
             nullable = false)
-    private LocalDateTime submissionDue;
+    private LocalDate submissionDue;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "CompanyID",
@@ -113,24 +123,24 @@ public class Internship {
             nullable = false)
     private Boolean isFinished;
 
-    @Basic
+    @Type(type="json")
     @Column(name = "Courses",
-            nullable = false)
-    private String courses;
+            nullable = false, columnDefinition = "json")
+    private String[] courses;
 
-    @Basic
     @Column(name = "CreatedAt",
             nullable = false)
-    private LocalDateTime createdAt;
+    @CreatedDate
+    private LocalDate createdAt;
 
-    @Basic
     @Column(name = "LastModifiedDate",
             nullable = false)
-    private LocalDateTime lastModifiedDate;
+    @LastModifiedDate
+    private LocalDate lastModifiedDate;
 
     @Basic
     @Column(name = "DeletedDate")
-    private LocalDateTime deletedDate;
+    private LocalDate deletedDate;
 
     @OneToMany(mappedBy = "internship",
             fetch = FetchType.LAZY)

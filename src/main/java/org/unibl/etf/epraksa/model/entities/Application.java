@@ -4,7 +4,7 @@ import lombok.Data;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @Data
 @Entity
@@ -53,15 +53,15 @@ public class Application implements Serializable{
     @Basic
     @Column(name = "CreatedAt",
             nullable = false)
-    private LocalDateTime createdAt;
+    private LocalDate createdAt;
 
     @Basic
     @Column(name = "LastModifiedDate",
             nullable = false)
-    private LocalDateTime lastModifiedDate;
+    private LocalDate lastModifiedDate;
 
     @Basic
     @Column(name = "DeletedDate")
-    private LocalDateTime deletedDate;
+    private LocalDate deletedDate;
 
 }
