@@ -1,6 +1,9 @@
 package org.unibl.etf.epraksa.model.entities;
 
 import lombok.Data;
+import org.hibernate.annotations.Type;
+import org.hibernate.annotations.TypeDef;
+import org.hibernate.annotations.TypeDefs;
 import org.unibl.etf.epraksa.model.entities.json.OpinionByMentorJSON;
 
 import javax.persistence.*;
@@ -9,6 +12,7 @@ import java.time.LocalDate;
 @Data
 @Entity
 @Table(name = "report_by_mentor")
+@TypeDefs(@TypeDef(name = "json", typeClass = OpinionByMentorJSON.class))
 public class ReportByMentor {
 
     @Id
@@ -17,9 +21,11 @@ public class ReportByMentor {
             nullable = false)
     private Long reportId;
 
-    @Basic
-    @Column(name = "OpinionJSON")
-    private String opinionJSON;
+    @Type(type = "json")
+    @Column(name = "OpinionJSON",
+            nullable = false,
+            columnDefinition = "json")
+    private OpinionByMentorJSON opinionJSON;
 
     @Basic
     @Column(name = "GradingJSON")
