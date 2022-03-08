@@ -11,6 +11,6 @@ public class OpinionByMentorJSON {
     private LocalDate periodOfInternshipFrom;
     private LocalDate periodOfInternshipUntil;
     private Integer numberOfDays;
-    private String numberOfHours;
+    private Integer numberOfHours;
     private String[] obligations;
 }
