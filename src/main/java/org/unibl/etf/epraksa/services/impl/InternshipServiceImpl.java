@@ -8,6 +8,7 @@ import org.unibl.etf.epraksa.model.entities.Internship;
 import org.unibl.etf.epraksa.model.entities.InternshipType;
 import org.unibl.etf.epraksa.model.requests.InternshipRequest;
 import org.unibl.etf.epraksa.repositories.InternshipRepository;
+import org.unibl.etf.epraksa.repositories.StudentHasInternshipRepository;
 import org.unibl.etf.epraksa.services.InternshipService;
 
 import javax.persistence.EntityManager;
@@ -20,13 +21,15 @@ import java.util.stream.Collectors;
 @Transactional
 public class InternshipServiceImpl implements InternshipService {
     private final InternshipRepository internshipRepository;
+    private final StudentHasInternshipRepository studentHasInternshipRepository;
     private final ModelMapper modelMapper;
 
     @PersistenceContext
     private EntityManager entityManager;
 
-    public InternshipServiceImpl(InternshipRepository internshipRepository, ModelMapper modelMapper) {
+    public InternshipServiceImpl(InternshipRepository internshipRepository, StudentHasInternshipRepository studentHasInternshipRepository, ModelMapper modelMapper) {
         this.internshipRepository = internshipRepository;
+        this.studentHasInternshipRepository = studentHasInternshipRepository;
         this.modelMapper = modelMapper;
     }
 
@@ -79,5 +82,10 @@ public class InternshipServiceImpl implements InternshipService {
             internship.setIsFinished(isFinished);
             internshipRepository.saveAndFlush(internship);
         }
+    }
+
+    @Override
+    public <T> List<T> getAllStudentsOnInternship(Long internshipId, Class<T> replyClass) {
+        return studentHasInternshipRepository.getAllStudentsOnInternship(internshipId).stream().map(s -> modelMapper.map(s, replyClass)).collect(Collectors.toList());
     }
 }

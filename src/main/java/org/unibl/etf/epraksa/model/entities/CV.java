@@ -54,6 +54,11 @@ public class CV {
     @Column(name="Projects", columnDefinition="json")
     private List<ProjectEntryJSON> projects;
 
+    @OneToOne
+    @MapsId
+    @JoinColumn(name="id")
+    private Student student;
+
     @Basic
     @Column(name = "CreatedAt",
             nullable = false)

@@ -9,4 +9,5 @@ public interface InternshipService {
     <T> List<T> filter(Long id, String type, Boolean isPublished, Class<T> replyClass);
     <T> T insert(InternshipRequest request, Class<T> replyClass);
     void setFinishedStatus(Long internshipId, Boolean isFinished);
+    <T> List<T> getAllStudentsOnInternship(Long internshipId, Class<T> replyClass);
 }
