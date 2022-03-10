@@ -4,10 +4,14 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.unibl.etf.epraksa.exceptions.BadRequestException;
 import org.unibl.etf.epraksa.exceptions.NotFoundException;
+import org.unibl.etf.epraksa.model.dataTransferObjects.ReportByMentorDTO;
 import org.unibl.etf.epraksa.model.entities.Internship;
 import org.unibl.etf.epraksa.model.entities.InternshipType;
+import org.unibl.etf.epraksa.model.entities.ReportByMentor;
 import org.unibl.etf.epraksa.model.requests.InternshipRequest;
 import org.unibl.etf.epraksa.repositories.InternshipRepository;
+import org.unibl.etf.epraksa.repositories.ReportByMentorRepository;
+import org.unibl.etf.epraksa.repositories.StudentHasInternshipRepository;
 import org.unibl.etf.epraksa.services.InternshipService;
 
 import javax.persistence.EntityManager;
@@ -20,14 +24,19 @@ import java.util.stream.Collectors;
 @Transactional
 public class InternshipServiceImpl implements InternshipService {
     private final InternshipRepository internshipRepository;
+    private final StudentHasInternshipRepository studentHasInternshipRepository;
     private final ModelMapper modelMapper;
+    private final ReportByMentorRepository reportByMentorRepository;
 
     @PersistenceContext
     private EntityManager entityManager;
 
-    public InternshipServiceImpl(InternshipRepository internshipRepository, ModelMapper modelMapper) {
+    public InternshipServiceImpl(InternshipRepository internshipRepository, StudentHasInternshipRepository studentHasInternshipRepository,
+                                 ModelMapper modelMapper, ReportByMentorRepository reportByMentorRepository) {
         this.internshipRepository = internshipRepository;
+        this.studentHasInternshipRepository = studentHasInternshipRepository;
         this.modelMapper = modelMapper;
+        this.reportByMentorRepository = reportByMentorRepository;
     }
 
     @Override
@@ -79,5 +88,20 @@ public class InternshipServiceImpl implements InternshipService {
             internship.setIsFinished(isFinished);
             internshipRepository.saveAndFlush(internship);
         }
+    }
+
+    @Override
+    public <T> T getReport(Long studentId, Long internshipId, Class<T> replyClass) {
+
+        ReportByMentor reportByMentor = reportByMentorRepository.getReport(studentId, internshipId);
+
+        if (reportByMentor == null)
+            reportByMentor = new ReportByMentor();
+
+        return modelMapper.map(reportByMentor, replyClass);
+    }
+
+    public <T> List<T> getAllStudentsOnInternship(Long internshipId, Class<T> replyClass) {
+        return studentHasInternshipRepository.getAllStudentsOnInternship(internshipId).stream().map(s -> modelMapper.map(s, replyClass)).collect(Collectors.toList());
     }
 }
