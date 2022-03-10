@@ -4,6 +4,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.unibl.etf.epraksa.exceptions.BadRequestException;
 import org.unibl.etf.epraksa.exceptions.NotFoundException;
+import org.unibl.etf.epraksa.model.dataTransferObjects.ReportByMentorDTO;
 import org.unibl.etf.epraksa.model.entities.Internship;
 import org.unibl.etf.epraksa.model.entities.InternshipType;
 import org.unibl.etf.epraksa.model.entities.ReportByMentor;
@@ -91,9 +92,12 @@ public class InternshipServiceImpl implements InternshipService {
 
     @Override
     public <T> T getReport(Long studentId, Long internshipId, Class<T> replyClass) {
+
         ReportByMentor reportByMentor = reportByMentorRepository.getReport(studentId, internshipId);
+
         if (reportByMentor == null)
             reportByMentor = new ReportByMentor();
+
         return modelMapper.map(reportByMentor, replyClass);
     }
 

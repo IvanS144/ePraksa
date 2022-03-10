@@ -8,6 +8,7 @@ import org.hibernate.annotations.TypeDefs;
 import org.unibl.etf.epraksa.model.entities.json.OpinionByMentorJSON;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.time.LocalDate;
 
 @Data
