@@ -10,8 +10,8 @@ import java.time.LocalDate;
 public class ReportByMentorDTO {
     private Long reportId;
     private OpinionByMentorJSON opinionJSON;
-    private LocalDate createdAt;
-    private LocalDate lastModifiedDate;
-    private LocalDate deletedDate;
+//    private LocalDate createdAt;
+//    private LocalDate lastModifiedDate;
+//    private LocalDate deletedDate;
 
 }
