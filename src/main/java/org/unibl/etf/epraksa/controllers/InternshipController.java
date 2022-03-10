@@ -3,6 +3,7 @@ package org.unibl.etf.epraksa.controllers;
 import org.springframework.web.bind.annotation.*;
 import org.unibl.etf.epraksa.model.dataTransferObjects.InternshipDTO;
 import org.unibl.etf.epraksa.model.entities.ReportByMentor;
+import org.unibl.etf.epraksa.model.dataTransferObjects.StudentDTO;
 import org.unibl.etf.epraksa.services.InternshipService;
 import java.util.List;
 import org.unibl.etf.epraksa.model.requests.InternshipRequest;
@@ -22,6 +23,12 @@ public class InternshipController {
     public void setAcceptanceStatus(@PathVariable Long internshipId, @PathVariable Boolean isAccepted)
     {
         internshipService.setAcceptanceStatus(internshipId, isAccepted);
+    }
+
+    @GetMapping("/{internshipId}/students")
+    public List<StudentDTO> getAllStudentsOnInternship(@PathVariable Long internshipId)
+    {
+        return internshipService.getAllStudentsOnInternship(internshipId, StudentDTO.class);
     }
 
 

@@ -1,13 +1,23 @@
 package org.unibl.etf.epraksa.model.entities;
 
+import com.vladmihalcea.hibernate.type.json.JsonType;
 import lombok.Data;
+import org.hibernate.annotations.Type;
+import org.hibernate.annotations.TypeDef;
+import org.hibernate.annotations.TypeDefs;
+import org.unibl.etf.epraksa.model.entities.json.ProjectEntryJSON;
+import org.unibl.etf.epraksa.model.entities.json.WorkExperienceEntryJSON;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.List;
 
 @Data
 @Entity
 @Table(name = "cv")
+@TypeDefs({
+        @TypeDef(name = "json", typeClass = JsonType.class)
+})
 public class CV {
 
     @Id
@@ -20,25 +30,34 @@ public class CV {
             length = 45)
     private String porfolioLink;
 
-    @Basic
-    @Column(name = "Skills")
-    private String skills;
+    @Type(type="json")
+    @Column(name = "Skills", columnDefinition = "json")
+    private String[] skills;
 
-    @Basic
-    @Column(name = "Languages")
-    private String languages;
+    @Type(type="json")
+    @Column(name = "Languages", columnDefinition="json")
+    private String[] languages;
 
-    @Basic
-    @Column(name = "Hobbies")
-    private String hobbies;
+    @Type(type="json")
+    @Column(name = "Hobbies", columnDefinition="json")
+    private String[] hobbies;
 
     @Basic
     @Column(name = "Introduction")
-    private String introduction;
+    private String introduction;//polje oMeni
 
-    @Basic
-    @Column(name = "WorkExperience")
-    private String workExperience;
+    @Type(type="json")
+    @Column(name = "WorkExperience", columnDefinition="json")
+    private List<WorkExperienceEntryJSON> workExperience;
+
+    @Type(type="json")
+    @Column(name="Projects", columnDefinition="json")
+    private List<ProjectEntryJSON> projects;
+
+    @OneToOne
+    @MapsId
+    @JoinColumn(name="id")
+    private Student student;
 
     @Basic
     @Column(name = "CreatedAt",

@@ -12,4 +12,5 @@ public interface InternshipService {
     <T> T insert(InternshipRequest request, Class<T> replyClass);
     void setFinishedStatus(Long internshipId, Boolean isFinished);
     ReportByMentor getReport(Long studentId, Long internshipId);
+    <T> List<T> getAllStudentsOnInternship(Long internshipId, Class<T> replyClass);
 }

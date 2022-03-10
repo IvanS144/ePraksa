@@ -77,6 +77,10 @@ public class Student extends User{
             length = 45)
     private String cycle;
 
+    @OneToOne(mappedBy="student", cascade=CascadeType.ALL)
+    @PrimaryKeyJoinColumn
+    private CV cv;
+
     @OneToMany(mappedBy = "student",
             fetch = FetchType.LAZY)
     private List<StudentHasInternship> studentHasInternships;
