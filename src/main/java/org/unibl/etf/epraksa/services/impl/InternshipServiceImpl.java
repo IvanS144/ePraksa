@@ -90,11 +90,11 @@ public class InternshipServiceImpl implements InternshipService {
     }
 
     @Override
-    public ReportByMentor getReport(Long studentId, Long internshipId) {
+    public <T> T getReport(Long studentId, Long internshipId, Class<T> replyClass) {
         ReportByMentor reportByMentor = reportByMentorRepository.getReport(studentId, internshipId);
         if (reportByMentor == null)
             reportByMentor = new ReportByMentor();
-        return reportByMentor;
+        return modelMapper.map(reportByMentor, replyClass);
     }
 
     public <T> List<T> getAllStudentsOnInternship(Long internshipId, Class<T> replyClass) {

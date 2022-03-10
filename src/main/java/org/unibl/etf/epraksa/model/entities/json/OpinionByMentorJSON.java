@@ -3,6 +3,7 @@ package org.unibl.etf.epraksa.model.entities.json;
 import lombok.Data;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Data
 public class OpinionByMentorJSON {
@@ -12,5 +13,5 @@ public class OpinionByMentorJSON {
     private LocalDate periodOfInternshipUntil;
     private Integer numberOfDays;
     private Integer numberOfHours;
-    private String[] obligations;
+    private List<StudentObligationsJSON> obligations;
 }
