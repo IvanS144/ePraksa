@@ -6,6 +6,7 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.sql.Time;
 import java.time.LocalDate;
+import java.time.LocalTime;
 
 @Data
 @Entity
@@ -37,12 +38,12 @@ public class WorkDairyEntry implements Serializable {
     @Basic
     @Column(name = "From",
             nullable = false)
-    private Time from;
+    private LocalTime from;
 
     @Basic
     @Column(name = "To",
             nullable = false)
-    private Time to;
+    private LocalTime to;
 
     @Basic
     @Column(name = "Text",
@@ -67,6 +68,4 @@ public class WorkDairyEntry implements Serializable {
     @JoinColumn(name = "PreviousVersionID",
             referencedColumnName = "EntryID")
     private WorkDairyEntryPrevious previousVersion;
-
-
 }

@@ -1,12 +1,15 @@
 package org.unibl.etf.epraksa.model.entities;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.sql.Time;
 import java.time.LocalDate;
+import java.time.LocalTime;
 
 @Data
+@NoArgsConstructor
 @Entity
 @Table(name = "work_dairy_entry_previous")
 public class WorkDairyEntryPrevious {
@@ -29,12 +32,12 @@ public class WorkDairyEntryPrevious {
     @Basic
     @Column(name = "From",
             nullable = false)
-    private Time from;
+    private LocalTime from;
 
     @Basic
     @Column(name = "To",
             nullable = false)
-    private Time to;
+    private LocalTime to;
 
     @Basic
     @Column(name = "Text",
@@ -54,5 +57,17 @@ public class WorkDairyEntryPrevious {
     @Basic
     @Column(name = "DeletedDate")
     private LocalDate deletedDate;
+
+    public WorkDairyEntryPrevious(WorkDairyEntry workDairyEntry){
+        this.entryId = workDairyEntry.getPreviousVersion().getEntryId();
+        this.date = workDairyEntry.getDate();
+        this.day = workDairyEntry.getDay();
+        this.from = workDairyEntry.getFrom();
+        this.to = workDairyEntry.getTo();
+        this.text = workDairyEntry.getText();
+        this.createdAt = workDairyEntry.getCreatedAt();
+        this.lastModifiedDate = workDairyEntry.getLastModifiedDate();
+        this.deletedDate = workDairyEntry.getDeletedDate();
+    }
 
 }
