@@ -46,14 +46,17 @@ public class WorkDiaryServiceImpl implements WorkDiaryService {
     public <T> T insert(WorkDiaryEntryRequest request, Long id, Class<T> replyClass) {
 //        setujem workDiaryId i entryId u reques-u
         request.setWorkDairyId(id);
-        request.setEntryId(1L);
+        request.setEntryId(workDiaryEntryRepository.lastInsertEntryId(id));
 
-//        kreiram novu previous tabelu za workDairyId = id i entryId = 1;
+//        kreiram novu previous tabelu za workDairyId = id i entryId = last entry;
         WorkDairyEntryPrevious workDairyEntryPrevious = new WorkDairyEntryPrevious();
+
 //        zadnji previousId + 1
         Long previousID = workDiaryEntryPreviousRepository.lastInsertId()+1;
+
 //        setujem entryId u previous tabeli
         workDairyEntryPrevious.setEntryId(previousID);
+
 //        upisujem u previous tabelu
         workDairyEntryPrevious = workDiaryEntryPreviousRepository.saveAndFlush(workDairyEntryPrevious);
         entityManager.refresh(workDairyEntryPrevious);

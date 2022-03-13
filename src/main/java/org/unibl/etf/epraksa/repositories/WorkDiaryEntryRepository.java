@@ -8,6 +8,9 @@ import org.unibl.etf.epraksa.model.entities.WorkDairyEntryPrevious;
 public interface WorkDiaryEntryRepository extends JpaRepository<WorkDairyEntry, Long> {
     Boolean existsByEntryIdAndWorkDairy_WorkDairyId(Long entryID, Long workDiaryEntryID);
 
+    @Query(nativeQuery = true,
+            value = "SELECT MAX(wde.EntryID) FROM work_dairy_entry wde WHERE wde.WorkDairyID = :id")
+    Long lastInsertEntryId(Long id);
 //    @Query(value = "SELECT wde.previousVersion.entryId FROM WorkDairyEntry wde " +
 //            "WHERE wde.entryId = :entryId AND wde.workDairy.workDairyId = :workEntryId")
 //    Long getPreviousIdByEntryIdAndWorkDiaryEntryId(Long entryId, Long workEntryId);
