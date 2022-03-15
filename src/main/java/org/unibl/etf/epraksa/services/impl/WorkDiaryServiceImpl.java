@@ -15,6 +15,7 @@ import org.unibl.etf.epraksa.services.WorkDiaryService;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -36,9 +37,8 @@ public class WorkDiaryServiceImpl implements WorkDiaryService {
 
     @Override
     public <T> T getWorkDiaryEntry(Long workDiaryId, Class<T> workDiaryClass) {
-        WorkDairy workDairy = workDiaryRepository.findByWorkDairyId(workDiaryId);
-        if(workDairy == null)
-            workDairy = new WorkDairy();
+        WorkDairy workDairy = workDiaryRepository.findByWorkDairyId(workDiaryId)
+                .orElseThrow(() -> new NotFoundException("Nije pronadjeno"));
         return modelMapper.map(workDairy, workDiaryClass);
     }
 
@@ -47,22 +47,6 @@ public class WorkDiaryServiceImpl implements WorkDiaryService {
 //        setujem workDiaryId i entryId u reques-u
         request.setWorkDairyId(id);
         request.setEntryId(workDiaryEntryRepository.lastInsertEntryId(id) + 1);
-
-//        kreiram novu previous tabelu za workDairyId = id i entryId = last entry;
-        WorkDairyEntryPrevious workDairyEntryPrevious = new WorkDairyEntryPrevious();
-
-//        zadnji previousId + 1
-        Long previousID = workDiaryEntryPreviousRepository.lastInsertId()+1;
-
-//        setujem entryId u previous tabeli
-        workDairyEntryPrevious.setEntryId(previousID);
-
-//        upisujem u previous tabelu
-        workDairyEntryPrevious = workDiaryEntryPreviousRepository.saveAndFlush(workDairyEntryPrevious);
-        entityManager.refresh(workDairyEntryPrevious);
-
-//        pamtim previous tabelu u workDiaryEntry
-        request.setPreviousId(previousID);
 
 //        upisujem u workdiaryentry tabelu
         WorkDairyEntry workDairyEntry = modelMapper.map(request, WorkDairyEntry.class);
@@ -79,28 +63,35 @@ public class WorkDiaryServiceImpl implements WorkDiaryService {
             request.setEntryId(entryId);
             request.setWorkDairyId(workDiaryId);
 
-//            dohvatimo stari entry
-            WorkDairyEntry previous = workDiaryEntryRepository.
-                    findWorkDairyEntryByWorkDairy_WorkDairyIdAndEntryId(workDiaryId,entryId);
-
-//            podesim request previousId
-            request.setPreviousId(previous.getPreviousVersion().getEntryId());
-
-//            request -> WorkDiaryEntry
+//            request -> WorkDiaryEntry / novi entry
             WorkDairyEntry workDairyEntry = modelMapper.map(request, WorkDairyEntry.class);
 
+//            dohvatimo stari entry
+            WorkDairyEntry oldEntry = workDiaryEntryRepository.
+                    findWorkDairyEntryByWorkDairy_WorkDairyIdAndEntryId(workDiaryId,entryId)
+                    .orElseThrow(()-> new NotFoundException("Nije pronadjen odgovarajuci zapis: " +
+                            entryId + " za dnevnik rada: " + workDiaryId + " !!!"));
+
+//            izbrisemo previous od starog entry-a
+            workDiaryEntryPreviousRepository.deleteById(oldEntry.getPreviousVersion().getEntryId());
 
 //            stari entry -> previousEntry
-            WorkDairyEntryPrevious workDairyEntryPrevious = new WorkDairyEntryPrevious(previous);
+            WorkDairyEntryPrevious workDairyEntryPrevious = new WorkDairyEntryPrevious(oldEntry);
 
-//            updatujemo previousEntry
-            workDiaryEntryPreviousRepository.saveAndFlush(workDairyEntryPrevious);
+//            sacuvamo previousEntry
+            workDairyEntryPrevious = workDiaryEntryPreviousRepository.saveAndFlush(workDairyEntryPrevious);
+
+//            osvjezim vec sacuvan previousEntry kako bih pribavio njegov id
+            entityManager.refresh(workDairyEntryPrevious);
+
+//            postavim previous u novi entry
+            workDairyEntry.setPreviousVersion(workDairyEntryPrevious);
 
 //            updatujemo novi Entry
             workDiaryEntryRepository.saveAndFlush(workDairyEntry);
         }
         else{
-            throw new NotFoundException("Zapis za dati dnevnik rada ne postoji!");
+            throw new NotFoundException("Zapis: " + entryId + " za dati dnevnik rada: " + workDiaryId + " ne postoji!");
         }
     }
 }

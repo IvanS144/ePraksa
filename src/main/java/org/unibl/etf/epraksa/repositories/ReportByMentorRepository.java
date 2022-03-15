@@ -4,6 +4,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.unibl.etf.epraksa.model.entities.ReportByMentor;
 
+import java.util.Optional;
+
 public interface ReportByMentorRepository extends JpaRepository<ReportByMentor, Long> {
     @Query(value = "select shi.report " +
             "from StudentHasInternship shi " +
@@ -12,5 +14,5 @@ public interface ReportByMentorRepository extends JpaRepository<ReportByMentor, 
 //            "from ReportByMentor rbm " +
 //            "inner join StudentHasInternship shi on shi.report.reportId = rbm.reportId " +
 //            "where shi.id.id = :id and shi.id.internshipId = :internshipId")
-    ReportByMentor getReport(Long id, Long internshipId);
+    Optional<ReportByMentor> getReport(Long id, Long internshipId);
 }

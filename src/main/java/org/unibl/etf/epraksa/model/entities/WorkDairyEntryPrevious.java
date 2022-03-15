@@ -15,6 +15,7 @@ import java.time.LocalTime;
 public class WorkDairyEntryPrevious {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "EntryID",
             nullable = false)
     private Long entryId;
@@ -59,15 +60,12 @@ public class WorkDairyEntryPrevious {
     private LocalDate deletedDate;
 
     public WorkDairyEntryPrevious(WorkDairyEntry workDairyEntry){
-        this.entryId = workDairyEntry.getPreviousVersion().getEntryId();
         this.date = workDairyEntry.getDate();
         this.day = workDairyEntry.getDay();
         this.from = workDairyEntry.getFrom();
         this.to = workDairyEntry.getTo();
         this.text = workDairyEntry.getText();
         this.createdAt = workDairyEntry.getCreatedAt();
-        this.lastModifiedDate = workDairyEntry.getLastModifiedDate();
-        this.deletedDate = workDairyEntry.getDeletedDate();
     }
 
 }

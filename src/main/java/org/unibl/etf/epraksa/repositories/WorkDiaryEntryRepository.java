@@ -5,6 +5,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.unibl.etf.epraksa.model.entities.WorkDairyEntry;
 import org.unibl.etf.epraksa.model.entities.WorkDairyEntryPrevious;
 
+import java.util.Optional;
+
 public interface WorkDiaryEntryRepository extends JpaRepository<WorkDairyEntry, Long> {
     Boolean existsByEntryIdAndWorkDairy_WorkDairyId(Long entryID, Long workDiaryEntryID);
 
@@ -15,5 +17,5 @@ public interface WorkDiaryEntryRepository extends JpaRepository<WorkDairyEntry, 
 //            "WHERE wde.entryId = :entryId AND wde.workDairy.workDairyId = :workEntryId")
 //    Long getPreviousIdByEntryIdAndWorkDiaryEntryId(Long entryId, Long workEntryId);
 
-    WorkDairyEntry findWorkDairyEntryByWorkDairy_WorkDairyIdAndEntryId(Long workDiaryID, Long entryId);
+    Optional<WorkDairyEntry> findWorkDairyEntryByWorkDairy_WorkDairyIdAndEntryId(Long workDiaryID, Long entryId);
 }

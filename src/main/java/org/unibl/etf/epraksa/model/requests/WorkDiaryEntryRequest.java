@@ -28,5 +28,5 @@ public class WorkDiaryEntryRequest {
     @NotBlank
     private String text;
 
-    private Long previousId;
+//    private Long previousId;
 }
