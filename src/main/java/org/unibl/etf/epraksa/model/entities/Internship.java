@@ -28,6 +28,10 @@ public class Internship {
             nullable = false)
     private Long internshipId;
 
+    @Basic
+    @Column(name="Title")
+    private String title;
+
     @Enumerated(EnumType.STRING)
     @Column(name = "Type",
             nullable = false,
@@ -62,10 +66,10 @@ public class Internship {
             nullable = false)
     private String schedule;
 
-    @Basic
-    @Column(name = "Year",
+    @Type(type="json")
+    @Column(name = "Years",
             nullable = false)
-    private Integer year;
+    private Integer[] years;
 
     @Basic
     @Column(name = "WorkHours",

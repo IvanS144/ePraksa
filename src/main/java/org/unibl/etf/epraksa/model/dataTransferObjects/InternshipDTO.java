@@ -8,6 +8,7 @@ import java.time.LocalDate;
 @Data
 public class InternshipDTO {
     private Long internshipId;
+    private String title;
     private CompanyDTO company;
     private InternshipType internshipType;
     private LocalDate startDate;
@@ -16,7 +17,7 @@ public class InternshipDTO {
     private String description;
     private String details;
     private String schedule;
-    private Integer year;
+    private Integer[] years;
     private Integer workHours;
     private String internshipField;
     private Boolean requiredCV;
