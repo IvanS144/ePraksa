@@ -48,7 +48,7 @@ public class Internship {
     private LocalDate endDate;
     @Type(type="json")
     @Column(name = "Cycles",
-            nullable = false, columnDefinition = "json")
+            columnDefinition = "json")
     private String[] cycles;
 
     @Basic
@@ -72,8 +72,7 @@ public class Internship {
     private Integer[] years;
 
     @Basic
-    @Column(name = "WorkHours",
-            nullable = false)
+    @Column(name = "WorkHours")
     private Integer workHours;
 
     @Basic
