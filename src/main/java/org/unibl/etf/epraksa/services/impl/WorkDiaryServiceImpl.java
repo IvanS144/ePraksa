@@ -58,7 +58,8 @@ public class WorkDiaryServiceImpl implements WorkDiaryService {
 
     @Override
     public void update(WorkDiaryEntryRequest request, Long workDiaryId, Long entryId) {
-        if(workDiaryEntryRepository.existsByEntryIdAndWorkDairy_WorkDairyId(entryId,workDiaryId)){
+//        if(workDiaryEntryRepository.existsByEntryIdAndWorkDairy_WorkDairyId(entryId,workDiaryId)){
+        if(workDiaryEntryRepository.existsById_EntryIDAndId_WorkDairyID(entryId,workDiaryId)){
 //            podesim request entryId i workDiaryId
             request.setEntryId(entryId);
             request.setWorkDairyId(workDiaryId);
@@ -68,7 +69,8 @@ public class WorkDiaryServiceImpl implements WorkDiaryService {
 
 //            dohvatimo stari entry
             WorkDairyEntry oldEntry = workDiaryEntryRepository.
-                    findWorkDairyEntryByWorkDairy_WorkDairyIdAndEntryId(workDiaryId,entryId)
+//                    findWorkDairyEntryByWorkDairy_WorkDairyIdAndEntryId(workDiaryId,entryId)
+                    findWorkDairyEntryById_WorkDairyIDAndId_EntryID(workDiaryId,entryId)
                     .orElseThrow(()-> new NotFoundException("Nije pronadjen odgovarajuci zapis: " +
                             entryId + " za dnevnik rada: " + workDiaryId + " !!!"));
 

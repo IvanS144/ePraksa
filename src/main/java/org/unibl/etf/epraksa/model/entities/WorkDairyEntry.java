@@ -16,10 +16,11 @@ public class WorkDairyEntry implements Serializable {
     @EmbeddedId
     WorkDairyEntryPK id;
 
-    @MapsId("entryID")
-    @Column(name = "EntryID",
-            nullable = false)
-    private Long entryId;
+//    @MapsId("entryID")
+//    @Id
+//    @Column(name = "EntryID",
+//            nullable = false)
+//    private Long entryId;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @MapsId("workDairyID")
