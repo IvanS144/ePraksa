@@ -13,13 +13,16 @@ import java.time.LocalTime;
 @Table(name = "work_dairy_entry")
 public class WorkDairyEntry implements Serializable {
 
-    @Id
+    @EmbeddedId
+    WorkDairyEntryPK id;
+
+    @MapsId("entryID")
     @Column(name = "EntryID",
             nullable = false)
     private Long entryId;
 
-    @Id
     @ManyToOne(fetch = FetchType.LAZY)
+    @MapsId("workDairyID")
     @JoinColumn(name = "WorkDairyID",
             referencedColumnName = "WorkDairyID",
             nullable = false)
