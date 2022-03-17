@@ -54,6 +54,9 @@ public class InternshipServiceImpl implements InternshipService {
     @Override
     public <T> List<T> filter(Long id, String type, Boolean isPublished, Class<T> replyClass) {
 
+        if(isPublished==null)
+            isPublished=true;
+
         InternshipType it = null;
 
         if (type != null)
