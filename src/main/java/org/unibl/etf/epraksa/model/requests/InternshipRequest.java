@@ -12,6 +12,8 @@ public class InternshipRequest {
     
     @Min(1)
     private Long companyId;
+
+    private String Title;
     
     private InternshipType internshipType;
 
@@ -33,9 +35,8 @@ public class InternshipRequest {
     @NotBlank
     private String schedule;
     
-    @Min(3)
-    @Max(4)
-    private Integer year;
+
+    private Integer[] years;
 
     private Integer workHours;
 

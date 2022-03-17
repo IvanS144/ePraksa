@@ -11,6 +11,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.unibl.etf.epraksa.exceptions.UnauthorizedException;
 import org.unibl.etf.epraksa.model.dataTransferObjects.UserDTO;
+import org.unibl.etf.epraksa.model.replies.LoginReply;
 import org.unibl.etf.epraksa.model.requests.LoginRequest;
 import org.unibl.etf.epraksa.services.AuthService;
 import org.unibl.etf.epraksa.util.LoggingUtil;
@@ -33,8 +34,8 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    public ResponseEntity<Object> login(LoginRequest request) {
-        ResponseEntity<Object> response = null;
+    public ResponseEntity<LoginReply> login(LoginRequest request) {
+        ResponseEntity<LoginReply> response = null;
         try {
             UserDTO user = ePraksaUserDetailsService.loadUserByUsername(request.getEmail());
             if(!user.isEnabled())
@@ -46,7 +47,7 @@ public class AuthServiceImpl implements AuthService {
                             )
                     );
             user = (UserDTO) authenticate.getPrincipal();
-            response = ResponseEntity.ok().header(HttpHeaders.AUTHORIZATION,generateJwt(user)).build();
+            response = ResponseEntity.ok().body(new LoginReply(generateJwt(user)));
         } catch (Exception ex) {
             LoggingUtil.logException(ex, getClass());
             throw new UnauthorizedException("Neispravni kredencijali");

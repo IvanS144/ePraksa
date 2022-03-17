@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.unibl.etf.epraksa.model.replies.LoginReply;
 import org.unibl.etf.epraksa.model.requests.LoginRequest;
 import org.unibl.etf.epraksa.services.AuthService;
 
@@ -19,8 +20,8 @@ public class AuthController {
         this.authService = authService;
     }
 
-    @PostMapping("api/v1/authLogin")
-    public ResponseEntity<Object> login(@RequestBody @Valid LoginRequest request)
+    @PostMapping("authLogin")
+    public ResponseEntity<LoginReply> login(@RequestBody @Valid LoginRequest request)
     {
         return authService.login(request);
     }
