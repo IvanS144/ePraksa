@@ -71,7 +71,7 @@ public class Internship {
     private Integer[] years;
 
     @Basic
-    @Column(name = "WorkHours",)
+    @Column(name = "WorkHours")
     private Integer workHours;
 
     @Basic
