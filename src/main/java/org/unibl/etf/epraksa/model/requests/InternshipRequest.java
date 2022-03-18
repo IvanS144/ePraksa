@@ -23,7 +23,6 @@ public class InternshipRequest {
     @Future
     private LocalDate endDate;
 
-    @NotEmpty
     private String[] cycles;
 
     @NotBlank
