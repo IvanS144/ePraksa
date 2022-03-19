@@ -41,6 +41,7 @@ public class InternshipRequest {
 
     @NotBlank
     private String internshipField;
+    private String city;
     private Boolean requiredCV;
     private Boolean requiredLetter;
     @URL

@@ -80,6 +80,10 @@ public class Internship {
     private String internshipField;
 
     @Basic
+    @Column(name="City", nullable=false)
+    private String city;
+
+    @Basic
     @Column(name = "CvRequired",
             nullable = false)
     private Boolean requiredCV;
