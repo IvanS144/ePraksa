@@ -1,6 +1,8 @@
 package org.unibl.etf.epraksa.model.entities;
 
 import lombok.Data;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -54,12 +56,12 @@ public class WorkDairyEntry implements Serializable {
             nullable = false)
     private String text;
 
-    @Basic
+    @CreatedDate
     @Column(name = "CreatedAt",
             nullable = false)
     private LocalDate createdAt;
 
-    @Basic
+    @LastModifiedDate
     @Column(name = "LastModifiedDate",
             nullable = false)
     private LocalDate lastModifiedDate;

@@ -1,6 +1,8 @@
 package org.unibl.etf.epraksa.model.entities;
 
 import lombok.Data;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -22,12 +24,12 @@ public class WorkDairy {
             length = 45)
     private State state;
 
-    @Basic
+    @CreatedDate
     @Column(name = "CreatedAt",
             nullable = false)
     private LocalDate createdAt;
 
-    @Basic
+    @LastModifiedDate
     @Column(name = "LastModifiedDate",
             nullable = false)
     private LocalDate lastModifiedDate;

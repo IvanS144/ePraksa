@@ -14,8 +14,5 @@ public class EntryDTO {
     private LocalTime from;
     private LocalTime to;
     private String text;
-    private LocalDate createdAt;
-    private LocalDate lastModifiedAt;
-    private LocalDate deletedDate;
     private Long previousVersionId;
 }
