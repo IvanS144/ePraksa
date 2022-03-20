@@ -47,8 +47,7 @@ public class Internship {
     @Column(name = "EndDAte")
     private LocalDate endDate;
     @Type(type="json")
-    @Column(name = "Cycles",
-            columnDefinition = "json")
+    @Column(name = "Cycles", columnDefinition = "json")
     private String[] cycles;
 
     @Basic
@@ -79,6 +78,10 @@ public class Internship {
     @Column(name = "Field",
             nullable = false)
     private String internshipField;
+
+    @Basic
+    @Column(name="City", nullable=false)
+    private String city;
 
     @Basic
     @Column(name = "CvRequired",
