@@ -46,6 +46,8 @@ public class InternshipServiceImpl implements InternshipService {
         } else {
             Internship internship = internshipRepository.getById(internshipId);
             internship.setIsAccepted(isAccepted);
+            internship.setIsPublished(true);
+
             internshipRepository.saveAndFlush(internship);
         }
 

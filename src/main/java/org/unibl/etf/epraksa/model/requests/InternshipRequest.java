@@ -23,7 +23,6 @@ public class InternshipRequest {
     @Future
     private LocalDate endDate;
 
-    @NotEmpty
     private String[] cycles;
 
     @NotBlank
@@ -42,6 +41,7 @@ public class InternshipRequest {
 
     @NotBlank
     private String internshipField;
+    private String city;
     private Boolean requiredCV;
     private Boolean requiredLetter;
     @URL

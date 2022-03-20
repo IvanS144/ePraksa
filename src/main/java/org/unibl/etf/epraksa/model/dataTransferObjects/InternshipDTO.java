@@ -27,4 +27,5 @@ public class InternshipDTO {
     private Boolean isPublished;
     private MentorDTO mentor;
     private String[] courses;
+    private String city;
 }
