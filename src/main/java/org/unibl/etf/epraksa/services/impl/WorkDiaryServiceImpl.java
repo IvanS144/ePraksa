@@ -2,7 +2,9 @@ package org.unibl.etf.epraksa.services.impl;
 
 import org.hibernate.HibernateException;
 import org.hibernate.engine.jdbc.spi.SqlExceptionHelper;
+import org.hibernate.exception.SQLGrammarException;
 import org.modelmapper.ModelMapper;
+import org.springframework.dao.InvalidDataAccessResourceUsageException;
 import org.springframework.stereotype.Service;
 import org.unibl.etf.epraksa.exceptions.NotFoundException;
 import org.unibl.etf.epraksa.model.entities.WorkDairy;
@@ -48,7 +50,8 @@ public class WorkDiaryServiceImpl implements WorkDiaryService {
 
     @Override
     public <T> T insert(WorkDiaryEntryRequest request, Long id, Class<T> replyClass) {
-//        setujem workDiaryId i entryId u reques-u
+        System.out.println("Radi2");
+        //        setujem workDiaryId i entryId u reques-u
         request.setWorkDairyId(id);
         if(workDiaryEntryRepository.lastInsertEntryId(id) == null){
             request.setEntryId(1L);
@@ -56,19 +59,27 @@ public class WorkDiaryServiceImpl implements WorkDiaryService {
         else{
             request.setEntryId(workDiaryEntryRepository.lastInsertEntryId(id) + 1);
         }
-
+        System.out.println("Radi3");
 //        Podesim work diary entry
         WorkDairyEntry workDairyEntry = modelMapper.map(request, WorkDairyEntry.class);
-        workDairyEntry.setWorkDairy(workDiaryRepository.findByWorkDairyId(id)
-                .orElseThrow(()-> new NotFoundException("Nije pronadjen dnevnik: " + id)));
+//        workDairyEntry.setWorkDairy(workDiaryRepository.findByWorkDairyId(id)
+//                .orElseThrow(()-> new NotFoundException("Nije pronadjen dnevnik: " + id)));
         workDairyEntry.setCreatedAt(LocalDate.now());
         workDairyEntry.setLastModifiedDate(LocalDate.now());
-
+        System.out.println("Radi4");
 //        upisem isti
-        workDairyEntry = workDiaryEntryRepository.saveAndFlush(workDairyEntry);
+        try {
+            workDairyEntry = workDiaryEntryRepository.saveAndFlush(workDairyEntry);
+        }catch (InvalidDataAccessResourceUsageException e){
+            System.out.println("PROSOOOOOOO");
 
+            System.out.println(e.getRootCause().getMessage());
+            System.out.println(e.getMostSpecificCause().getMessage());
+        }
+//        workDairyEntry = workDiaryEntryRepository.saveAndFlush(workDairyEntry);
+        System.out.println("Radi5");
         entityManager.refresh(workDairyEntry);
-
+        System.out.println("Radi6");
         return modelMapper.map(workDairyEntry, replyClass);
     }
 

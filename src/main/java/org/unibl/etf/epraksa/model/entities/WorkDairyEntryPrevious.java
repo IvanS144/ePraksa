@@ -23,27 +23,27 @@ public class WorkDairyEntryPrevious {
     private Long entryId;
 
     @Basic
-    @Column(name = "Date",
+    @Column(name = "Datee",
             nullable = false)
     private LocalDate date;
 
     @Basic
-    @Column(name = "Day",
+    @Column(name = "Dayy",
             nullable = false)
     private Integer day;
 
     @Basic
-    @Column(name = "From",
+    @Column(name = "Fromm",
             nullable = false)
     private LocalTime from;
 
     @Basic
-    @Column(name = "To",
+    @Column(name = "Too",
             nullable = false)
     private LocalTime to;
 
     @Basic
-    @Column(name = "Text",
+    @Column(name = "Textt",
             nullable = false)
     private String text;
 
