@@ -11,19 +11,15 @@ import java.time.LocalTime;
 @Data
 public class WorkDiaryEntryRequest {
 
-    private Long workDairyId;
-
-    private Long entryId;
-
     @PastOrPresent
     private LocalDate date;
 
     @Min(1)
     private Integer day;
 
-    private LocalTime from;
+    private String fromTime;
 
-    private LocalTime to;
+    private String toTime;
 
     @NotBlank
     private String text;
