@@ -16,11 +16,9 @@ import java.time.LocalTime;
 @Table(name = "work_dairy_entry_previous")
 public class WorkDairyEntryPrevious {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "EntryID",
-            nullable = false)
-    private Long entryId;
+
+    @EmbeddedId
+    WorkDiaryEntryPreviousPK id;
 
     @Basic
     @Column(name = "Date",
@@ -33,12 +31,12 @@ public class WorkDairyEntryPrevious {
     private Integer day;
 
     @Basic
-    @Column(name = "From",
+    @Column(name = "FromTime",
             nullable = false)
     private LocalTime from;
 
     @Basic
-    @Column(name = "To",
+    @Column(name = "ToTime",
             nullable = false)
     private LocalTime to;
 

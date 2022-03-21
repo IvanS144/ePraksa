@@ -44,12 +44,12 @@ public class WorkDairyEntry implements Serializable {
     private Integer day;
 
     @Basic
-    @Column(name = "From",
+    @Column(name = "FromTime",
             nullable = false)
     private LocalTime from;
 
     @Basic
-    @Column(name = "To",
+    @Column(name = "ToTime",
             nullable = false)
     private LocalTime to;
 
@@ -73,7 +73,14 @@ public class WorkDairyEntry implements Serializable {
     private LocalDate deletedDate;
 
     @OneToOne
+    @JoinColumns({
+            @JoinColumn(name="WorkDairyID", referencedColumnName="WorkDairyID"),
+            @JoinColumn(name="EntryID", referencedColumnName="EntryID")
+    })
+    private WorkDairyEntryPrevious previousVersion;
+
+    /*@OneToOne
     @JoinColumn(name = "PreviousVersionID",
             referencedColumnName = "EntryID")
-    private WorkDairyEntryPrevious previousVersion;
+    private WorkDairyEntryPrevious previousVersion;*/
 }

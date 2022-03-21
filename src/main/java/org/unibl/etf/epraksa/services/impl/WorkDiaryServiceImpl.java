@@ -23,7 +23,7 @@ import java.util.Optional;
 
 @Service
 @Transactional
-public class WorkDiaryServiceImpl implements WorkDiaryService {
+public class WorkDiaryServiceImpl{
     private final WorkDiaryRepository workDiaryRepository;
     private final ModelMapper modelMapper;
     private final WorkDiaryEntryRepository workDiaryEntryRepository;
@@ -39,14 +39,14 @@ public class WorkDiaryServiceImpl implements WorkDiaryService {
         this.workDiaryEntryPreviousRepository = workDiaryEntryPreviousRepository;
     }
 
-    @Override
+    //@Override
     public <T> T getWorkDiaryEntry(Long workDiaryId, Class<T> workDiaryClass) {
         WorkDairy workDairy = workDiaryRepository.findByWorkDairyId(workDiaryId)
                 .orElseThrow(() -> new NotFoundException("Nije pronadjen dnevnik: " + workDiaryId));
         return modelMapper.map(workDairy, workDiaryClass);
     }
 
-    @Override
+    /*@Override
     public <T> T insert(WorkDiaryEntryRequest request, Long id, Class<T> replyClass) {
 //        setujem workDiaryId i entryId u reques-u
         request.setWorkDairyId(id);
@@ -111,5 +111,5 @@ public class WorkDiaryServiceImpl implements WorkDiaryService {
         else{
             throw new NotFoundException("Zapis: " + entryId + " za dati dnevnik rada: " + workDiaryId + " ne postoji!");
         }
-    }
+    }*/
 }
