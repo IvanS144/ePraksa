@@ -12,10 +12,10 @@ import java.io.Serializable;
 @Embeddable
 public class WorkDairyEntryPK implements Serializable {
 
-    @Column(name = "WorkDairyID")
+    @Column(name = "WorkDairyID", nullable = false)
     private Long workDairyID;
 
-    @Column(name = "EntryID")
+    @Column(name = "EntryID", nullable = false)
     private Long entryID;
 
     public WorkDairyEntryPK(Long workDairyID, Long entryID) {

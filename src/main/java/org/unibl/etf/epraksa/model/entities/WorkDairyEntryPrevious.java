@@ -47,12 +47,12 @@ public class WorkDairyEntryPrevious {
             nullable = false)
     private String text;
 
-    @CreatedDate
+    @Basic
     @Column(name = "CreatedAt",
             nullable = false)
     private LocalDate createdAt;
 
-    @LastModifiedDate
+    @Basic
     @Column(name = "LastModifiedDate",
             nullable = false)
     private LocalDate lastModifiedDate;

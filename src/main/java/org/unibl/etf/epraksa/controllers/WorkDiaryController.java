@@ -29,7 +29,7 @@ public class WorkDiaryController {
         return workDiaryService.insert(request, id, WorkDiaryRecordDTO.class);
     }
 
-    @PutMapping("/workdiaryId/zapisi/{entryId}")
+    @PutMapping("/{workdiaryId}/zapisi/{entryId}")
     public void updateWorkDiaryEntry(@PathVariable(name = "workdiaryId") Long id,
                                      @PathVariable(name = "entryId") Long entryId,
                                      @RequestBody WorkDiaryEntryRequest request){

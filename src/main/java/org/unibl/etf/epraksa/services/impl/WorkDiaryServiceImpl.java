@@ -1,5 +1,7 @@
 package org.unibl.etf.epraksa.services.impl;
 
+import org.hibernate.HibernateException;
+import org.hibernate.engine.jdbc.spi.SqlExceptionHelper;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.unibl.etf.epraksa.exceptions.NotFoundException;
@@ -15,6 +17,8 @@ import org.unibl.etf.epraksa.services.WorkDiaryService;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
+import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.Optional;
 
 @Service
@@ -38,7 +42,7 @@ public class WorkDiaryServiceImpl implements WorkDiaryService {
     @Override
     public <T> T getWorkDiaryEntry(Long workDiaryId, Class<T> workDiaryClass) {
         WorkDairy workDairy = workDiaryRepository.findByWorkDairyId(workDiaryId)
-                .orElseThrow(() -> new NotFoundException("Nije pronadjeno"));
+                .orElseThrow(() -> new NotFoundException("Nije pronadjen dnevnik: " + workDiaryId));
         return modelMapper.map(workDairy, workDiaryClass);
     }
 
@@ -46,11 +50,23 @@ public class WorkDiaryServiceImpl implements WorkDiaryService {
     public <T> T insert(WorkDiaryEntryRequest request, Long id, Class<T> replyClass) {
 //        setujem workDiaryId i entryId u reques-u
         request.setWorkDairyId(id);
-        request.setEntryId(workDiaryEntryRepository.lastInsertEntryId(id) + 1);
+        if(workDiaryEntryRepository.lastInsertEntryId(id) == null){
+            request.setEntryId(1L);
+        }
+        else{
+            request.setEntryId(workDiaryEntryRepository.lastInsertEntryId(id) + 1);
+        }
 
-//        upisujem u workdiaryentry tabelu
+//        Podesim work diary entry
         WorkDairyEntry workDairyEntry = modelMapper.map(request, WorkDairyEntry.class);
+        workDairyEntry.setWorkDairy(workDiaryRepository.findByWorkDairyId(id)
+                .orElseThrow(()-> new NotFoundException("Nije pronadjen dnevnik: " + id)));
+        workDairyEntry.setCreatedAt(LocalDate.now());
+        workDairyEntry.setLastModifiedDate(LocalDate.now());
+
+//        upisem isti
         workDairyEntry = workDiaryEntryRepository.saveAndFlush(workDairyEntry);
+
         entityManager.refresh(workDairyEntry);
 
         return modelMapper.map(workDairyEntry, replyClass);
