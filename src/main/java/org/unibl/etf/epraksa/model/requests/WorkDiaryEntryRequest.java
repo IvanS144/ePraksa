@@ -13,10 +13,6 @@ import java.time.LocalTime;
 @Data
 public class WorkDiaryEntryRequest {
 
-    private Long workDairyId;
-
-    private Long entryId;
-
     @PastOrPresent
     private LocalDate date;
 
@@ -25,11 +21,11 @@ public class WorkDiaryEntryRequest {
 
     @JsonFormat(pattern = "HH:mm:ss[.SSS][.SS][.S]", shape = JsonFormat.Shape.STRING)
     @DateTimeFormat(pattern = "hh:mm:ss")
-    private LocalTime from;
+    private LocalTime fromTime;
 
     @JsonFormat(pattern = "HH:mm:ss[.SSS][.SS][.S]", shape = JsonFormat.Shape.STRING)
     @DateTimeFormat(pattern = "hh:mm:ss")
-    private LocalTime to;
+    private LocalTime toTime;
 
     @NotBlank
     private String text;

@@ -2,11 +2,9 @@ package org.unibl.etf.epraksa.controllers;
 
 import org.springframework.web.bind.annotation.*;
 import org.unibl.etf.epraksa.model.dataTransferObjects.WorkDiaryRecordDTO;
-import org.unibl.etf.epraksa.model.reply.WorkDairyReply;
+import org.unibl.etf.epraksa.model.replies.WorkDairyReply;
 import org.unibl.etf.epraksa.model.requests.WorkDiaryEntryRequest;
 import org.unibl.etf.epraksa.services.WorkDiaryService;
-
-import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/workdiary")

@@ -7,6 +7,7 @@ import org.unibl.etf.epraksa.model.entities.WorkDairyEntry;
 import org.unibl.etf.epraksa.model.entities.WorkDairyEntryPK;
 import org.unibl.etf.epraksa.model.entities.WorkDairyEntryPrevious;
 
+import javax.swing.text.StyledEditorKit;
 import java.util.Optional;
 
 public interface WorkDiaryEntryRepository extends JpaRepository<WorkDairyEntry, WorkDairyEntryPK> {

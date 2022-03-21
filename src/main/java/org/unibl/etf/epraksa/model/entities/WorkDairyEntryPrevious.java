@@ -6,6 +6,7 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.sql.Time;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -14,36 +15,33 @@ import java.time.LocalTime;
 @NoArgsConstructor
 @Entity
 @Table(name = "work_dairy_entry_previous")
-public class WorkDairyEntryPrevious {
+public class WorkDairyEntryPrevious implements Serializable {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "EntryID",
-            nullable = false)
-    private Long entryId;
+    @EmbeddedId
+    WorkDairyEntryPK Id;
 
     @Basic
-    @Column(name = "Datee",
+    @Column(name = "Date",
             nullable = false)
     private LocalDate date;
 
     @Basic
-    @Column(name = "Dayy",
+    @Column(name = "Day",
             nullable = false)
     private Integer day;
 
     @Basic
-    @Column(name = "Fromm",
+    @Column(name = "FromTime",
             nullable = false)
     private LocalTime from;
 
     @Basic
-    @Column(name = "Too",
+    @Column(name = "ToTime",
             nullable = false)
     private LocalTime to;
 
     @Basic
-    @Column(name = "Textt",
+    @Column(name = "Text",
             nullable = false)
     private String text;
 
@@ -62,12 +60,14 @@ public class WorkDairyEntryPrevious {
     private LocalDate deletedDate;
 
     public WorkDairyEntryPrevious(WorkDairyEntry workDairyEntry){
+        this.Id = new WorkDairyEntryPK(workDairyEntry.getId().getWorkDairyID(), workDairyEntry.getId().getEntryID());
         this.date = workDairyEntry.getDate();
         this.day = workDairyEntry.getDay();
-        this.from = workDairyEntry.getFrom();
-        this.to = workDairyEntry.getTo();
+        this.from = workDairyEntry.getFromTime();
+        this.to = workDairyEntry.getToTime();
         this.text = workDairyEntry.getText();
         this.createdAt = workDairyEntry.getCreatedAt();
+        this.lastModifiedDate = workDairyEntry.getLastModifiedDate();
     }
 
 }

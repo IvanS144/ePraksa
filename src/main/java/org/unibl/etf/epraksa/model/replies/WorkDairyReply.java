@@ -1,4 +1,4 @@
-package org.unibl.etf.epraksa.model.reply;
+package org.unibl.etf.epraksa.model.replies;
 
 import lombok.Data;
 import org.unibl.etf.epraksa.model.dataTransferObjects.EntryDTO;

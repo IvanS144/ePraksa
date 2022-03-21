@@ -9,7 +9,7 @@ import java.time.LocalTime;
 @Data
 public class WorkDiaryRecordDTO {
     private LocalDate date;
-    private Integer internshipDay;
+    private Integer day;
     private LocalTime fromTime;
     private LocalTime toTime;
     private String text;
