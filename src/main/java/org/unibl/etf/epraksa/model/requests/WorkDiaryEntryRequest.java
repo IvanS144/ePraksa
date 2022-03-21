@@ -1,6 +1,8 @@
 package org.unibl.etf.epraksa.model.requests;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
@@ -21,8 +23,12 @@ public class WorkDiaryEntryRequest {
     @Min(1)
     private Integer day;
 
+    @JsonFormat(pattern = "HH:mm:ss[.SSS][.SS][.S]", shape = JsonFormat.Shape.STRING)
+    @DateTimeFormat(pattern = "hh:mm:ss")
     private LocalTime from;
 
+    @JsonFormat(pattern = "HH:mm:ss[.SSS][.SS][.S]", shape = JsonFormat.Shape.STRING)
+    @DateTimeFormat(pattern = "hh:mm:ss")
     private LocalTime to;
 
     @NotBlank

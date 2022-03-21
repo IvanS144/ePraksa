@@ -1,6 +1,7 @@
 package org.unibl.etf.epraksa.model.entities;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
@@ -13,6 +14,7 @@ import java.time.LocalTime;
 @Data
 @Entity
 @Table(name = "work_dairy_entry")
+@NoArgsConstructor
 public class WorkDairyEntry implements Serializable {
 
     @EmbeddedId
