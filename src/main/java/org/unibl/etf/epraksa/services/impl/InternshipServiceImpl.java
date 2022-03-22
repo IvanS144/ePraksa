@@ -73,7 +73,7 @@ public class InternshipServiceImpl implements InternshipService {
     @Override
     public <T> T insert(InternshipRequest request, Class<T> replyClass) {
         Internship internship = modelMapper.map(request, Internship.class);
-        if (internship.getSubmissionDue().isAfter(internship.getStartDate()) || internship.getEndDate().isBefore(internship.getStartDate()) || internship.getStartDate().isEqual(internship.getEndDate()))
+        if (internship.getSubmissionDue().isBefore(internship.getStartDate()) || internship.getEndDate().isBefore(internship.getStartDate()) || internship.getStartDate().isEqual(internship.getEndDate()))
             throw new BadRequestException("Datumi nisu validni");
         internship.setInternshipId(null);
         internship.setIsPublished(false);
@@ -98,11 +98,9 @@ public class InternshipServiceImpl implements InternshipService {
     @Override
     public <T> T getReport(Long studentId, Long internshipId, Class<T> replyClass) {
 
-        ReportByMentor reportByMentor = reportByMentorRepository.getReport(studentId, internshipId);
-
-        if (reportByMentor == null)
-            reportByMentor = new ReportByMentor();
-
+        ReportByMentor reportByMentor = reportByMentorRepository.getReport(studentId, internshipId)
+                .orElseThrow(()-> new NotFoundException("Nije pronadjen izvjestaj za studenta: " +
+                        studentId + " na praksi: " + internshipId + " !!!") );
         return modelMapper.map(reportByMentor, replyClass);
     }
 

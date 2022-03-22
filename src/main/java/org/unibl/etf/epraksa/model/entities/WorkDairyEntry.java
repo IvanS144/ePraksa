@@ -1,24 +1,33 @@
 package org.unibl.etf.epraksa.model.entities;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.sql.Time;
 import java.time.LocalDate;
+import java.time.LocalTime;
 
 @Data
 @Entity
 @Table(name = "work_dairy_entry")
+@NoArgsConstructor
 public class WorkDairyEntry implements Serializable {
 
-    @Id
-    @Column(name = "EntryID",
-            nullable = false)
-    private Long entryId;
+    @EmbeddedId
+    WorkDairyEntryPK id;
 
-    @Id
+//    @MapsId("entryID")
+//    @Id
+//    @Column(name = "EntryID",
+//            nullable = false)
+//    private Long entryId;
+
     @ManyToOne(fetch = FetchType.LAZY)
+    @MapsId("workDairyID")
     @JoinColumn(name = "WorkDairyID",
             referencedColumnName = "WorkDairyID",
             nullable = false)
@@ -35,26 +44,27 @@ public class WorkDairyEntry implements Serializable {
     private Integer day;
 
     @Basic
-    @Column(name = "From",
+
+    @Column(name = "FromTime",
             nullable = false)
-    private Time from;
+    private LocalTime fromTime;
 
     @Basic
-    @Column(name = "To",
+    @Column(name = "ToTime",
             nullable = false)
-    private Time to;
+    private LocalTime toTime;
 
     @Basic
     @Column(name = "Text",
             nullable = false)
     private String text;
 
-    @Basic
+    @CreatedDate
     @Column(name = "CreatedAt",
             nullable = false)
     private LocalDate createdAt;
 
-    @Basic
+    @LastModifiedDate
     @Column(name = "LastModifiedDate",
             nullable = false)
     private LocalDate lastModifiedDate;
@@ -64,9 +74,14 @@ public class WorkDairyEntry implements Serializable {
     private LocalDate deletedDate;
 
     @OneToOne
-    @JoinColumn(name = "PreviousVersionID",
-            referencedColumnName = "EntryID")
+    @JoinColumns({
+            @JoinColumn(name="WorkDairyID", referencedColumnName="WorkDairyID"),
+            @JoinColumn(name="EntryID", referencedColumnName="EntryID")
+    })
     private WorkDairyEntryPrevious previousVersion;
 
-
+    /*@OneToOne
+    @JoinColumn(name = "PreviousVersionID",
+            referencedColumnName = "EntryID")
+    private WorkDairyEntryPrevious previousVersion;*/
 }
