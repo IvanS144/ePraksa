@@ -1,20 +1,24 @@
 package org.unibl.etf.epraksa.model.entities;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.sql.Time;
 import java.time.LocalDate;
+import java.time.LocalTime;
 
 @Data
+@NoArgsConstructor
 @Entity
 @Table(name = "work_dairy_entry_previous")
-public class WorkDairyEntryPrevious {
+public class WorkDairyEntryPrevious implements Serializable {
 
-    @Id
-    @Column(name = "EntryID",
-            nullable = false)
-    private Long entryId;
+    @EmbeddedId
+    WorkDairyEntryPK Id;
 
     @Basic
     @Column(name = "Date",
@@ -27,14 +31,14 @@ public class WorkDairyEntryPrevious {
     private Integer day;
 
     @Basic
-    @Column(name = "From",
+    @Column(name = "FromTime",
             nullable = false)
-    private Time from;
+    private LocalTime from;
 
     @Basic
-    @Column(name = "To",
+    @Column(name = "ToTime",
             nullable = false)
-    private Time to;
+    private LocalTime to;
 
     @Basic
     @Column(name = "Text",
@@ -54,5 +58,16 @@ public class WorkDairyEntryPrevious {
     @Basic
     @Column(name = "DeletedDate")
     private LocalDate deletedDate;
+
+    public WorkDairyEntryPrevious(WorkDairyEntry workDairyEntry){
+        this.Id = new WorkDairyEntryPK(workDairyEntry.getId().getWorkDairyID(), workDairyEntry.getId().getEntryID());
+        this.date = workDairyEntry.getDate();
+        this.day = workDairyEntry.getDay();
+        this.from = workDairyEntry.getFromTime();
+        this.to = workDairyEntry.getToTime();
+        this.text = workDairyEntry.getText();
+        this.createdAt = workDairyEntry.getCreatedAt();
+        this.lastModifiedDate = workDairyEntry.getLastModifiedDate();
+    }
 
 }

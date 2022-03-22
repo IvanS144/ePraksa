@@ -47,7 +47,6 @@ public class Internship {
     @Column(name = "EndDAte")
     private LocalDate endDate;
     @Type(type="json")
-
     @Column(name = "Cycles", columnDefinition = "json")
     private String[] cycles;
 
