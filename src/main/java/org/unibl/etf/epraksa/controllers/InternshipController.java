@@ -36,8 +36,9 @@ public class InternshipController {
     @GetMapping
     public List<InternshipDTO> filter(@RequestParam (required = false) Long id,
                                       @RequestParam (required = false) String type,
-                                      @RequestParam (required = false) Boolean isPublished) {
-        return internshipService.filter(id, type, isPublished, InternshipDTO.class);
+                                      @RequestParam (required = false) Boolean isPublished,
+                                      @RequestParam (required = false) Long mentorId) {
+        return internshipService.filter(id, type, isPublished, mentorId, InternshipDTO.class);
     }
 
     @PutMapping("/{internshipId}/{isFinished}")
@@ -59,4 +60,9 @@ public class InternshipController {
 
         return internshipService.getReport(studentId, internshipId, ReportByMentorDTO.class);
     }
+
+//    @GetMapping("/{mentorId}")
+//    public List<InternshipDTO> getInternshipsByMentor(@PathVariable(name="mentorId") Long mentorId){
+//        return internshipService.getInternshipsByMentor(mentorId, InternshipDTO.class);
+//    }
 }
