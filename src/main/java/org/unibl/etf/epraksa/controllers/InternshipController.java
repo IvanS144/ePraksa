@@ -59,4 +59,9 @@ public class InternshipController {
 
         return internshipService.getReport(studentId, internshipId, ReportByMentorDTO.class);
     }
+
+    @GetMapping("/{mentorId}")
+    public List<InternshipDTO> getInternshipsByMentor(@PathVariable(name="mentorId") Long mentorId){
+        return internshipService.getInternshipsByMentor(mentorId, InternshipDTO.class);
+    }
 }

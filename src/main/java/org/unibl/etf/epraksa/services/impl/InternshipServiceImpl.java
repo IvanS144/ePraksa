@@ -98,15 +98,23 @@ public class InternshipServiceImpl implements InternshipService {
     @Override
     public <T> T getReport(Long studentId, Long internshipId, Class<T> replyClass) {
 
-        ReportByMentor reportByMentor = reportByMentorRepository.getReport(studentId, internshipId);
-
-        if (reportByMentor == null)
-            reportByMentor = new ReportByMentor();
+        ReportByMentor reportByMentor = reportByMentorRepository
+                .getReport(studentId, internshipId)
+                .orElseThrow(()-> new NotFoundException("Nije pronadjen izvjestaj za studenta: " + studentId
+                + "na praksi: "+internshipId));
 
         return modelMapper.map(reportByMentor, replyClass);
     }
 
     public <T> List<T> getAllStudentsOnInternship(Long internshipId, Class<T> replyClass) {
         return studentHasInternshipRepository.getAllStudentsOnInternship(internshipId).stream().map(s -> modelMapper.map(s, replyClass)).collect(Collectors.toList());
+    }
+
+    @Override
+    public <T> List<T> getInternshipsByMentor(Long mentorId, Class<T> replyClass) {
+        return internshipRepository.getInternshipsByMentor(mentorId)
+                .stream()
+                .map(e-> modelMapper.map(e, replyClass))
+                .collect(Collectors.toList());
     }
 }
