@@ -54,7 +54,7 @@ public class InternshipServiceImpl implements InternshipService {
     }
 
     @Override
-    public <T> List<T> filter(Long id, String type, Boolean isPublished, Class<T> replyClass) {
+    public <T> List<T> filter(Long id, String type, Boolean isPublished, Long mentorId, Class<T> replyClass) {
 
         if(isPublished==null)
             isPublished=true;
@@ -64,7 +64,7 @@ public class InternshipServiceImpl implements InternshipService {
         if (type != null)
             it = InternshipType.valueOf(type);
 
-        return internshipRepository.filter(id, it, isPublished)
+        return internshipRepository.filter(id, it, isPublished, mentorId)
                 .stream()
                 .map(e -> modelMapper.map(e, replyClass))
                 .collect(Collectors.toList());
@@ -73,7 +73,7 @@ public class InternshipServiceImpl implements InternshipService {
     @Override
     public <T> T insert(InternshipRequest request, Class<T> replyClass) {
         Internship internship = modelMapper.map(request, Internship.class);
-        if (internship.getSubmissionDue().isBefore(internship.getStartDate()) || internship.getEndDate().isBefore(internship.getStartDate()) || internship.getStartDate().isEqual(internship.getEndDate()))
+        if (internship.getSubmissionDue().isAfter(internship.getStartDate()) || internship.getEndDate().isBefore(internship.getStartDate()) || internship.getStartDate().isEqual(internship.getEndDate()))
             throw new BadRequestException("Datumi nisu validni");
         internship.setInternshipId(null);
         internship.setIsPublished(false);
@@ -97,14 +97,23 @@ public class InternshipServiceImpl implements InternshipService {
 
     @Override
     public <T> T getReport(Long studentId, Long internshipId, Class<T> replyClass) {
+        ReportByMentor reportByMentor = reportByMentorRepository
+                .getReport(studentId, internshipId)
+                .orElseThrow(()-> new NotFoundException("Nije pronadjen izvjestaj za studenta: " + studentId
+                + "na praksi: "+internshipId));
 
-        ReportByMentor reportByMentor = reportByMentorRepository.getReport(studentId, internshipId)
-                .orElseThrow(()-> new NotFoundException("Nije pronadjen izvjestaj za studenta: " +
-                        studentId + " na praksi: " + internshipId + " !!!") );
         return modelMapper.map(reportByMentor, replyClass);
     }
 
     public <T> List<T> getAllStudentsOnInternship(Long internshipId, Class<T> replyClass) {
         return studentHasInternshipRepository.getAllStudentsOnInternship(internshipId).stream().map(s -> modelMapper.map(s, replyClass)).collect(Collectors.toList());
     }
+
+//    @Override
+//    public <T> List<T> getInternshipsByMentor(Long mentorId, Class<T> replyClass) {
+//        return internshipRepository.getInternshipsByMentor(mentorId)
+//                .stream()
+//                .map(e-> modelMapper.map(e, replyClass))
+//                .collect(Collectors.toList());
+//    }
 }

@@ -98,10 +98,10 @@ public class WorkDiaryServiceImpl implements WorkDiaryService{
 
 
 //            Ako postoji previous od starog entry, onda izbrisemo, u suprotnom nista
-            if (workDiaryEntryPreviousRepository.existsById(workDairyEntryPK))
-            {
-                workDiaryEntryPreviousRepository.deleteById(workDairyEntryPK);
-            }
+//            if (workDiaryEntryPreviousRepository.existsById(workDairyEntryPK))
+//            {
+//                workDiaryEntryPreviousRepository.deleteById(workDairyEntryPK);
+//            }
 
 //            stari entry -> previousEntry
             WorkDairyEntryPrevious workDairyEntryPrevious = new WorkDairyEntryPrevious(oldEntry);

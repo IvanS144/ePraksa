@@ -12,6 +12,7 @@ public interface InternshipRepository extends JpaRepository<Internship, Long> {
     @Query("SELECT i FROM Internship i WHERE" +
             "(:id IS NULL OR i.internshipId=:id) AND" +
             "(:type IS NULL OR i.internshipType=:type) AND" +
-            "(:isPublished IS NULL OR i.isPublished=:isPublished)")
-    List<Internship> filter (Long id, InternshipType type, Boolean isPublished);
+            "(:isPublished IS NULL OR i.isPublished=:isPublished) AND" +
+            "(:mentorId IS NULL OR i.mentor.Id =:mentorId)")
+    List<Internship> filter (Long id, InternshipType type, Boolean isPublished, Long mentorId);
 }
