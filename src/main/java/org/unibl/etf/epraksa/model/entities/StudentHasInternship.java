@@ -1,6 +1,7 @@
 package org.unibl.etf.epraksa.model.entities;
 
 import lombok.Data;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -8,6 +9,7 @@ import java.time.LocalDate;
 
 @Data
 @Entity
+@EntityListeners(AuditingEntityListener.class)
 @Table(name = "student_has_internship")
 public class StudentHasInternship implements Serializable{
     @EmbeddedId StudentHasInternshipPK id;

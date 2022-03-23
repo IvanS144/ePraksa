@@ -1,6 +1,9 @@
 package org.unibl.etf.epraksa.model.entities;
 
 import lombok.Data;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -8,6 +11,7 @@ import java.time.LocalDate;
 
 @Data
 @Entity
+@EntityListeners(AuditingEntityListener.class)
 @Table(name = "application")
 public class Application implements Serializable{
 
@@ -50,14 +54,16 @@ public class Application implements Serializable{
     @Column(name = "ReviewByStudent")
     private String reviewByStudent;
 
-    @Basic
+
     @Column(name = "CreatedAt",
             nullable = false)
+    @CreatedDate
     private LocalDate createdAt;
 
-    @Basic
+
     @Column(name = "LastModifiedDate",
             nullable = false)
+    @LastModifiedDate
     private LocalDate lastModifiedDate;
 
     @Basic
