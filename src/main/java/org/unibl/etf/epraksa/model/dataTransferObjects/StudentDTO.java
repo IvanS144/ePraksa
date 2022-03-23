@@ -1,10 +1,13 @@
 package org.unibl.etf.epraksa.model.dataTransferObjects;
 
 import lombok.Data;
+import org.unibl.etf.epraksa.model.entities.Address;
+import org.unibl.etf.epraksa.model.entities.Contact;
 
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import java.time.LocalDate;
+import java.util.List;
 
 @Data
 public class StudentDTO {
@@ -29,4 +32,8 @@ public class StudentDTO {
     private String cycle;
 
     private CvDTO cv;
+
+    private List<ContactDTO> contacts;
+
+    private AddressDTO address;
 }
