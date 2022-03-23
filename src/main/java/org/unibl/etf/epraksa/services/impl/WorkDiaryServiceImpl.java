@@ -50,8 +50,8 @@ public class WorkDiaryServiceImpl implements WorkDiaryService{
     public <T> T insert(WorkDiaryEntryRequest request, Long id, Class<T> replyClass) {
 //        Podesim work diary entry
         WorkDairyEntry workDairyEntry = modelMapper.map(request, WorkDairyEntry.class);
-        workDairyEntry.setCreatedAt(LocalDate.now());
-        workDairyEntry.setLastModifiedDate(LocalDate.now());
+//        workDairyEntry.setCreatedAt(LocalDate.now());
+//        workDairyEntry.setLastModifiedDate(LocalDate.now());
         WorkDairyEntryPK key = new WorkDairyEntryPK();
         key.setWorkDairyID(id);
 
@@ -82,7 +82,7 @@ public class WorkDiaryServiceImpl implements WorkDiaryService{
 //            request -> WorkDiaryEntry / novi entry
             WorkDairyEntry newEntry = modelMapper.map(request, WorkDairyEntry.class);
             newEntry.setId(workDairyEntryPK);
-            newEntry.setLastModifiedDate(LocalDate.now());
+//            newEntry.setLastModifiedDate(LocalDate.now());
             newEntry.setWorkDairy(workDiaryRepository.findByWorkDairyId(workDiaryId)
                     .orElseThrow(()-> new NotFoundException("Nije pronadjen dnevnik: " + workDiaryId)));
 
