@@ -50,8 +50,6 @@ public class WorkDiaryServiceImpl implements WorkDiaryService{
     public <T> T insert(WorkDiaryEntryRequest request, Long id, Class<T> replyClass) {
 //        Podesim work diary entry
         WorkDairyEntry workDairyEntry = modelMapper.map(request, WorkDairyEntry.class);
-//        workDairyEntry.setCreatedAt(LocalDate.now());
-//        workDairyEntry.setLastModifiedDate(LocalDate.now());
         WorkDairyEntryPK key = new WorkDairyEntryPK();
         key.setWorkDairyID(id);
 
@@ -73,16 +71,13 @@ public class WorkDiaryServiceImpl implements WorkDiaryService{
 
     @Override
     public void update(WorkDiaryEntryRequest request, Long workDiaryId, Long entryId) {
-//        if(workDiaryEntryRepository.existsByEntryIdAndWorkDairy_WorkDairyId(entryId,workDiaryId)){
         if(workDiaryEntryRepository.existsById_EntryIDAndId_WorkDairyID(entryId,workDiaryId)){
 
             WorkDairyEntryPK workDairyEntryPK = new WorkDairyEntryPK(workDiaryId, entryId);
-//            WorkDiaryEntryPreviousPK workDiaryEntryPreviousPK = new WorkDiaryEntryPreviousPK(workDiaryId, entryId);
 
 //            request -> WorkDiaryEntry / novi entry
             WorkDairyEntry newEntry = modelMapper.map(request, WorkDairyEntry.class);
             newEntry.setId(workDairyEntryPK);
-//            newEntry.setLastModifiedDate(LocalDate.now());
             newEntry.setWorkDairy(workDiaryRepository.findByWorkDairyId(workDiaryId)
                     .orElseThrow(()-> new NotFoundException("Nije pronadjen dnevnik: " + workDiaryId)));
 
@@ -94,14 +89,8 @@ public class WorkDiaryServiceImpl implements WorkDiaryService{
             oldEntry.setPreviousVersion(null);
 
 //            kopiram kada je kreiran stari, pa ga stavljam na novi
+//            da se ne bi izgubio datum kada je prvi put kreiran entry
             newEntry.setCreatedAt(oldEntry.getCreatedAt());
-
-
-//            Ako postoji previous od starog entry, onda izbrisemo, u suprotnom nista
-//            if (workDiaryEntryPreviousRepository.existsById(workDairyEntryPK))
-//            {
-//                workDiaryEntryPreviousRepository.deleteById(workDairyEntryPK);
-//            }
 
 //            stari entry -> previousEntry
             WorkDairyEntryPrevious workDairyEntryPrevious = new WorkDairyEntryPrevious(oldEntry);
