@@ -5,9 +5,7 @@ import org.springframework.stereotype.Service;
 import org.unibl.etf.epraksa.exceptions.NotFoundException;
 import org.unibl.etf.epraksa.model.entities.*;
 import org.unibl.etf.epraksa.model.requests.ApplicationRequest;
-import org.unibl.etf.epraksa.repositories.ApplicationRepository;
-import org.unibl.etf.epraksa.repositories.StudentHasInternshipRepository;
-import org.unibl.etf.epraksa.repositories.WorkDiaryRepository;
+import org.unibl.etf.epraksa.repositories.*;
 import org.unibl.etf.epraksa.services.ApplicationService;
 
 import javax.persistence.EntityManager;
@@ -21,14 +19,18 @@ public class ApplicationServiceImpl implements ApplicationService {
     private final ApplicationRepository applicationRepository;
     private final StudentHasInternshipRepository studentHasInternshipRepository;
     private final WorkDiaryRepository workDiaryRepository;
+    private final InternshipRepository internshipRepository;
+    private final StudentRepository studentRepository;
     private final ModelMapper modelMapper;
     @PersistenceContext
     private final EntityManager entityManager;
 
-    public ApplicationServiceImpl(ApplicationRepository applicationRepository, StudentHasInternshipRepository studentHasInternshipRepository, WorkDiaryRepository workDiaryRepository, ModelMapper modelMapper, EntityManager entityManager) {
+    public ApplicationServiceImpl(ApplicationRepository applicationRepository, StudentHasInternshipRepository studentHasInternshipRepository, WorkDiaryRepository workDiaryRepository, InternshipRepository internshipRepository, StudentRepository studentRepository, ModelMapper modelMapper, EntityManager entityManager) {
         this.applicationRepository = applicationRepository;
         this.studentHasInternshipRepository = studentHasInternshipRepository;
         this.workDiaryRepository = workDiaryRepository;
+        this.internshipRepository = internshipRepository;
+        this.studentRepository = studentRepository;
         this.modelMapper = modelMapper;
         this.entityManager = entityManager;
     }
@@ -54,6 +56,8 @@ public class ApplicationServiceImpl implements ApplicationService {
             StudentHasInternshipPK pks = new StudentHasInternshipPK(internshipId, studentId);
             StudentHasInternship shi = new StudentHasInternship();
             shi.setId(pks);
+            shi.setInternship(internshipRepository.getById(internshipId));
+            shi.setStudent(studentRepository.getById(studentId));
             shi.setWorkDairy(workDairy);
             studentHasInternshipRepository.saveAndFlush(shi);
         }
