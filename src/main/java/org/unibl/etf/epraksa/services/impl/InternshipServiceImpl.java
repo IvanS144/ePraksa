@@ -82,7 +82,7 @@ public class InternshipServiceImpl implements InternshipService {
         }
         else
         {
-            internship.setIsPublished(true);
+            internship.setIsPublished(true);internship.setIsAccepted(true);
         }
         internship.setIsActive(false);
         internship.setIsFinished(false);
@@ -99,7 +99,18 @@ public class InternshipServiceImpl implements InternshipService {
         } else {
             Internship internship = internshipRepository.getById(internshipId);
             internship.setIsFinished(isFinished);
-            internship.setIsActive(false);
+            internship.setIsActive(isFinished? false : true);
+            internshipRepository.saveAndFlush(internship);
+        }
+    }
+
+    @Override
+    public void setActive(Long internshipId) {
+        if (!internshipRepository.existsById(internshipId)) {
+            throw new NotFoundException("Ta praksa ne postoji");
+        } else {
+            Internship internship = internshipRepository.getById(internshipId);
+            internship.setIsActive(true);
             internshipRepository.saveAndFlush(internship);
         }
     }

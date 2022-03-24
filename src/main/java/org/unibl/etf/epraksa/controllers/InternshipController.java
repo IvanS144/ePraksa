@@ -58,11 +58,17 @@ public class InternshipController {
         return internshipService.insert(request, InternshipDTO.class);
     }
 
-    @GetMapping("/{internshipId}/{studentId}")
+    @GetMapping("/{internshipId}/{studentId}/report")
     public ReportByMentorDTO getReportFromMentor(@PathVariable(name = "internshipId") Long internshipId,
                                                  @PathVariable(name = "studentId") Long studentId){
 
         return internshipService.getReport(studentId, internshipId, ReportByMentorDTO.class);
+    }
+
+    @PutMapping("/{internshipId}/activate")
+    public void activateInternship(@PathVariable Long internshipId)
+    {
+        internshipService.setActive(internshipId);
     }
 
 //    @GetMapping("/{mentorId}")
