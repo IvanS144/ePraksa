@@ -38,7 +38,7 @@ public class WorkDiaryServiceImpl implements WorkDiaryService{
         this.workDiaryEntryRepository = workDiaryEntryRepository;
         this.workDiaryEntryPreviousRepository = workDiaryEntryPreviousRepository;
     }
-
+//komentarrrrrrrrr
     @Override
     public <T> T getWorkDiaryEntry(Long workDiaryId, Class<T> workDiaryClass) {
         WorkDairy workDairy = workDiaryRepository.findByWorkDairyId(workDiaryId)
