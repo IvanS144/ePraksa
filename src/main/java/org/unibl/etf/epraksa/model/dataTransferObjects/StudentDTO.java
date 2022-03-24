@@ -2,14 +2,14 @@ package org.unibl.etf.epraksa.model.dataTransferObjects;
 
 import lombok.Data;
 
-import javax.persistence.Basic;
-import javax.persistence.Column;
 import java.time.LocalDate;
+import java.util.List;
 
 @Data
-public class StudentDTO {
+public class StudentDTO extends UserDTO{
 
     private Long id;
+
     private String firstName;
 
     private String lastName;
@@ -29,4 +29,10 @@ public class StudentDTO {
     private String cycle;
 
     private CvDTO cv;
+
+    private List<NumberDTO> numbers;
+
+    private List<EmailDTO> emails;
+
+    private AddressDTO address;
 }

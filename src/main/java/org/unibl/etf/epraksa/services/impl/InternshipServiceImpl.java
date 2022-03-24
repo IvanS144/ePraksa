@@ -54,7 +54,7 @@ public class InternshipServiceImpl implements InternshipService {
     }
 
     @Override
-    public <T> List<T> filter(Long id, String type, Boolean isPublished, Long mentorId, Class<T> replyClass) {
+    public <T> List<T> filter(String type, Boolean isPublished, Long mentorId, Class<T> replyClass) {
 
         if(isPublished==null)
             isPublished=true;
@@ -64,7 +64,7 @@ public class InternshipServiceImpl implements InternshipService {
         if (type != null)
             it = InternshipType.valueOf(type);
 
-        return internshipRepository.filter(id, it, isPublished, mentorId)
+        return internshipRepository.filter(it, isPublished, mentorId)
                 .stream()
                 .map(e -> modelMapper.map(e, replyClass))
                 .collect(Collectors.toList());
@@ -116,6 +116,13 @@ public class InternshipServiceImpl implements InternshipService {
 
     public <T> List<T> getAllStudentsOnInternship(Long internshipId, Class<T> replyClass) {
         return studentHasInternshipRepository.getAllStudentsOnInternship(internshipId).stream().map(s -> modelMapper.map(s, replyClass)).collect(Collectors.toList());
+    }
+
+    @Override
+    public <T> T getInternship(Long internshipId, Class<T> replyCLass) {
+        return modelMapper.map(internshipRepository
+                .findById(internshipId)
+                .orElseThrow(()-> new NotFoundException("Nije pronadjena praksa: " + internshipId)), replyCLass);
     }
 
 //    @Override
