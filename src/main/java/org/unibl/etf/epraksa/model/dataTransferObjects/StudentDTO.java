@@ -3,6 +3,7 @@ package org.unibl.etf.epraksa.model.dataTransferObjects;
 import lombok.Data;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Data
 public class StudentDTO extends UserDTO{
@@ -29,9 +30,9 @@ public class StudentDTO extends UserDTO{
 
     private CvDTO cv;
 
-    private NumberDTO number;
+    private List<NumberDTO> numbers;
 
-    private EmailDTO email;
+    private List<EmailDTO> emails;
 
-    private AddressDTO address;
+    private AddressDTO addresses;
 }
