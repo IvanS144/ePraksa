@@ -28,4 +28,10 @@ public class StudentDTO extends UserDTO{
     private String cycle;
 
     private CvDTO cv;
+
+    private NumberDTO number;
+
+    private EmailDTO email;
+
+    private AddressDTO address;
 }

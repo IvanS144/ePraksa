@@ -17,9 +17,6 @@ public class UserDTO implements UserDetails {
     private String password;
     private Role role;
     private Boolean isActive;
-    private NumberDTO number;
-    private EmailDTO email;
-    private AddressDTO address;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
