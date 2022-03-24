@@ -1,9 +1,6 @@
 package org.unibl.etf.epraksa.controllers;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.unibl.etf.epraksa.model.dataTransferObjects.StudentDTO;
 import org.unibl.etf.epraksa.services.StudentService;
 
@@ -20,8 +17,19 @@ public class StudentController {
     }
 
     @GetMapping
-    public List<StudentDTO> getStudents(@RequestParam (name = "id", required = false) Long studentId,
-                                        @RequestParam (name = "isPracticant", required = false) Boolean isPracticant){
-        return studentService.getStudents(studentId, isPracticant, StudentDTO.class);
+    public List<StudentDTO> getStudents(){
+        return studentService.getStudents(StudentDTO.class);
     }
+
+    @GetMapping("/{id}")
+    public StudentDTO getStudent(@PathVariable (name = "id") Long studentId){
+        return studentService.getStudent(studentId, StudentDTO.class);
+    }
+
+    @GetMapping("/practicants")
+    public List<StudentDTO> getCurrentPracticants(){
+        return studentService.getCurrentPracticants(StudentDTO.class);
+    }
+
+
 }

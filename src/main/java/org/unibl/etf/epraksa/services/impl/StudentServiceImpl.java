@@ -3,6 +3,7 @@ package org.unibl.etf.epraksa.services.impl;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.unibl.etf.epraksa.exceptions.NotFoundException;
+import org.unibl.etf.epraksa.model.dataTransferObjects.StudentDTO;
 import org.unibl.etf.epraksa.model.entities.Student;
 import org.unibl.etf.epraksa.repositories.StudentRepository;
 import org.unibl.etf.epraksa.services.StudentService;
@@ -24,24 +25,36 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public <T> List<T> getStudents(Long studentID, Boolean isPracticant, Class<T> replyClass) {
-        List<T> students = new ArrayList<>();
+    public <T> List<T> getStudents(Class<T> replyClass) {
+//        List<T> students = new ArrayList<>();
 
-        if(studentID!=null){
-            Student s = studentRepository.findById(studentID)
-                    .orElseThrow(()-> new NotFoundException("Nema takvog studenta"));
-            students.add(modelMapper.map(s, replyClass));
-            return students;
-        }
+//        if(studentID!=null){
+//            Student s = studentRepository.findById(studentID)
+//                    .orElseThrow(()-> new NotFoundException("Nema takvog studenta"));
+//            students.add(modelMapper.map(s, replyClass));
+//            return students;
+//        }
+        return studentRepository.findAll()
+                .stream()
+                .map(e-> modelMapper.map(e,replyClass))
+                .collect(Collectors.toList());
 
-        if(isPracticant != null && !isPracticant){
-            return studentRepository.findAll()
-                    .stream()
-                    .map(e-> modelMapper.map(e,replyClass))
-                    .collect(Collectors.toList());
-        }
+//        return studentRepository.getCurrentPracticants()
+//                .stream()
+//                .map(e-> modelMapper.map(e, replyClass))
+//                .collect(Collectors.toList());
+    }
 
-        return studentRepository.getParticipents()
+    @Override
+    public <T> T getStudent(Long studentId, Class<T> replyClass) {
+        return modelMapper.map(studentRepository.
+                findById(studentId)
+                .orElseThrow(()-> new NotFoundException("Nema takvog studenta")), replyClass);
+    }
+
+    @Override
+    public <T> List<T> getCurrentPracticants(Class<T> replyClass) {
+        return studentRepository.getCurrentPracticants()
                 .stream()
                 .map(e-> modelMapper.map(e, replyClass))
                 .collect(Collectors.toList());
