@@ -10,9 +10,10 @@ import java.time.LocalDate;
 import java.util.List;
 
 @Data
-public class StudentDTO {
+public class StudentDTO extends UserDTO{
 
     private Long id;
+
     private String firstName;
 
     private String lastName;
@@ -32,8 +33,4 @@ public class StudentDTO {
     private String cycle;
 
     private CvDTO cv;
-
-    private List<ContactDTO> contacts;
-
-    private AddressDTO address;
 }
