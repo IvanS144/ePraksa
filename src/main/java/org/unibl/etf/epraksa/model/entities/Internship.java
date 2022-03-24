@@ -152,4 +152,8 @@ public class Internship {
             fetch = FetchType.LAZY)
     private List<StudentHasInternship> studentHasInternships;
 
+    @Basic
+    @Column(name="IsActive")
+    private Boolean isActive;
+
 }

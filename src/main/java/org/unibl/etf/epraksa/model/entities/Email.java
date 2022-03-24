@@ -1,32 +1,29 @@
 package org.unibl.etf.epraksa.model.entities;
 
 import lombok.Data;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.time.LocalDate;
 
 @Data
 @Entity
-@Table(name = "contact")
-public class Contact {
+@EntityListeners(AuditingEntityListener.class)
+@Table(name = "email")
+public class Email {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "ContactID",
+    @Column(name = "EmailID",
             nullable = false)
     private Long contactId;
-
-    @Basic
-    @Column(name = "Number",
-            nullable = false,
-            length = 45)
-    private String number;
 
     @Basic
     @Column(name = "Mail",
             nullable = false,
             length = 45)
     private String mail;
+
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "UserID",

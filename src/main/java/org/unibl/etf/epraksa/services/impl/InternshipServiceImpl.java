@@ -76,7 +76,15 @@ public class InternshipServiceImpl implements InternshipService {
         if (internship.getSubmissionDue().isAfter(internship.getStartDate()) || internship.getEndDate().isBefore(internship.getStartDate()) || internship.getStartDate().isEqual(internship.getEndDate()))
             throw new BadRequestException("Datumi nisu validni");
         internship.setInternshipId(null);
-        internship.setIsPublished(false);
+        if(InternshipType.STRUCNA.equals(internship.getInternshipType()))
+        {
+            internship.setIsPublished(false);
+        }
+        else
+        {
+            internship.setIsPublished(true);
+        }
+        internship.setIsActive(false);
         internship.setIsFinished(false);
         internship = internshipRepository.saveAndFlush(internship);
         entityManager.refresh(internship);
@@ -91,6 +99,7 @@ public class InternshipServiceImpl implements InternshipService {
         } else {
             Internship internship = internshipRepository.getById(internshipId);
             internship.setIsFinished(isFinished);
+            internship.setIsActive(false);
             internshipRepository.saveAndFlush(internship);
         }
     }
