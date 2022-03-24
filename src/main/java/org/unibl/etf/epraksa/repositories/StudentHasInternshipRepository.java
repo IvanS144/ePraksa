@@ -10,6 +10,6 @@ import org.unibl.etf.epraksa.model.entities.StudentHasInternshipPK;
 import java.util.List;
 
 public interface StudentHasInternshipRepository extends JpaRepository<StudentHasInternship, StudentHasInternshipPK> {
-    @Query("SELECT shi.student FROM StudentHasInternship shi WHERE shi.id.id= :id")
-    List<Student> getAllStudentsOnInternship(@Param("id") Long id);
+    @Query("SELECT shi.student FROM StudentHasInternship shi WHERE shi.id.internshipId= :internshipId")
+    List<Student> getAllStudentsOnInternship(@Param("internshipId") Long internshipId);
 }
