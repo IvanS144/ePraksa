@@ -69,7 +69,11 @@ public class User {
 
     @OneToMany(mappedBy = "user",
             fetch = FetchType.LAZY)
-    private List<Contact> contacts;
+    private List<Email> emails;
+
+    @OneToMany(mappedBy = "user",
+            fetch = FetchType.LAZY)
+    private List<Number> numbers;
 
 
 }
