@@ -7,6 +7,7 @@ import org.unibl.etf.epraksa.model.entities.Student;
 import java.util.List;
 
 public interface StudentRepository extends JpaRepository<Student, Long> {
-    @Query("SELECT shi.student FROM StudentHasInternship shi")
+    @Query("SELECT shi.student FROM StudentHasInternship shi " +
+            "WHERE shi.internship.isActive = true")
     List<Student> getParticipents();
 }

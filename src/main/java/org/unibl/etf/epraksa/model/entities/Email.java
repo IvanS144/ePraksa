@@ -1,6 +1,8 @@
 package org.unibl.etf.epraksa.model.entities;
 
 import lombok.Data;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
@@ -31,12 +33,12 @@ public class Email {
             nullable = false)
     private User user;
 
-    @Basic
+    @CreatedDate
     @Column(name = "CreatedAt",
             nullable = false)
     private LocalDate createdAt;
 
-    @Basic
+    @LastModifiedDate
     @Column(name = "LastModifiedDate",
             nullable = false)
     private LocalDate lastModifiedDate;

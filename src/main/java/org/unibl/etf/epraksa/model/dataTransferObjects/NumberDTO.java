@@ -1,11 +1,10 @@
 package org.unibl.etf.epraksa.model.dataTransferObjects;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
-public class ContactDTO {
-
+@NoArgsConstructor
+public class NumberDTO {
     private String number;
-
-    private String mail;
 }
