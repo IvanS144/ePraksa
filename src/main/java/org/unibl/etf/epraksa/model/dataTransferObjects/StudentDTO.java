@@ -34,5 +34,5 @@ public class StudentDTO extends UserDTO{
 
     private List<EmailDTO> emails;
 
-    private AddressDTO addresses;
+    private AddressDTO address;
 }
