@@ -1,6 +1,7 @@
 package org.unibl.etf.epraksa.controllers;
 
 import org.springframework.web.bind.annotation.*;
+import org.unibl.etf.epraksa.model.entities.Comment;
 import org.unibl.etf.epraksa.model.entities.State;
 import org.unibl.etf.epraksa.model.requests.ApplicationRequest;
 import org.unibl.etf.epraksa.services.ApplicationService;
@@ -23,7 +24,7 @@ public class ApplicationController {
     }
 
     @PutMapping("/{internshipId}/{studentId}/{state}")
-    public void setState(@PathVariable Long internshipId, @PathVariable Long studentId, @PathVariable State state){
-        applicationService.setState(internshipId, studentId, state);
+    public void setState(@PathVariable Long internshipId, @PathVariable Long studentId, @PathVariable State state, @RequestBody(required = false) Comment comment){
+        applicationService.setState(internshipId, studentId, state, comment);
     }
 }

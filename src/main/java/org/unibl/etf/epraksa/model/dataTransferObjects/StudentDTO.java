@@ -6,7 +6,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 @Data
-public class StudentDTO extends UserDTO{
+public class StudentDTO{
 
     private Long id;
 

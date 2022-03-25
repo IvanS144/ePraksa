@@ -44,7 +44,7 @@ public class ApplicationServiceImpl implements ApplicationService {
     }
 
     @Override
-    public void setState(Long internshipId, Long studentId, State state) {
+    public void setState(Long internshipId, Long studentId, State state, Comment comment) {
         ApplicationPK pk = new ApplicationPK(internshipId, studentId);
         Application application = applicationRepository.findById(pk).orElseThrow(()-> new NotFoundException("Ta prijava ne postoji"));
         application.setState(state);
@@ -61,5 +61,10 @@ public class ApplicationServiceImpl implements ApplicationService {
             shi.setWorkDairy(workDairy);
             studentHasInternshipRepository.saveAndFlush(shi);
         }
+        else if(state.equals(State.DENIED))
+        {
+            application.setReport(comment.getComment());
+        }
+        applicationRepository.saveAndFlush(application);
     }
 }
