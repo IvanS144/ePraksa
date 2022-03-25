@@ -44,7 +44,7 @@ public class Application implements Serializable{
 
     @Basic
     @Column(name = "MotivationalLetter")
-    private String motivationLetter;
+    private String motivationalLetter;
 
     @Basic
     @Column(name = "InternshipStars")
