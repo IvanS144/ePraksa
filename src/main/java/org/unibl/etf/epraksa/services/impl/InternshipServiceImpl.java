@@ -4,6 +4,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.unibl.etf.epraksa.exceptions.BadRequestException;
 import org.unibl.etf.epraksa.exceptions.NotFoundException;
+import org.unibl.etf.epraksa.model.dataTransferObjects.InternshipDTO;
 import org.unibl.etf.epraksa.model.dataTransferObjects.ReportByMentorDTO;
 import org.unibl.etf.epraksa.model.entities.Internship;
 import org.unibl.etf.epraksa.model.entities.InternshipType;
@@ -93,25 +94,29 @@ public class InternshipServiceImpl implements InternshipService {
     }
 
     @Override
-    public void setFinishedStatus(Long internshipId, Boolean isFinished) {
+    public <T> T setFinishedStatus(Long internshipId, Boolean isFinished, Class<T> replyClass) {
         if (!internshipRepository.existsById(internshipId)) {
             throw new NotFoundException("Ta praksa ne postoji");
         } else {
             Internship internship = internshipRepository.getById(internshipId);
             internship.setIsFinished(isFinished);
             internship.setIsActive(isFinished? false : true);
-            internshipRepository.saveAndFlush(internship);
+            internship=internshipRepository.saveAndFlush(internship);
+            entityManager.refresh(internship);
+            return modelMapper.map(internship, replyClass);
         }
     }
 
     @Override
-    public void setActive(Long internshipId) {
+    public <T> T setActive(Long internshipId, Class<T> replyClass) {
         if (!internshipRepository.existsById(internshipId)) {
             throw new NotFoundException("Ta praksa ne postoji");
         } else {
             Internship internship = internshipRepository.getById(internshipId);
             internship.setIsActive(true);
-            internshipRepository.saveAndFlush(internship);
+            internship=internshipRepository.saveAndFlush(internship);
+            entityManager.refresh(internship);
+            return modelMapper.map(internship, replyClass);
         }
     }
 

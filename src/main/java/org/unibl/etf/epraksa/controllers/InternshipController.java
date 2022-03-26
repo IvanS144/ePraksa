@@ -46,9 +46,9 @@ public class InternshipController {
     }
 
     @PutMapping("/{internshipId}/{isFinished}")
-    public void setFinishedStatus(@PathVariable Long internshipId, @PathVariable Boolean isFinished)
+    public InternshipDTO setFinishedStatus(@PathVariable Long internshipId, @PathVariable Boolean isFinished)
     {
-        internshipService.setFinishedStatus(internshipId, isFinished);
+        return internshipService.setFinishedStatus(internshipId, isFinished, InternshipDTO.class);
 
     }
 
@@ -66,9 +66,9 @@ public class InternshipController {
     }
 
     @PutMapping("/{internshipId}/activate")
-    public void activateInternship(@PathVariable Long internshipId)
+    public InternshipDTO activateInternship(@PathVariable Long internshipId)
     {
-        internshipService.setActive(internshipId);
+        return internshipService.setActive(internshipId, InternshipDTO.class);
     }
 
 //    @GetMapping("/{mentorId}")

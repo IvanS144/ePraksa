@@ -26,6 +26,8 @@ public class InternshipDTO {
     private LocalDate submissionDue;
     private Boolean isPublished;
     private Boolean isAccepted;
+    private Boolean isActive;
+    private Boolean isFinished;
     private MentorDTO mentor;
     private String[] courses;
     private String city;
