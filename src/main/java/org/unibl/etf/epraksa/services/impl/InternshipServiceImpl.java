@@ -114,6 +114,7 @@ public class InternshipServiceImpl implements InternshipService {
         } else {
             Internship internship = internshipRepository.getById(internshipId);
             internship.setIsActive(true);
+            internship.setIsPublished(false);
             internship=internshipRepository.saveAndFlush(internship);
             entityManager.refresh(internship);
             return modelMapper.map(internship, replyClass);
