@@ -20,5 +20,6 @@ public class WorkDairyReply {
     private String studentIndex;
     private String studentCourse;
     private String mentorFullName;
+    private Integer workedHours;
     private List<EntryDTO> workDairyEntries;
 }

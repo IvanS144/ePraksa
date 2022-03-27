@@ -13,6 +13,7 @@ import org.unibl.etf.epraksa.repositories.InternshipRepository;
 import org.unibl.etf.epraksa.repositories.StudentRepository;
 import org.unibl.etf.epraksa.repositories.WorkDiaryRepository;
 
+import java.time.Duration;
 import java.time.LocalTime;
 
 @Component
@@ -56,6 +57,14 @@ public class ModelMapperConfig {
                     reply.setMentorFullName(dairy.getStudentOnInternship().getInternship().getMentor().getFirstName()+ " " + dairy.getStudentOnInternship().getInternship().getMentor().getLastName());
                     reply.setStudentIndex(dairy.getStudentOnInternship().getStudent().getIndex());
                     reply.setStudentCourse(dairy.getStudentOnInternship().getStudent().getCourse());
+                    try {
+                        Integer sum= dairy.getWorkDairyEntries().stream().map(e -> (int) Duration.between(e.getFromTime(), e.getToTime()).toHours()).reduce(0, (a, b) -> a + b);
+                        reply.setWorkedHours(sum);
+                    }
+                    catch(Exception e)
+                    {
+                        reply.setWorkedHours(0);
+                    }
                     return reply;
                 });
 
