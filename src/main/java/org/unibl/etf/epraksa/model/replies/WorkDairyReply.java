@@ -13,8 +13,12 @@ import java.util.List;
 public class WorkDairyReply {
     private Long workDairyId;
     private State state;
-    private LocalDate createdAt;
-    private LocalDate lastModifiedDate;
-    private LocalDate deletedDate;
+    //private LocalDate createdAt;
+   // private LocalDate lastModifiedDate;
+    //private LocalDate deletedDate;
+    private String studentFullName;
+    private String studentIndex;
+    private String studentCourse;
+    private String mentorFullName;
     private List<EntryDTO> workDairyEntries;
 }

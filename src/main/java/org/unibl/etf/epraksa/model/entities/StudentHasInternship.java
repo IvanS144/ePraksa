@@ -16,7 +16,7 @@ import java.time.LocalDate;
 public class StudentHasInternship implements Serializable{
     @EmbeddedId StudentHasInternshipPK id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @MapsId("id")
     @JoinColumn(name = "ID",
             referencedColumnName = "ID",
@@ -24,7 +24,7 @@ public class StudentHasInternship implements Serializable{
     private Student student;
 
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @MapsId("internshipId")
     @JoinColumn(name = "InternshipID",
             referencedColumnName = "InternshipID",
