@@ -1,20 +1,35 @@
 package org.unibl.etf.epraksa.controllers;
 
 import org.springframework.web.bind.annotation.*;
+import org.unibl.etf.epraksa.model.dataTransferObjects.ApplicationDTO;
+import org.unibl.etf.epraksa.model.entities.Application;
 import org.unibl.etf.epraksa.model.entities.Comment;
 import org.unibl.etf.epraksa.model.entities.State;
 import org.unibl.etf.epraksa.model.requests.ApplicationRequest;
 import org.unibl.etf.epraksa.services.ApplicationService;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @RestController
 @RequestMapping("/applications")
 public class ApplicationController {
+
     private final ApplicationService applicationService;
 
     public ApplicationController(ApplicationService applicationService) {
         this.applicationService = applicationService;
+    }
+
+    @GetMapping("/{internshipId}")
+    public List<ApplicationDTO> getApplications(@PathVariable(name = "internshipId") Long internshipId) {
+        return applicationService.getApplications(internshipId, ApplicationDTO.class);
+    }
+
+    @GetMapping("/{internshipId}/{studentId}")
+    public ApplicationDTO getApplication(@PathVariable(name = "internshipId") Long internshipId,
+                                         @PathVariable(name = "studentId") Long studentId) {
+        return applicationService.getApplication(internshipId, studentId, ApplicationDTO.class);
     }
 
     @PostMapping

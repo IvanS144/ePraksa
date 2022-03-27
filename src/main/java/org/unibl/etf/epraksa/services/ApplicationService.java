@@ -4,8 +4,11 @@ import org.unibl.etf.epraksa.model.entities.Comment;
 import org.unibl.etf.epraksa.model.entities.State;
 import org.unibl.etf.epraksa.model.requests.ApplicationRequest;
 
-public interface ApplicationService {
+import java.util.List;
 
+public interface ApplicationService {
+    <T> List<T> getApplications(Long internshipId, Class<T> replyClass);
+    <T> T getApplication(Long internshipId, Long studentId, Class<T> replyClass);
     void insert(ApplicationRequest request);
     void setState(Long internshipId, Long studentId, State state, Comment comment);
 }

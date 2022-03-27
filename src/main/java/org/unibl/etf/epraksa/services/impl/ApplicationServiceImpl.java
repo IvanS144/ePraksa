@@ -11,6 +11,8 @@ import org.unibl.etf.epraksa.services.ApplicationService;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -33,6 +35,22 @@ public class ApplicationServiceImpl implements ApplicationService {
         this.studentRepository = studentRepository;
         this.modelMapper = modelMapper;
         this.entityManager = entityManager;
+    }
+
+    @Override
+    public <T> List<T> getApplications(Long internshipId, Class<T> replyClass) {
+        return applicationRepository.filter(internshipId)
+                .stream()
+                .map(application -> modelMapper.map(application,replyClass))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public <T> T getApplication(Long internshipId, Long studentId, Class<T> replyClass)
+    {
+        ApplicationPK pk = new ApplicationPK(internshipId, studentId);
+        return modelMapper.map(applicationRepository.findById(pk)
+                            .orElseThrow(()-> new NotFoundException("Ta prijava ne postoji")), replyClass);
     }
 
     @Override
