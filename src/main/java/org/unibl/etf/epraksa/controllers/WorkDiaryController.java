@@ -27,7 +27,7 @@ public class WorkDiaryController {
                                       @RequestBody WorkDiaryEntryRequest request){
 //      nisam stavio @Validate zato sto ce se neki parametri u reqest-u naknadno popunjavati
 //      osim ako se ne promijeni nacin slanja request-a
-        workDiaryService.insert(request, EntryDTO.class);
+        return workDiaryService.insert(request, EntryDTO.class);
     }
 
     @PutMapping("/{workdiaryId}/zapisi/{entryId}")
