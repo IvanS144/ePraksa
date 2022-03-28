@@ -9,7 +9,7 @@ import org.unibl.etf.epraksa.model.requests.InternshipRequest;
 public interface InternshipService {
 
     void setAcceptanceStatus(Long internshipId, Boolean isAccepted);
-    <T> List<T> filter(String type, Boolean isPublished, Long mentorId, Class<T> replyClass);
+    <T> List<T> filter(String type, Boolean isPublished, Long mentorId, Boolean isAccepted, Long companyId, Class<T> replyClass);
     <T> T insert(InternshipRequest request, Class<T> replyClass);
     <T> T setFinishedStatus(Long internshipId, Boolean isFinished, Class<T> replyClass);
     <T> T getReport(Long studentId, Long internshipId, Class<T> replyClass);

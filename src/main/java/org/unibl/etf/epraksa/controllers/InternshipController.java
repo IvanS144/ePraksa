@@ -36,8 +36,10 @@ public class InternshipController {
     @GetMapping
     public List<InternshipDTO> filter(@RequestParam (required = false) String type,
                                       @RequestParam (required = false) Boolean isPublished,
-                                      @RequestParam (required = false) Long mentorId) {
-        return internshipService.filter(type, isPublished, mentorId, InternshipDTO.class);
+                                      @RequestParam (required = false) Long mentorId,
+                                      @RequestParam(required = false)Boolean isAccepted,
+                                      @RequestParam (required = false)Long companyId) {
+        return internshipService.filter(type, isPublished, mentorId, isAccepted, companyId, InternshipDTO.class);
     }
 
     @GetMapping("/{internshipId}")

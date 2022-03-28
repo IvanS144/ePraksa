@@ -22,7 +22,7 @@ public class WorkDiaryController {
     }
 
 //    @PostMapping("/{workdiaryId}/record")
-    @PostMapping("/records")
+    @PostMapping("/entries")
     public EntryDTO addWorkDiaryEntry(
                                       @RequestBody WorkDiaryEntryRequest request){
 //      nisam stavio @Validate zato sto ce se neki parametri u reqest-u naknadno popunjavati
@@ -30,7 +30,7 @@ public class WorkDiaryController {
         return workDiaryService.insert(request, EntryDTO.class);
     }
 
-    @PutMapping("/{workdiaryId}/zapisi/{entryId}")
+    @PutMapping("/{workdiaryId}/entries/{entryId}")
     public void updateWorkDiaryEntry(@PathVariable(name = "workdiaryId") Long id,
                                      @PathVariable(name = "entryId") Long entryId,
                                      @RequestBody WorkDiaryEntryRequest request){

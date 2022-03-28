@@ -25,7 +25,7 @@ public class Application implements Serializable{
             nullable = false)
     private Internship internship;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @MapsId("studentId")
     @JoinColumn(name = "StudentID",
             referencedColumnName = "ID",

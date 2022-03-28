@@ -48,7 +48,7 @@ public class ApplicationServiceImpl implements ApplicationService {
         ApplicationPK pk = new ApplicationPK(internshipId, studentId);
         Application application = applicationRepository.findById(pk).orElseThrow(()-> new NotFoundException("Ta prijava ne postoji"));
         application.setState(state);
-        if(state.equals(State.ACCEPTED))
+        /*if(state.equals(State.ACCEPTED))
         {
             WorkDairy workDairy = new WorkDairy();
             workDairy=workDiaryRepository.saveAndFlush(workDairy);
@@ -60,8 +60,8 @@ public class ApplicationServiceImpl implements ApplicationService {
             shi.setStudent(studentRepository.getById(studentId));
             shi.setWorkDairy(workDairy);
             studentHasInternshipRepository.saveAndFlush(shi);
-        }
-        else if(state.equals(State.DENIED))
+        }*/
+        if(state.equals(State.DENIED))
         {
             application.setReport(comment.getComment());
         }
