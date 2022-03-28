@@ -38,16 +38,31 @@ public class ApplicationServiceImpl implements ApplicationService {
     }
 
     @Override
-    public <T> List<T> getApplications(Long internshipId, String status, Class<T> replyClass) {
-        return applicationRepository.filter(internshipId,status)
+    public <T> List<T> getApplicationsForInternship(Long internshipId, String status, Class<T> replyClass) {
+        State state = null;
+        if(status != null)
+            state = State.valueOf(status);
+
+        return applicationRepository.filterByInternship(internshipId,state)
                 .stream()
                 .map(application -> modelMapper.map(application,replyClass))
                 .collect(Collectors.toList());
     }
 
     @Override
-    public <T> T getApplication(Long internshipId, Long studentId, Class<T> replyClass)
-    {
+    public <T> List<T> getApplicationsForStudent(Long studentId, String status, Class<T> replyClass) {
+        State state = null;
+        if(status != null)
+            state = State.valueOf(status);
+
+        return applicationRepository.getApplicationsByStudent(studentId, state)
+                .stream()
+                .map(application -> modelMapper.map(application,replyClass))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public <T> T getApplication(Long internshipId, Long studentId, Class<T> replyClass) {
         ApplicationPK pk = new ApplicationPK(internshipId, studentId);
         return modelMapper.map(applicationRepository.findById(pk)
                             .orElseThrow(()-> new NotFoundException("Ta prijava ne postoji")), replyClass);

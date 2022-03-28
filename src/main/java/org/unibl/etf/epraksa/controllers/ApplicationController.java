@@ -2,7 +2,6 @@ package org.unibl.etf.epraksa.controllers;
 
 import org.springframework.web.bind.annotation.*;
 import org.unibl.etf.epraksa.model.dataTransferObjects.ApplicationDTO;
-import org.unibl.etf.epraksa.model.entities.Application;
 import org.unibl.etf.epraksa.model.entities.Comment;
 import org.unibl.etf.epraksa.model.entities.State;
 import org.unibl.etf.epraksa.model.requests.ApplicationRequest;
@@ -22,15 +21,21 @@ public class ApplicationController {
     }
 
     @GetMapping("/{internshipId}")
-    public List<ApplicationDTO> getApplications(@PathVariable(name = "internshipId") Long internshipId,
-                                                @RequestParam (required = false) String status) {
-        return applicationService.getApplications(internshipId, status, ApplicationDTO.class);
+    public List<ApplicationDTO> getApplicationsForInternship(@PathVariable(name = "internshipId") Long internshipId,
+                                                             @RequestParam (required = false) String status) {
+        return applicationService.getApplicationsForInternship(internshipId, status, ApplicationDTO.class);
     }
 
     @GetMapping("/{internshipId}/{studentId}")
     public ApplicationDTO getApplication(@PathVariable(name = "internshipId") Long internshipId,
                                          @PathVariable(name = "studentId") Long studentId) {
         return applicationService.getApplication(internshipId, studentId, ApplicationDTO.class);
+    }
+
+    @GetMapping("/{studentId}")
+    public List<ApplicationDTO> getApplicationsForStudent(@PathVariable(name="studentId") Long studentId,
+                                                          @RequestParam (required = false) String status) {
+        return applicationService.getApplicationsForStudent(studentId,status, ApplicationDTO.class);
     }
 
     @PostMapping
