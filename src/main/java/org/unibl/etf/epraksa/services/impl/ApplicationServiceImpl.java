@@ -38,23 +38,15 @@ public class ApplicationServiceImpl implements ApplicationService {
     }
 
     @Override
-    public <T> List<T> getApplicationsForInternship(Long internshipId, String status, Class<T> replyClass) {
-        State state = null;
-        if(status != null)
-            state = State.valueOf(status);
-
-        return applicationRepository.filterByInternship(internshipId,state)
+    public <T> List<T> getApplicationsForInternship(Long internshipId, State state, Class<T> replyClass) {
+        return applicationRepository.filterByInternship(internshipId, state)
                 .stream()
-                .map(application -> modelMapper.map(application,replyClass))
+                .map(application -> modelMapper.map(application, replyClass))
                 .collect(Collectors.toList());
     }
 
     @Override
-    public <T> List<T> getApplicationsForStudent(Long studentId, String status, Class<T> replyClass) {
-        State state = null;
-        if(status != null)
-            state = State.valueOf(status);
-
+    public <T> List<T> getApplicationsForStudent(Long studentId, State state, Class<T> replyClass) {
         return applicationRepository.getApplicationsByStudent(studentId, state)
                 .stream()
                 .map(application -> modelMapper.map(application,replyClass))

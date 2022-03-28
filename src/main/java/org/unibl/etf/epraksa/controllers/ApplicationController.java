@@ -22,8 +22,8 @@ public class ApplicationController {
 
     @GetMapping("/{internshipId}")
     public List<ApplicationDTO> getApplicationsForInternship(@PathVariable(name = "internshipId") Long internshipId,
-                                                             @RequestParam (required = false) String status) {
-        return applicationService.getApplicationsForInternship(internshipId, status, ApplicationDTO.class);
+                                                             @RequestParam (required = false) State state) {
+        return applicationService.getApplicationsForInternship(internshipId, state, ApplicationDTO.class);
     }
 
     @GetMapping("/{internshipId}/{studentId}")
@@ -32,20 +32,19 @@ public class ApplicationController {
         return applicationService.getApplication(internshipId, studentId, ApplicationDTO.class);
     }
 
-    @GetMapping("/{studentId}")
+    @GetMapping("/student/{studentId}")
     public List<ApplicationDTO> getApplicationsForStudent(@PathVariable(name="studentId") Long studentId,
-                                                          @RequestParam (required = false) String status) {
-        return applicationService.getApplicationsForStudent(studentId,status, ApplicationDTO.class);
+                                                          @RequestParam (required = false) State state) {
+        return applicationService.getApplicationsForStudent(studentId, state, ApplicationDTO.class);
     }
 
     @PostMapping
-    public void insert(@RequestBody @Valid ApplicationRequest request)
-    {
+    public void insert(@RequestBody @Valid ApplicationRequest request) {
         applicationService.insert(request);
     }
 
     @PutMapping("/{internshipId}/{studentId}/{state}")
-    public void setState(@PathVariable Long internshipId, @PathVariable Long studentId, @PathVariable State state, @RequestBody(required = false) Comment comment){
+    public void setState(@PathVariable Long internshipId, @PathVariable Long studentId, @PathVariable State state, @RequestBody(required = false) Comment comment) {
         applicationService.setState(internshipId, studentId, state, comment);
     }
 }
