@@ -5,6 +5,7 @@ import org.modelmapper.Converter;
 import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
+import org.unibl.etf.epraksa.model.dataTransferObjects.ApplicationDTO;
 import org.unibl.etf.epraksa.model.entities.Application;
 import org.unibl.etf.epraksa.model.entities.Internship;
 import org.unibl.etf.epraksa.model.entities.Student;
@@ -43,6 +44,17 @@ public class ModelMapperConfig {
         mapper.createTypeMap(ApplicationRequest.class, Application.class)
                 .addMappings(map -> map.using(longToInternshipConverter).map(ApplicationRequest::getInternshipId, Application::setInternship))
                 .addMappings(map -> map.using(longToStudentConverter).map(ApplicationRequest::getStudentId, Application::setStudent));
+
+        mapper.createTypeMap(Application.class, ApplicationDTO.class)
+                .setPostConverter(ctx -> {
+                    Application source = ctx.getSource();
+                    ApplicationDTO dest = ctx.getDestination();
+                    dest.setInternshipId(source.getId().getInternshipId());
+                    dest.setStudentId(source.getId().getStudentId());
+                    dest.setState(dest.getState());
+                    return dest;
+                });
+
         return mapper;
     }
 }
