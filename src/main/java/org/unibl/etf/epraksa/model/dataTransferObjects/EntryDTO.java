@@ -7,12 +7,14 @@ import java.time.LocalTime;
 
 @Data
 public class EntryDTO {
-    private Long workDiaryId;
+    //private Long workDiaryId;
     private Long entryId;
-    private LocalDate date;
+    //private LocalDate date;
     private Integer day;
-    private LocalTime from;
-    private LocalTime to;
+    private String from;
+    private String to;
     private String text;
-    private Long previousVersionId;
+    private LocalDate createdAt;
+    private LocalDate lastModifiedDate;
+    //private Long previousVersionId;
 }

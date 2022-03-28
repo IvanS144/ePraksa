@@ -41,26 +41,27 @@ public class WorkDiaryServiceImpl implements WorkDiaryService{
 //komentarrrrrrrrr
     @Override
     public <T> T getWorkDiaryEntry(Long workDiaryId, Class<T> workDiaryClass) {
-        WorkDairy workDairy = workDiaryRepository.findByWorkDairyId(workDiaryId)
+        WorkDairy workDairy = workDiaryRepository.findById(workDiaryId)
                 .orElseThrow(() -> new NotFoundException("Nije pronadjen dnevnik: " + workDiaryId));
         return modelMapper.map(workDairy, workDiaryClass);
     }
 
     @Override
-    public <T> T insert(WorkDiaryEntryRequest request, Long id, Class<T> replyClass) {
+    public <T> T insert(WorkDiaryEntryRequest request,Class<T> replyClass) {
 //        Podesim work diary entry
         WorkDairyEntry workDairyEntry = modelMapper.map(request, WorkDairyEntry.class);
         WorkDairyEntryPK key = new WorkDairyEntryPK();
-        key.setWorkDairyID(id);
+        key.setWorkDairyID(request.getWorkDairyId());
 
-        Long lastEntryID = workDiaryEntryRepository.lastInsertEntryId(id);
+        Long lastEntryID = workDiaryEntryRepository.lastInsertEntryId(request.getWorkDairyId());
         if(lastEntryID==null) lastEntryID = 1L;
         else lastEntryID++;
         key.setEntryID(lastEntryID);
 
         workDairyEntry.setId(key);
-        workDairyEntry.setWorkDairy(workDiaryRepository.findByWorkDairyId(id)
-                .orElseThrow(()-> new NotFoundException("Nije pronadjen dnevnik: " + id)));
+        workDairyEntry.setDate(LocalDate.now());
+        //workDairyEntry.setWorkDairy(workDiaryRepository.findById(id)
+         //       .orElseThrow(()-> new NotFoundException("Nije pronadjen dnevnik: " + id)));
 
 //        upisem isti
         workDairyEntry = workDiaryEntryRepository.saveAndFlush(workDairyEntry);
@@ -78,8 +79,8 @@ public class WorkDiaryServiceImpl implements WorkDiaryService{
 //            request -> WorkDiaryEntry / novi entry
             WorkDairyEntry newEntry = modelMapper.map(request, WorkDairyEntry.class);
             newEntry.setId(workDairyEntryPK);
-            newEntry.setWorkDairy(workDiaryRepository.findByWorkDairyId(workDiaryId)
-                    .orElseThrow(()-> new NotFoundException("Nije pronadjen dnevnik: " + workDiaryId)));
+            //newEntry.setWorkDairy(workDiaryRepository.findById(workDiaryId)
+             //       .orElseThrow(()-> new NotFoundException("Nije pronadjen dnevnik: " + workDiaryId)));
 
 //            dohvatimo stari entry
             WorkDairyEntry oldEntry = workDiaryEntryRepository

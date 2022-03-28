@@ -44,7 +44,7 @@ public class WorkDairy {
     private StudentHasInternship studentOnInternship;
 
     @OneToMany(mappedBy = "workDairy",
-            fetch = FetchType.LAZY)
+            fetch = FetchType.EAGER)
     private List<WorkDairyEntry> workDairyEntries;
 
 }

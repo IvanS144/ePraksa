@@ -156,4 +156,9 @@ public class Internship {
     @Column(name="IsActive")
     private Boolean isActive;
 
+    @OneToMany(mappedBy="internship")
+    private List<Application> applications;
+
+    @OneToMany(mappedBy="internship")
+    private List<StudentHasInternship> studentsOnInternship;
 }

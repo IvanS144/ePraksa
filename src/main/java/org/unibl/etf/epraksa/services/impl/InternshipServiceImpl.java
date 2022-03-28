@@ -4,15 +4,9 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.unibl.etf.epraksa.exceptions.BadRequestException;
 import org.unibl.etf.epraksa.exceptions.NotFoundException;
-import org.unibl.etf.epraksa.model.dataTransferObjects.InternshipDTO;
-import org.unibl.etf.epraksa.model.dataTransferObjects.ReportByMentorDTO;
-import org.unibl.etf.epraksa.model.entities.Internship;
-import org.unibl.etf.epraksa.model.entities.InternshipType;
-import org.unibl.etf.epraksa.model.entities.ReportByMentor;
+import org.unibl.etf.epraksa.model.entities.*;
 import org.unibl.etf.epraksa.model.requests.InternshipRequest;
-import org.unibl.etf.epraksa.repositories.InternshipRepository;
-import org.unibl.etf.epraksa.repositories.ReportByMentorRepository;
-import org.unibl.etf.epraksa.repositories.StudentHasInternshipRepository;
+import org.unibl.etf.epraksa.repositories.*;
 import org.unibl.etf.epraksa.services.InternshipService;
 
 import javax.persistence.EntityManager;
@@ -31,13 +25,16 @@ public class InternshipServiceImpl implements InternshipService {
 
     @PersistenceContext
     private EntityManager entityManager;
+    private final WorkDiaryRepository workDiaryRepository;
 
     public InternshipServiceImpl(InternshipRepository internshipRepository, StudentHasInternshipRepository studentHasInternshipRepository,
-                                 ModelMapper modelMapper, ReportByMentorRepository reportByMentorRepository) {
+                                 ModelMapper modelMapper, ReportByMentorRepository reportByMentorRepository,EntityManager entityManager, WorkDiaryRepository workDiaryRepository) {
         this.internshipRepository = internshipRepository;
         this.studentHasInternshipRepository = studentHasInternshipRepository;
         this.modelMapper = modelMapper;
         this.reportByMentorRepository = reportByMentorRepository;
+        this.entityManager = entityManager;
+        this.workDiaryRepository = workDiaryRepository;
     }
 
     @Override
@@ -55,9 +52,9 @@ public class InternshipServiceImpl implements InternshipService {
     }
 
     @Override
-    public <T> List<T> filter(String type, Boolean isPublished, Long mentorId, Class<T> replyClass) {
+    public <T> List<T> filter(String type, Boolean isPublished, Long mentorId, Boolean isAccepted, Long companyId, Class<T> replyClass) {
 
-        if(isPublished==null)
+        if(isPublished==null && isAccepted==null)
             isPublished=true;
 
         InternshipType it = null;
@@ -65,7 +62,7 @@ public class InternshipServiceImpl implements InternshipService {
         if (type != null)
             it = InternshipType.valueOf(type);
 
-        return internshipRepository.filter(it, isPublished, mentorId)
+        return internshipRepository.filter(it, isPublished, mentorId, isAccepted, companyId)
                 .stream()
                 .map(e -> modelMapper.map(e, replyClass))
                 .collect(Collectors.toList());
@@ -117,6 +114,18 @@ public class InternshipServiceImpl implements InternshipService {
             internship.setIsPublished(false);
             internship=internshipRepository.saveAndFlush(internship);
             entityManager.refresh(internship);
+            for(var a : internship.getApplications()){
+                WorkDairy workDairy = new WorkDairy();
+                workDairy=workDiaryRepository.saveAndFlush(workDairy);
+                entityManager.refresh(workDairy);
+                StudentHasInternshipPK pks = new StudentHasInternshipPK(a.getId().getStudentId(), internshipId);
+                StudentHasInternship shi = new StudentHasInternship();
+                shi.setId(pks);
+                shi.setInternship(internship);
+                shi.setStudent(a.getStudent());
+                shi.setWorkDairy(workDairy);
+                studentHasInternshipRepository.saveAndFlush(shi);
+            }
             return modelMapper.map(internship, replyClass);
         }
     }

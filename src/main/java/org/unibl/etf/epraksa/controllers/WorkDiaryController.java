@@ -1,13 +1,14 @@
 package org.unibl.etf.epraksa.controllers;
 
 import org.springframework.web.bind.annotation.*;
+import org.unibl.etf.epraksa.model.dataTransferObjects.EntryDTO;
 import org.unibl.etf.epraksa.model.dataTransferObjects.WorkDiaryRecordDTO;
 import org.unibl.etf.epraksa.model.replies.WorkDairyReply;
 import org.unibl.etf.epraksa.model.requests.WorkDiaryEntryRequest;
 import org.unibl.etf.epraksa.services.WorkDiaryService;
 
 @RestController
-@RequestMapping("/workdiary")
+@RequestMapping("/workdiaries")
 public class WorkDiaryController {
     private final WorkDiaryService workDiaryService;
 
@@ -21,15 +22,15 @@ public class WorkDiaryController {
     }
 
 //    @PostMapping("/{workdiaryId}/record")
-    @PostMapping("/{workdiaryId}/zapisi")
-    public WorkDiaryRecordDTO addWorkDiaryEntry(@PathVariable(name = "workdiaryId") Long id,
-                                                @RequestBody WorkDiaryEntryRequest request){
+    @PostMapping("/entries")
+    public EntryDTO addWorkDiaryEntry(
+                                      @RequestBody WorkDiaryEntryRequest request){
 //      nisam stavio @Validate zato sto ce se neki parametri u reqest-u naknadno popunjavati
 //      osim ako se ne promijeni nacin slanja request-a
-        return workDiaryService.insert(request, id, WorkDiaryRecordDTO.class);
+        return workDiaryService.insert(request, EntryDTO.class);
     }
 
-    @PutMapping("/{workdiaryId}/zapisi/{entryId}")
+    @PutMapping("/{workdiaryId}/entries/{entryId}")
     public void updateWorkDiaryEntry(@PathVariable(name = "workdiaryId") Long id,
                                      @PathVariable(name = "entryId") Long entryId,
                                      @RequestBody WorkDiaryEntryRequest request){

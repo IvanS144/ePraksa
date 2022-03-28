@@ -13,18 +13,19 @@ import java.time.LocalTime;
 @Data
 public class WorkDiaryEntryRequest {
 
-    @PastOrPresent
-    private LocalDate date;
+    //@PastOrPresent
+    //private LocalDate date;
+    private Long workDairyId;
 
     @Min(1)
     private Integer day;
 
-    @JsonFormat(pattern = "HH:mm:ss[.SSS][.SS][.S]", shape = JsonFormat.Shape.STRING)
-    @DateTimeFormat(pattern = "hh:mm:ss")
+    @JsonFormat(pattern = "HH:mm", shape = JsonFormat.Shape.STRING)
+    @DateTimeFormat(pattern = "hh:mm")
     private LocalTime fromTime;
 
-    @JsonFormat(pattern = "HH:mm:ss[.SSS][.SS][.S]", shape = JsonFormat.Shape.STRING)
-    @DateTimeFormat(pattern = "hh:mm:ss")
+    @JsonFormat(pattern = "HH:mm", shape = JsonFormat.Shape.STRING)
+    @DateTimeFormat(pattern = "hh:mm")
     private LocalTime toTime;
 
     @NotBlank
