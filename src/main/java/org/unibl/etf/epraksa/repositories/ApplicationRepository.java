@@ -12,6 +12,7 @@ public interface ApplicationRepository extends JpaRepository<Application, Applic
 
     @Query("SELECT a FROM Application a WHERE" +
             "(a.internship.internshipId = :internshipId) AND" +
+            "(:status IS NULL OR a.state=:status) AND" +
             "(a.internship.deletedDate IS NULL)")
-    List<Application> filter (Long internshipId);
+    List<Application> filter (Long internshipId, String status);
 }

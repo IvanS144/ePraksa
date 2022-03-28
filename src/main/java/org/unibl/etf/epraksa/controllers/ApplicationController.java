@@ -22,8 +22,9 @@ public class ApplicationController {
     }
 
     @GetMapping("/{internshipId}")
-    public List<ApplicationDTO> getApplications(@PathVariable(name = "internshipId") Long internshipId) {
-        return applicationService.getApplications(internshipId, ApplicationDTO.class);
+    public List<ApplicationDTO> getApplications(@PathVariable(name = "internshipId") Long internshipId,
+                                                @RequestParam (required = false) String status) {
+        return applicationService.getApplications(internshipId, status, ApplicationDTO.class);
     }
 
     @GetMapping("/{internshipId}/{studentId}")

@@ -38,8 +38,8 @@ public class ApplicationServiceImpl implements ApplicationService {
     }
 
     @Override
-    public <T> List<T> getApplications(Long internshipId, Class<T> replyClass) {
-        return applicationRepository.filter(internshipId)
+    public <T> List<T> getApplications(Long internshipId, String status, Class<T> replyClass) {
+        return applicationRepository.filter(internshipId,status)
                 .stream()
                 .map(application -> modelMapper.map(application,replyClass))
                 .collect(Collectors.toList());
