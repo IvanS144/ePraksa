@@ -5,7 +5,8 @@ import org.modelmapper.Converter;
 import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
-import org.unibl.etf.epraksa.model.dataTransferObjects.ApplicationDTO;
+import org.unibl.etf.epraksa.model.dataTransferObjects.InternshipApplicationDTO;
+import org.unibl.etf.epraksa.model.dataTransferObjects.StudentApplicationDTO;
 import org.unibl.etf.epraksa.model.entities.Application;
 import org.unibl.etf.epraksa.model.entities.Internship;
 import org.unibl.etf.epraksa.model.entities.Student;
@@ -53,12 +54,24 @@ public class ModelMapperConfig {
                 .addMappings(map -> map.using(longToInternshipConverter).map(ApplicationRequest::getInternshipId, Application::setInternship))
                 .addMappings(map -> map.using(longToStudentConverter).map(ApplicationRequest::getStudentId, Application::setStudent));
 
-        mapper.createTypeMap(Application.class, ApplicationDTO.class)
+        mapper.createTypeMap(Application.class, StudentApplicationDTO.class)
                 .setPostConverter(ctx -> {
                     Application source = ctx.getSource();
-                    ApplicationDTO dest = ctx.getDestination();
+                    StudentApplicationDTO dest = ctx.getDestination();
+                    dest.setCompanyName(source.getInternship().getCompany().getName());
+                    dest.setInternshipName(source.getInternship().getTitle());
+                    dest.setStudentId(source.getId().getStudentId());
+                    dest.setState(dest.getState());
+                    return dest;
+                });
+
+        mapper.createTypeMap(Application.class, InternshipApplicationDTO.class)
+                .setPostConverter(ctx -> {
+                    Application source = ctx.getSource();
+                    InternshipApplicationDTO dest = ctx.getDestination();
                     dest.setInternshipId(source.getId().getInternshipId());
-                    //dest.setStudentId(source.getId().getStudentId());
+                    dest.setStudentFirstName(source.getStudent().getFirstName());
+                    dest.setStudentLastName(source.getStudent().getLastName());
                     dest.setState(dest.getState());
                     return dest;
                 });

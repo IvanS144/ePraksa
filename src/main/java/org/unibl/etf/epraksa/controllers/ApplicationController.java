@@ -1,7 +1,8 @@
 package org.unibl.etf.epraksa.controllers;
 
 import org.springframework.web.bind.annotation.*;
-import org.unibl.etf.epraksa.model.dataTransferObjects.ApplicationDTO;
+import org.unibl.etf.epraksa.model.dataTransferObjects.InternshipApplicationDTO;
+import org.unibl.etf.epraksa.model.dataTransferObjects.StudentApplicationDTO;
 import org.unibl.etf.epraksa.model.entities.Comment;
 import org.unibl.etf.epraksa.model.entities.State;
 import org.unibl.etf.epraksa.model.requests.ApplicationRequest;
@@ -21,21 +22,21 @@ public class ApplicationController {
     }
 
     @GetMapping("/{internshipId}")
-    public List<ApplicationDTO> getApplicationsForInternship(@PathVariable(name = "internshipId") Long internshipId,
-                                                             @RequestParam (required = false) State state) {
-        return applicationService.getApplicationsForInternship(internshipId, state, ApplicationDTO.class);
+    public List<InternshipApplicationDTO> getApplicationsForInternship(@PathVariable(name = "internshipId") Long internshipId,
+                                                                       @RequestParam (required = false) State state) {
+        return applicationService.getApplicationsForInternship(internshipId, state, InternshipApplicationDTO.class);
     }
 
     @GetMapping("/{internshipId}/{studentId}")
-    public ApplicationDTO getApplication(@PathVariable(name = "internshipId") Long internshipId,
-                                         @PathVariable(name = "studentId") Long studentId) {
-        return applicationService.getApplication(internshipId, studentId, ApplicationDTO.class);
+    public StudentApplicationDTO getApplication(@PathVariable(name = "internshipId") Long internshipId,
+                                                @PathVariable(name = "studentId") Long studentId) {
+        return applicationService.getApplication(internshipId, studentId, StudentApplicationDTO.class);
     }
 
     @GetMapping("/student/{studentId}")
-    public List<ApplicationDTO> getApplicationsForStudent(@PathVariable(name="studentId") Long studentId,
-                                                          @RequestParam (required = false) State state) {
-        return applicationService.getApplicationsForStudent(studentId, state, ApplicationDTO.class);
+    public List<StudentApplicationDTO> getApplicationsForStudent(@PathVariable(name="studentId") Long studentId,
+                                                                 @RequestParam (required = false) State state) {
+        return applicationService.getApplicationsForStudent(studentId, state, StudentApplicationDTO.class);
     }
 
     @PostMapping
