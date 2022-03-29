@@ -48,4 +48,11 @@ public class ApplicationController {
     public void setState(@PathVariable Long internshipId, @PathVariable Long studentId, @PathVariable State state, @RequestBody(required = false) Comment comment) {
         applicationService.setState(internshipId, studentId, state, comment);
     }
+
+    @DeleteMapping("/{internshipId}/{studentId}")
+
+    public void delete(@PathVariable Long internshipId, @PathVariable Long studentId )
+    {
+        applicationService.delete(internshipId, studentId);
+    }
 }

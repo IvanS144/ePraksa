@@ -11,6 +11,7 @@ import org.unibl.etf.epraksa.services.ApplicationService;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -90,6 +91,15 @@ public class ApplicationServiceImpl implements ApplicationService {
         {
             application.setReport(comment.getComment());
         }
+        applicationRepository.saveAndFlush(application);
+    }
+
+    @Override
+    public void delete(Long internshipId, Long studentId)
+    {
+        ApplicationPK pk = new ApplicationPK(internshipId, studentId);
+        Application application = applicationRepository.findById(pk).orElseThrow(()-> new NotFoundException("Pokušavate da obrišete nepostojeću praksu"));
+        application.setDeletedDate(LocalDate.now());
         applicationRepository.saveAndFlush(application);
     }
 }

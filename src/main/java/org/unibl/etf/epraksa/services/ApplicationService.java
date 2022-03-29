@@ -12,4 +12,5 @@ public interface ApplicationService {
     <T> T getApplication(Long internshipId, Long studentId, Class<T> replyClass);
     void insert(ApplicationRequest request);
     void setState(Long internshipId, Long studentId, State state, Comment comment);
+    void delete(Long internshipId, Long studentId);
 }
