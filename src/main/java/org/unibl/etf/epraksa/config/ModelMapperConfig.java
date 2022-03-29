@@ -62,6 +62,8 @@ public class ModelMapperConfig {
                     dest.setInternshipName(source.getInternship().getTitle());
                     dest.setStudentId(source.getId().getStudentId());
                     dest.setState(dest.getState());
+                    dest.setMotivationalLetter(source.getMotivationalLetter());
+                    dest.setInternshipType(source.getInternship().getInternshipType());
                     return dest;
                 });
 
@@ -73,6 +75,8 @@ public class ModelMapperConfig {
                     dest.setStudentFirstName(source.getStudent().getFirstName());
                     dest.setStudentLastName(source.getStudent().getLastName());
                     dest.setState(dest.getState());
+                    dest.setMotivationalLetter(source.getMotivationalLetter());
+                    dest.setInternshipType(source.getInternship().getInternshipType());
                     return dest;
                 });
 
