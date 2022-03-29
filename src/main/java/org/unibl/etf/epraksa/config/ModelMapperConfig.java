@@ -58,7 +58,7 @@ public class ModelMapperConfig {
                     Application source = ctx.getSource();
                     ApplicationDTO dest = ctx.getDestination();
                     dest.setInternshipId(source.getId().getInternshipId());
-                    dest.setStudentId(source.getId().getStudentId());
+                    //dest.setStudentId(source.getId().getStudentId());
                     dest.setState(dest.getState());
                     return dest;
                 });
