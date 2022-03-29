@@ -60,6 +60,7 @@ public class ModelMapperConfig {
                     StudentApplicationDTO dest = ctx.getDestination();
                     dest.setCompanyName(source.getInternship().getCompany().getName());
                     dest.setInternshipName(source.getInternship().getTitle());
+                    dest.setInternshipId(source.getId().getInternshipId());
                     dest.setStudentId(source.getId().getStudentId());
                     dest.setState(dest.getState());
                     dest.setMotivationalLetter(source.getMotivationalLetter());
@@ -71,6 +72,7 @@ public class ModelMapperConfig {
                 .setPostConverter(ctx -> {
                     Application source = ctx.getSource();
                     InternshipApplicationDTO dest = ctx.getDestination();
+                    dest.setStudentId(source.getId().getStudentId());
                     dest.setInternshipId(source.getId().getInternshipId());
                     dest.setStudentFirstName(source.getStudent().getFirstName());
                     dest.setStudentLastName(source.getStudent().getLastName());

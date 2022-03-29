@@ -32,7 +32,7 @@ public class EPraksaApplication {
     }
 
     private ApiInfo getApiInfo() {
-        return new ApiInfo("Asset Management", "Description of our application", "1.0.0", "", null, "", "", new ArrayList<>());
+        return new ApiInfo("ePraksa", "Description of our application", "1.0.0", "", null, "", "", new ArrayList<>());
     }
 
 }

@@ -7,6 +7,7 @@ import org.unibl.etf.epraksa.model.entities.State;
 public class InternshipApplicationDTO
 {
     private Long internshipId;
+    private Long studentId;
     private String studentFirstName;
     private String studentLastName;
     private State state;
