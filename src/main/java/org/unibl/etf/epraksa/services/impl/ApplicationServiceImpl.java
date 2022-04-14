@@ -2,6 +2,7 @@ package org.unibl.etf.epraksa.services.impl;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
+import org.unibl.etf.epraksa.exceptions.ForbiddenException;
 import org.unibl.etf.epraksa.exceptions.NotFoundException;
 import org.unibl.etf.epraksa.model.entities.*;
 import org.unibl.etf.epraksa.model.requests.ApplicationRequest;
@@ -64,6 +65,8 @@ public class ApplicationServiceImpl implements ApplicationService {
     @Override
     public void insert(ApplicationRequest request) {
         Application application = modelMapper.map(request, Application.class);
+        if(applicationRepository.existsById(application.getId()))
+            throw new ForbiddenException("Već ste prijavljeni na ovu praksu");
         application.setState(State.PENDING);
         applicationRepository.saveAndFlush(application);
 
