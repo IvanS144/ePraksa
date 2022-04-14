@@ -60,6 +60,12 @@ public class InternshipController {
         return internshipService.insert(request, InternshipDTO.class);
     }
 
+    @PutMapping("/{internshipId}")
+    public InternshipDTO update(@PathVariable Long internshipId, @RequestBody @Valid InternshipRequest request)
+    {
+        return internshipService.update(internshipId, request, InternshipDTO.class);
+    }
+
     @GetMapping("/{internshipId}/{studentId}/report")
     public ReportByMentorDTO getReportFromMentor(@PathVariable(name = "internshipId") Long internshipId,
                                                  @PathVariable(name = "studentId") Long studentId){

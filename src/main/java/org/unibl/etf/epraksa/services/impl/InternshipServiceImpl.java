@@ -3,6 +3,7 @@ package org.unibl.etf.epraksa.services.impl;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.unibl.etf.epraksa.exceptions.BadRequestException;
+import org.unibl.etf.epraksa.exceptions.ForbiddenException;
 import org.unibl.etf.epraksa.exceptions.NotFoundException;
 import org.unibl.etf.epraksa.model.entities.*;
 import org.unibl.etf.epraksa.model.requests.InternshipRequest;
@@ -88,6 +89,32 @@ public class InternshipServiceImpl implements InternshipService {
         entityManager.refresh(internship);
         return modelMapper.map(internship, replyClass);
 
+    }
+
+    @Override
+    public <T> T update(Long internshipId, InternshipRequest request, Class<T> replyClass) {
+        if(!internshipRepository.existsById(internshipId))
+            throw new NotFoundException("Data praksa ne postoji");
+        Internship existing = internshipRepository.getById(internshipId);
+        if(existing.getInternshipType().equals(InternshipType.STRUCNA) && existing.getIsAccepted())
+            throw new ForbiddenException("Ne smijete mjenjati prihvacenu praksu");
+        Internship internship = modelMapper.map(request, Internship.class);
+        internship.setInternshipId(internshipId);
+        if (internship.getSubmissionDue().isAfter(internship.getStartDate()) || internship.getEndDate().isBefore(internship.getStartDate()) || internship.getStartDate().isEqual(internship.getEndDate()))
+            throw new BadRequestException("Datumi nisu validni");
+        if(InternshipType.STRUCNA.equals(internship.getInternshipType()))
+        {
+            internship.setIsPublished(false);
+        }
+        else
+        {
+            internship.setIsPublished(true);internship.setIsAccepted(true);
+        }
+        internship.setIsActive(false);
+        internship.setIsFinished(false);
+        internship = internshipRepository.saveAndFlush(internship);
+        entityManager.refresh(internship);
+        return modelMapper.map(internship, replyClass);
     }
 
     @Override
