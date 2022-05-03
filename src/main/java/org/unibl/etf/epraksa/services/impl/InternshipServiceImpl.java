@@ -112,6 +112,8 @@ public class InternshipServiceImpl implements InternshipService {
         }
         internship.setIsActive(false);
         internship.setIsFinished(false);
+        internship.setCreatedAt(existing.getCreatedAt());
+        internship.setLastModifiedDate(existing.getLastModifiedDate());
         internship = internshipRepository.saveAndFlush(internship);
         entityManager.refresh(internship);
         return modelMapper.map(internship, replyClass);
