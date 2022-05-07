@@ -38,11 +38,18 @@ public class WorkDiaryServiceImpl implements WorkDiaryService{
         this.workDiaryEntryRepository = workDiaryEntryRepository;
         this.workDiaryEntryPreviousRepository = workDiaryEntryPreviousRepository;
     }
-//komentarrrrrrrrr
+
     @Override
-    public <T> T getWorkDiaryEntry(Long workDiaryId, Class<T> workDiaryClass) {
+    public <T> T getWorkDiary(Long workDiaryId, Class<T> workDiaryClass) {
         WorkDairy workDairy = workDiaryRepository.findById(workDiaryId)
                 .orElseThrow(() -> new NotFoundException("Nije pronadjen dnevnik: " + workDiaryId));
+        return modelMapper.map(workDairy, workDiaryClass);
+    }
+
+    @Override
+    public <T> T getWorkDiary(Long studentId, Long internshipId, Class<T> workDiaryClass) {
+        WorkDairy workDairy = workDiaryRepository.getWorkDairy(studentId, internshipId)
+                .orElseThrow(() -> new NotFoundException("Nije pronadjen dnevnik!"));
         return modelMapper.map(workDairy, workDiaryClass);
     }
 

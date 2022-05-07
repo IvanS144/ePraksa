@@ -2,7 +2,6 @@ package org.unibl.etf.epraksa.controllers;
 
 import org.springframework.web.bind.annotation.*;
 import org.unibl.etf.epraksa.model.dataTransferObjects.EntryDTO;
-import org.unibl.etf.epraksa.model.dataTransferObjects.WorkDiaryRecordDTO;
 import org.unibl.etf.epraksa.model.replies.WorkDairyReply;
 import org.unibl.etf.epraksa.model.requests.WorkDiaryEntryRequest;
 import org.unibl.etf.epraksa.services.WorkDiaryService;
@@ -17,16 +16,20 @@ public class WorkDiaryController {
     }
 
     @GetMapping("/{workdiaryId}")
-    public WorkDairyReply getWorkDiaryEntry(@PathVariable(name = "workdiaryId") Long workDiaryId){
-        return workDiaryService.getWorkDiaryEntry(workDiaryId, WorkDairyReply.class);
+    public WorkDairyReply getWorkDiary(@PathVariable(name = "workdiaryId") Long workDiaryId){
+        return workDiaryService.getWorkDiary(workDiaryId, WorkDairyReply.class);
     }
 
-//    @PostMapping("/{workdiaryId}/record")
+    @GetMapping("/{studentId}/{internshipId}")
+    public WorkDairyReply getWorkDiary(@PathVariable Long studentId, @PathVariable Long internshipId){
+        return workDiaryService.getWorkDiary(studentId, internshipId, WorkDairyReply.class);
+    }
+
+
     @PostMapping("/entries")
     public EntryDTO addWorkDiaryEntry(
                                       @RequestBody WorkDiaryEntryRequest request){
-//      nisam stavio @Validate zato sto ce se neki parametri u reqest-u naknadno popunjavati
-//      osim ako se ne promijeni nacin slanja request-a
+
         return workDiaryService.insert(request, EntryDTO.class);
     }
 
@@ -34,8 +37,7 @@ public class WorkDiaryController {
     public void updateWorkDiaryEntry(@PathVariable(name = "workdiaryId") Long id,
                                      @PathVariable(name = "entryId") Long entryId,
                                      @RequestBody WorkDiaryEntryRequest request){
-//      nisam stavio @Validate zato sto ce se neki parametri u reqest-u naknadno popunjavati
-//      osim ako se ne promijeni nacin slanja request-a
+
         workDiaryService.update(request, id, entryId);
     }
 }
