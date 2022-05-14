@@ -20,10 +20,10 @@ public class InternshipController {
     }
 
 
-    @PutMapping("/{internshipId}/acceptance/{isAccepted}")
-    public void setAcceptanceStatus(@PathVariable Long internshipId, @PathVariable Boolean isAccepted)
+    @PutMapping("/{internshipId}/accept")
+    public void setAcceptanceStatus(@PathVariable Long internshipId)
     {
-        internshipService.setAcceptanceStatus(internshipId, isAccepted);
+        internshipService.setAcceptanceStatus(internshipId);
     }
 
     @GetMapping("/{internshipId}/students")
@@ -47,10 +47,10 @@ public class InternshipController {
         return internshipService.getInternship(internshipId, InternshipDTO.class);
     }
 
-    @PutMapping("/{internshipId}/{isFinished}")
-    public InternshipDTO setFinishedStatus(@PathVariable Long internshipId, @PathVariable Boolean isFinished)
+    @PutMapping("/{internshipId}/finish")
+    public InternshipDTO setFinishedStatus(@PathVariable Long internshipId)
     {
-        return internshipService.setFinishedStatus(internshipId, isFinished, InternshipDTO.class);
+        return internshipService.setFinishedStatus(internshipId, InternshipDTO.class);
 
     }
 

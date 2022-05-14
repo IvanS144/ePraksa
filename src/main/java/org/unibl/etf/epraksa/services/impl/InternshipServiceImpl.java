@@ -39,13 +39,12 @@ public class InternshipServiceImpl implements InternshipService {
     }
 
     @Override
-    public void setAcceptanceStatus(Long internshipId, Boolean isAccepted) {
+    public void setAcceptanceStatus(Long internshipId) {
         if (!internshipRepository.existsById(internshipId)) {
             throw new NotFoundException("Ta praksa ne postoji");
         } else {
             Internship internship = internshipRepository.getById(internshipId);
-            internship.setIsAccepted(isAccepted);
-            internship.setIsPublished(true);
+            internship.setStatus(InternshipStatus.PUBLISHED);
 
             internshipRepository.saveAndFlush(internship);
         }
@@ -77,14 +76,12 @@ public class InternshipServiceImpl implements InternshipService {
         internship.setInternshipId(null);
         if(InternshipType.STRUCNA.equals(internship.getInternshipType()))
         {
-            internship.setIsPublished(false);
+            internship.setStatus(InternshipStatus.PENDING);
         }
         else
         {
-            internship.setIsPublished(true);internship.setIsAccepted(true);
+            internship.setStatus(InternshipStatus.PUBLISHED);
         }
-        internship.setIsActive(false);
-        internship.setIsFinished(false);
         internship = internshipRepository.saveAndFlush(internship);
         entityManager.refresh(internship);
         return modelMapper.map(internship, replyClass);
@@ -96,7 +93,7 @@ public class InternshipServiceImpl implements InternshipService {
         if(!internshipRepository.existsById(internshipId))
             throw new NotFoundException("Data praksa ne postoji");
         Internship existing = internshipRepository.getById(internshipId);
-        if(existing.getInternshipType().equals(InternshipType.STRUCNA) && existing.getIsAccepted())
+        if(existing.getInternshipType().equals(InternshipType.STRUCNA) && !existing.getStatus().equals(InternshipStatus.DENIED) && !existing.getStatus().equals(InternshipStatus.PENDING))
             throw new ForbiddenException("Ne smijete mjenjati prihvacenu praksu");
         Internship internship = modelMapper.map(request, Internship.class);
         internship.setInternshipId(internshipId);
@@ -104,14 +101,12 @@ public class InternshipServiceImpl implements InternshipService {
             throw new BadRequestException("Datumi nisu validni");
         if(InternshipType.STRUCNA.equals(internship.getInternshipType()))
         {
-            internship.setIsPublished(false);
+            internship.setStatus(InternshipStatus.PENDING);
         }
         else
         {
-            internship.setIsPublished(true);internship.setIsAccepted(true);
+            internship.setStatus(InternshipStatus.PUBLISHED);
         }
-        internship.setIsActive(false);
-        internship.setIsFinished(false);
         internship.setCreatedAt(existing.getCreatedAt());
         internship.setLastModifiedDate(existing.getLastModifiedDate());
         internship = internshipRepository.saveAndFlush(internship);
@@ -120,13 +115,12 @@ public class InternshipServiceImpl implements InternshipService {
     }
 
     @Override
-    public <T> T setFinishedStatus(Long internshipId, Boolean isFinished, Class<T> replyClass) {
+    public <T> T setFinishedStatus(Long internshipId, Class<T> replyClass) {
         if (!internshipRepository.existsById(internshipId)) {
             throw new NotFoundException("Ta praksa ne postoji");
         } else {
             Internship internship = internshipRepository.getById(internshipId);
-            internship.setIsFinished(isFinished);
-            internship.setIsActive(isFinished? false : true);
+            internship.setStatus(InternshipStatus.FINISHED);
             internship=internshipRepository.saveAndFlush(internship);
             entityManager.refresh(internship);
             return modelMapper.map(internship, replyClass);
@@ -139,8 +133,7 @@ public class InternshipServiceImpl implements InternshipService {
             throw new NotFoundException("Ta praksa ne postoji");
         } else {
             Internship internship = internshipRepository.getById(internshipId);
-            internship.setIsActive(true);
-            internship.setIsPublished(false);
+            internship.setStatus(InternshipStatus.ACTIVE);
             internship=internshipRepository.saveAndFlush(internship);
             entityManager.refresh(internship);
             for(var a : internship.getApplications()){

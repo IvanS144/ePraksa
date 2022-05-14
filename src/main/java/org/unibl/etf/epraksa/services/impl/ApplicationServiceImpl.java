@@ -103,7 +103,7 @@ public class ApplicationServiceImpl implements ApplicationService {
         ApplicationPK pk = new ApplicationPK(internshipId, studentId);
         Application application = applicationRepository.findById(pk).orElseThrow(()-> new NotFoundException("Pokušavate da obrišete nepostojeću praksu"));
         Internship internship = internshipRepository.getById(internshipId);
-        if(internship.getIsActive()!=null && !internship.getIsActive()) {
+        if(!internship.getStatus().equals(InternshipStatus.ACTIVE)) {
             application.setDeletedDate(LocalDate.now());
             applicationRepository.saveAndFlush(application);
         }
