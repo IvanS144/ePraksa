@@ -109,25 +109,11 @@ public class Internship {
             nullable = false)
     private Company company;
 
-    @Basic
-    @Column(name = "IsPublished",
-            nullable = false)
-    private Boolean isPublished;
-
-    @Basic
-    @Column(name = "IsAccepted")
-    private Boolean isAccepted;
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "MentorID",
             referencedColumnName = "ID",
             nullable = false)
     private Mentor mentor;
-
-    @Basic
-    @Column(name = "IsFinished",
-            nullable = false)
-    private Boolean isFinished;
 
     @Type(type="json")
     @Column(name = "Courses",
@@ -148,13 +134,13 @@ public class Internship {
     @Column(name = "DeletedDate")
     private LocalDate deletedDate;
 
+    @Enumerated(EnumType.STRING)
+    @Column(name="Status")
+    private InternshipStatus status;
+
     @OneToMany(mappedBy = "internship",
             fetch = FetchType.LAZY)
     private List<StudentHasInternship> studentHasInternships;
-
-    @Basic
-    @Column(name="IsActive")
-    private Boolean isActive;
 
     @OneToMany(mappedBy="internship")
     private List<Application> applications;
