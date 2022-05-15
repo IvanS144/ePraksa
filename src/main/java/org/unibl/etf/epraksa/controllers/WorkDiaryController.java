@@ -27,8 +27,7 @@ public class WorkDiaryController {
 
 
     @PostMapping("/entries")
-    public EntryDTO addWorkDiaryEntry(
-                                      @RequestBody WorkDiaryEntryRequest request){
+    public EntryDTO addWorkDiaryEntry(@RequestBody WorkDiaryEntryRequest request){
 
         return workDiaryService.insert(request, EntryDTO.class);
     }
@@ -39,5 +38,18 @@ public class WorkDiaryController {
                                      @RequestBody WorkDiaryEntryRequest request){
 
         workDiaryService.update(request, id, entryId);
+    }
+
+    @PutMapping("/studentID/{studentId}/internshipID/{internshipId}")
+    public void updateWorkDiaryStateByStudentAndInternship(@PathVariable(name = "studentId") Long studentId,
+                                                           @PathVariable(name = "internshipId") Long internshipId,
+                                                           @RequestParam (name = "state") String state){
+        workDiaryService.updateStateByStudentAndInternship(studentId, internshipId, state);
+    }
+
+    @PutMapping("/workDiary/{workDiaryId}")
+    public void updateWorkDiaryStateByWorkDiary(@PathVariable(name = "workDiaryId") Long workDiaryId,
+                                                @RequestParam (name = "state") String state){
+        workDiaryService.updateStateByWorkDiary(workDiaryId, state);
     }
 }
