@@ -3,6 +3,7 @@ package org.unibl.etf.epraksa.controllers;
 import org.springframework.web.bind.annotation.*;
 import org.unibl.etf.epraksa.model.dataTransferObjects.InternshipDTO;
 import org.unibl.etf.epraksa.model.dataTransferObjects.ReportByMentorDTO;
+import org.unibl.etf.epraksa.model.entities.InternshipStatus;
 import org.unibl.etf.epraksa.model.entities.ReportByMentor;
 import org.unibl.etf.epraksa.model.dataTransferObjects.StudentDTO;
 import org.unibl.etf.epraksa.services.InternshipService;
@@ -35,11 +36,10 @@ public class InternshipController {
 
     @GetMapping
     public List<InternshipDTO> filter(@RequestParam (required = false) String type,
-                                      @RequestParam (required = false) Boolean isPublished,
                                       @RequestParam (required = false) Long mentorId,
-                                      @RequestParam(required = false)Boolean isAccepted,
-                                      @RequestParam (required = false)Long companyId) {
-        return internshipService.filter(type, isPublished, mentorId, isAccepted, companyId, InternshipDTO.class);
+                                      @RequestParam (required = false)Long companyId,
+                                      @RequestParam(required=false) InternshipStatus status) {
+        return internshipService.filter(type,mentorId,companyId, status, InternshipDTO.class);
     }
 
     @GetMapping("/{internshipId}")

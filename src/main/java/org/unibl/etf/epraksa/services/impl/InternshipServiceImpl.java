@@ -52,17 +52,15 @@ public class InternshipServiceImpl implements InternshipService {
     }
 
     @Override
-    public <T> List<T> filter(String type, Boolean isPublished, Long mentorId, Boolean isAccepted, Long companyId, Class<T> replyClass) {
-
-        if(isPublished==null && isAccepted==null)
-            isPublished=true;
-
+    public <T> List<T> filter(String type,Long mentorId,Long companyId, InternshipStatus status, Class<T> replyClass) {
         InternshipType it = null;
 
         if (type != null)
             it = InternshipType.valueOf(type);
+        if(status==null)
+            status=InternshipStatus.PUBLISHED;
 
-        return internshipRepository.filter(it, isPublished, mentorId, isAccepted, companyId)
+        return internshipRepository.filter(it,mentorId, companyId, status)
                 .stream()
                 .map(e -> modelMapper.map(e, replyClass))
                 .collect(Collectors.toList());
