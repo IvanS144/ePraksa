@@ -2,6 +2,7 @@ package org.unibl.etf.epraksa.controllers;
 
 import org.springframework.web.bind.annotation.*;
 import org.unibl.etf.epraksa.model.dataTransferObjects.EntryDTO;
+import org.unibl.etf.epraksa.model.entities.State;
 import org.unibl.etf.epraksa.model.replies.WorkDairyReply;
 import org.unibl.etf.epraksa.model.requests.WorkDiaryEntryRequest;
 import org.unibl.etf.epraksa.services.WorkDiaryService;
@@ -43,13 +44,13 @@ public class WorkDiaryController {
     @PutMapping("/studentID/{studentId}/internshipID/{internshipId}")
     public void updateWorkDiaryStateByStudentAndInternship(@PathVariable(name = "studentId") Long studentId,
                                                            @PathVariable(name = "internshipId") Long internshipId,
-                                                           @RequestParam (name = "state") String state){
+                                                           @RequestParam (name = "state") State state){
         workDiaryService.updateStateByStudentAndInternship(studentId, internshipId, state);
     }
 
     @PutMapping("/workDiary/{workDiaryId}")
     public void updateWorkDiaryStateByWorkDiary(@PathVariable(name = "workDiaryId") Long workDiaryId,
-                                                @RequestParam (name = "state") String state){
+                                                @RequestParam (name = "state") State state){
         workDiaryService.updateStateByWorkDiary(workDiaryId, state);
     }
 }

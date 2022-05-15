@@ -1,5 +1,6 @@
 package org.unibl.etf.epraksa.services;
 
+import org.unibl.etf.epraksa.model.entities.State;
 import org.unibl.etf.epraksa.model.requests.WorkDiaryEntryRequest;
 
 public interface WorkDiaryService {
@@ -9,7 +10,7 @@ public interface WorkDiaryService {
     <T> T insert(WorkDiaryEntryRequest request, Class<T> replyClass);
     public void update(WorkDiaryEntryRequest request, Long workDiaryid, Long entryId);
 
-    void updateStateByStudentAndInternship(Long studentId, Long internshipId, String state);
+    void updateStateByStudentAndInternship(Long studentId, Long internshipId, State state);
 
-    void updateStateByWorkDiary(Long workDiaryId, String state);
+    void updateStateByWorkDiary(Long workDiaryId, State state);
 }
