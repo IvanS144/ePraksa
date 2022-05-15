@@ -3,6 +3,7 @@ package org.unibl.etf.epraksa.controllers;
 import org.springframework.web.bind.annotation.*;
 import org.unibl.etf.epraksa.model.dataTransferObjects.InternshipDTO;
 import org.unibl.etf.epraksa.model.dataTransferObjects.ReportByMentorDTO;
+import org.unibl.etf.epraksa.model.entities.InternshipStatus;
 import org.unibl.etf.epraksa.model.entities.ReportByMentor;
 import org.unibl.etf.epraksa.model.dataTransferObjects.StudentDTO;
 import org.unibl.etf.epraksa.services.InternshipService;
@@ -20,10 +21,10 @@ public class InternshipController {
     }
 
 
-    @PutMapping("/{internshipId}/acceptance/{isAccepted}")
-    public void setAcceptanceStatus(@PathVariable Long internshipId, @PathVariable Boolean isAccepted)
+    @PutMapping("/{internshipId}/accept")
+    public void setAcceptanceStatus(@PathVariable Long internshipId)
     {
-        internshipService.setAcceptanceStatus(internshipId, isAccepted);
+        internshipService.setAcceptanceStatus(internshipId);
     }
 
     @GetMapping("/{internshipId}/students")
@@ -35,11 +36,10 @@ public class InternshipController {
 
     @GetMapping
     public List<InternshipDTO> filter(@RequestParam (required = false) String type,
-                                      @RequestParam (required = false) Boolean isPublished,
                                       @RequestParam (required = false) Long mentorId,
-                                      @RequestParam(required = false)Boolean isAccepted,
-                                      @RequestParam (required = false)Long companyId) {
-        return internshipService.filter(type, isPublished, mentorId, isAccepted, companyId, InternshipDTO.class);
+                                      @RequestParam (required = false)Long companyId,
+                                      @RequestParam(required=false) InternshipStatus status) {
+        return internshipService.filter(type,mentorId,companyId, status, InternshipDTO.class);
     }
 
     @GetMapping("/{internshipId}")
@@ -47,10 +47,10 @@ public class InternshipController {
         return internshipService.getInternship(internshipId, InternshipDTO.class);
     }
 
-    @PutMapping("/{internshipId}/{isFinished}")
-    public InternshipDTO setFinishedStatus(@PathVariable Long internshipId, @PathVariable Boolean isFinished)
+    @PutMapping("/{internshipId}/finish")
+    public InternshipDTO setFinishedStatus(@PathVariable Long internshipId)
     {
-        return internshipService.setFinishedStatus(internshipId, isFinished, InternshipDTO.class);
+        return internshipService.setFinishedStatus(internshipId, InternshipDTO.class);
 
     }
 
