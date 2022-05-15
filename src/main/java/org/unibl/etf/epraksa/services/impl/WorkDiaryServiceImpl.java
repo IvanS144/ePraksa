@@ -113,4 +113,28 @@ public class WorkDiaryServiceImpl implements WorkDiaryService{
             throw new NotFoundException("Zapis: " + entryId + " za dati dnevnik rada: " + workDiaryId + " ne postoji!");
         }
     }
+
+    @Override
+    public void updateStateByStudentAndInternship(Long studentId, Long internshipId, String state) {
+        State workDiaryState = State.valueOf(state);
+
+        WorkDairy workDairy = workDiaryRepository.getWorkDairy(studentId, internshipId)
+                .orElseThrow(() -> new NotFoundException("Nije pronadjen dnevnik!"));
+
+        workDairy.setState(workDiaryState);
+
+        workDiaryRepository.saveAndFlush(workDairy);
+    }
+
+    @Override
+    public void updateStateByWorkDiary(Long workDiaryId, String state) {
+        State workDiaryState = State.valueOf(state);
+
+        WorkDairy workDairy = workDiaryRepository.findById(workDiaryId)
+                .orElseThrow(() -> new NotFoundException("Nije pronadjen dnevnik!"));
+
+        workDairy.setState(workDiaryState);
+
+        workDiaryRepository.saveAndFlush(workDairy);
+    }
 }
