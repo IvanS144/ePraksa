@@ -5,7 +5,9 @@ import org.springframework.stereotype.Service;
 import org.unibl.etf.epraksa.exceptions.BadRequestException;
 import org.unibl.etf.epraksa.exceptions.ForbiddenException;
 import org.unibl.etf.epraksa.exceptions.NotFoundException;
+import org.unibl.etf.epraksa.model.dataTransferObjects.ReportByMentorDTO;
 import org.unibl.etf.epraksa.model.entities.*;
+import org.unibl.etf.epraksa.model.entities.json.OpinionByMentorJSON;
 import org.unibl.etf.epraksa.model.requests.InternshipRequest;
 import org.unibl.etf.epraksa.repositories.*;
 import org.unibl.etf.epraksa.services.InternshipService;
@@ -13,6 +15,7 @@ import org.unibl.etf.epraksa.services.InternshipService;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -151,13 +154,40 @@ public class InternshipServiceImpl implements InternshipService {
     }
 
     @Override
+    public <T> T updateReportFromMentor(Long internshipId, Long studentId, ReportByMentorDTO request, Class<T> replyClass)
+    {
+        ReportByMentor reportByMentor = getReportByMentor(studentId, internshipId);
+        if(reportByMentor.getDeletedDate() != null)
+            throw new NotFoundException("Traženi izvještaj mentora je izbrisan!");
+
+        //TODO: implement modifying
+
+        reportByMentor = reportByMentorRepository.saveAndFlush(reportByMentor);
+        entityManager.refresh(reportByMentor);
+        return modelMapper.map(reportByMentor, replyClass);
+    }
+
+    @Override
+    public void deleteReportFromMentor(Long internshipId, Long studentId)
+    {
+        ReportByMentor reportByMentor = getReportByMentor(studentId, internshipId);
+        reportByMentor.setDeletedDate(LocalDate.now());
+        reportByMentorRepository.saveAndFlush(reportByMentor);
+        entityManager.refresh(reportByMentor);
+    }
+
+    @Override
     public <T> T getReport(Long studentId, Long internshipId, Class<T> replyClass) {
-        ReportByMentor reportByMentor = reportByMentorRepository
+        ReportByMentor reportByMentor = getReportByMentor(studentId, internshipId);
+        return modelMapper.map(reportByMentor, replyClass);
+    }
+
+    private ReportByMentor getReportByMentor(Long studentId, Long internshipId)
+    {
+        return reportByMentorRepository
                 .getReport(studentId, internshipId)
                 .orElseThrow(()-> new NotFoundException("Nije pronadjen izvjestaj za studenta: " + studentId
-                + "na praksi: "+internshipId));
-
-        return modelMapper.map(reportByMentor, replyClass);
+                + ", na praksi: "+ internshipId));
     }
 
     public <T> List<T> getAllStudentsOnInternship(Long internshipId, Class<T> replyClass) {

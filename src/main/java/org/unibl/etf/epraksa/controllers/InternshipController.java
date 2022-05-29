@@ -6,6 +6,7 @@ import org.unibl.etf.epraksa.model.dataTransferObjects.ReportByMentorDTO;
 import org.unibl.etf.epraksa.model.entities.InternshipStatus;
 import org.unibl.etf.epraksa.model.entities.ReportByMentor;
 import org.unibl.etf.epraksa.model.dataTransferObjects.StudentDTO;
+import org.unibl.etf.epraksa.model.entities.json.OpinionByMentorJSON;
 import org.unibl.etf.epraksa.services.InternshipService;
 import java.util.List;
 import org.unibl.etf.epraksa.model.requests.InternshipRequest;
@@ -71,6 +72,19 @@ public class InternshipController {
                                                  @PathVariable(name = "studentId") Long studentId){
 
         return internshipService.getReport(studentId, internshipId, ReportByMentorDTO.class);
+    }
+
+    @PutMapping("/{internshipId}/{studentId}/report")
+    ReportByMentorDTO updateReportFromMentor(@PathVariable(name = "internshipId") Long internshipId,
+                                             @PathVariable(name = "studentId") Long studentId,
+                                             @RequestBody @Valid ReportByMentorDTO request) {
+        return internshipService.updateReportFromMentor(internshipId, studentId, request, ReportByMentorDTO.class);
+    }
+
+    @DeleteMapping("/{internshipId}/{studentId}/report")
+    public void deleteReportFromMentor(@PathVariable(name = "internshipId") Long internshipId,
+                                       @PathVariable(name = "studentId") Long studentId) {
+        internshipService.deleteReportFromMentor(internshipId, studentId);
     }
 
     @PutMapping("/{internshipId}/activate")
