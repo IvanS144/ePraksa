@@ -8,6 +8,8 @@ import org.unibl.etf.epraksa.exceptions.NotFoundException;
 import org.unibl.etf.epraksa.model.dataTransferObjects.ReportByMentorDTO;
 import org.unibl.etf.epraksa.model.entities.*;
 import org.unibl.etf.epraksa.model.entities.json.OpinionByMentorJSON;
+import org.unibl.etf.epraksa.model.entities.json.StudentObligationsJSON;
+import org.unibl.etf.epraksa.model.entities.json.StudentQuestionnaireJSON;
 import org.unibl.etf.epraksa.model.requests.InternshipRequest;
 import org.unibl.etf.epraksa.repositories.*;
 import org.unibl.etf.epraksa.services.InternshipService;
@@ -16,7 +18,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 import java.time.LocalDate;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -32,11 +34,11 @@ public class InternshipServiceImpl implements InternshipService {
     private final WorkDiaryRepository workDiaryRepository;
 
     public InternshipServiceImpl(InternshipRepository internshipRepository, StudentHasInternshipRepository studentHasInternshipRepository,
-                                 ModelMapper modelMapper, ReportByMentorRepository reportByMentorRepository,EntityManager entityManager, WorkDiaryRepository workDiaryRepository) {
+                                 ModelMapper modelMapper, ReportByMentorRepository rMp1oViPb3EdvcJ5kxoqe52RuaiK6YiUYo,EntityManager entityManager, WorkDiaryRepository workDiaryRepository) {
         this.internshipRepository = internshipRepository;
         this.studentHasInternshipRepository = studentHasInternshipRepository;
         this.modelMapper = modelMapper;
-        this.reportByMentorRepository = reportByMentorRepository;
+        this.reportByMentorRepository = rMp1oViPb3EdvcJ5kxoqe52RuaiK6YiUYo;
         this.entityManager = entityManager;
         this.workDiaryRepository = workDiaryRepository;
     }
@@ -132,39 +134,80 @@ public class InternshipServiceImpl implements InternshipService {
     public <T> T setActive(Long internshipId, Class<T> replyClass) {
         if (!internshipRepository.existsById(internshipId)) {
             throw new NotFoundException("Ta praksa ne postoji");
-        } else {
-            Internship internship = internshipRepository.getById(internshipId);
-            internship.setStatus(InternshipStatus.ACTIVE);
-            internship=internshipRepository.saveAndFlush(internship);
-            entityManager.refresh(internship);
-            for(var a : internship.getApplications()){
-                WorkDairy workDairy = new WorkDairy();
-                workDairy=workDiaryRepository.saveAndFlush(workDairy);
-                entityManager.refresh(workDairy);
-                StudentHasInternshipPK pks = new StudentHasInternshipPK(a.getId().getStudentId(), internshipId);
-                StudentHasInternship shi = new StudentHasInternship();
-                shi.setId(pks);
-                shi.setInternship(internship);
-                shi.setStudent(a.getStudent());
-                shi.setWorkDairy(workDairy);
-                studentHasInternshipRepository.saveAndFlush(shi);
-            }
-            return modelMapper.map(internship, replyClass);
         }
+        Internship internship = internshipRepository.getById(internshipId);
+        internship.setStatus(InternshipStatus.ACTIVE);
+        internship = internshipRepository.saveAndFlush(internship);
+        entityManager.refresh(internship);
+        for (var a : internship.getApplications())
+        {
+            WorkDairy workDairy = new WorkDairy();
+            workDairy = workDiaryRepository.saveAndFlush(workDairy);
+            entityManager.refresh(workDairy);
+            ReportByMentor report = new ReportByMentor();
+            setReportInitialValues(internship, report);
+            report = reportByMentorRepository.saveAndFlush(report);
+            entityManager.refresh(report);
+            StudentHasInternshipPK pks = new StudentHasInternshipPK(a.getId().getStudentId(), internshipId);
+            StudentHasInternship shi = new StudentHasInternship();
+            shi.setId(pks);
+            shi.setInternship(internship);
+            shi.setStudent(a.getStudent());
+            shi.setWorkDairy(workDairy);
+            shi.setReport(report);
+            studentHasInternshipRepository.saveAndFlush(shi);
+        }
+        return modelMapper.map(internship, replyClass);
+    }
+
+    private void setReportInitialValues(Internship internship, ReportByMentor report)
+    {
+        //TODO: zavrsiti sva polja
+
+        report.setOpinionJSON(new OpinionByMentorJSON());
+        report.setQuestionnaireJSON(new StudentQuestionnaireJSON());
+        report.getOpinionJSON().setMentor(internship.getMentor().getFirstName()+" "+ internship.getMentor().getLastName());
+        report.getOpinionJSON().setNumberOfDays(0);
+        report.getOpinionJSON().setNumberOfHours(0);
+        report.getOpinionJSON().setPeriodOfInternshipFrom(internship.getStartDate());
+        report.getOpinionJSON().setPeriodOfInternshipUntil(internship.getEndDate());
+        report.getOpinionJSON().setObligations(new ArrayList<>());
+        report.getQuestionnaireJSON().setMentorsComment("");
+        report.getQuestionnaireJSON().setInput(new ArrayList<>());
+
+        // dodati listu pitanja u input
     }
 
     @Override
-    public <T> T updateReportFromMentor(Long internshipId, Long studentId, ReportByMentorDTO request, Class<T> replyClass)
-    {
-        ReportByMentor reportByMentor = getReportByMentor(studentId, internshipId);
-        if(reportByMentor.getDeletedDate() != null)
+    public <T> T updateReportFromMentor(Long internshipId, Long studentId, ReportByMentorDTO request, Class<T> replyClass) {
+        ReportByMentor oldReport = getReportByMentor(studentId, internshipId);
+        if (oldReport.getDeletedDate() != null) {
             throw new NotFoundException("Traženi izvještaj mentora je izbrisan!");
+        }
 
-        //TODO: implement modifying
+        ReportByMentor newReport = modelMapper.map(request, ReportByMentor.class);
 
-        reportByMentor = reportByMentorRepository.saveAndFlush(reportByMentor);
-        entityManager.refresh(reportByMentor);
-        return modelMapper.map(reportByMentor, replyClass);
+        updateReportFields(oldReport, newReport);
+
+        oldReport = reportByMentorRepository.saveAndFlush(oldReport);
+        entityManager.refresh(oldReport);
+        return modelMapper.map(oldReport, replyClass);
+    }
+
+    private void updateReportFields(ReportByMentor oldReport, ReportByMentor newReport)
+    {
+        //TODO: zavrsiti sva polja
+
+        oldReport.getOpinionJSON().setPeriodOfInternshipUntil(newReport.getOpinionJSON().getPeriodOfInternshipUntil());
+        oldReport.getOpinionJSON().setPeriodOfInternshipFrom(newReport.getOpinionJSON().getPeriodOfInternshipFrom());
+        oldReport.getOpinionJSON().setNumberOfHours(newReport.getOpinionJSON().getNumberOfHours());
+        oldReport.getOpinionJSON().setNumberOfDays(newReport.getOpinionJSON().getNumberOfDays());
+        oldReport.getOpinionJSON().setObligations(newReport.getOpinionJSON().getObligations());
+
+        oldReport.getQuestionnaireJSON().setMentorsComment(newReport.getQuestionnaireJSON().getMentorsComment());
+        for(int i=0; i< oldReport.getQuestionnaireJSON().getInput().size(); ++i) {
+            oldReport.getQuestionnaireJSON().getInput().get(i).setAnswer(newReport.getQuestionnaireJSON().getInput().get(i).getAnswer());
+        }
     }
 
     @Override
@@ -184,10 +227,8 @@ public class InternshipServiceImpl implements InternshipService {
 
     private ReportByMentor getReportByMentor(Long studentId, Long internshipId)
     {
-        return reportByMentorRepository
-                .getReport(studentId, internshipId)
-                .orElseThrow(()-> new NotFoundException("Nije pronadjen izvjestaj za studenta: " + studentId
-                + ", na praksi: "+ internshipId));
+        return reportByMentorRepository.getReport(studentId, internshipId)
+                .orElseThrow(()-> new NotFoundException("Nije pronadjen izvjestaj za studenta: " + studentId + ", na praksi: "+ internshipId));
     }
 
     public <T> List<T> getAllStudentsOnInternship(Long internshipId, Class<T> replyClass) {
