@@ -165,8 +165,6 @@ public class InternshipServiceImpl implements InternshipService {
 
     private void setReportInitialValues(Internship internship, ReportByMentor report)
     {
-        //TODO: zavrsiti sva polja
-
         report.setOpinionJSON(new OpinionByMentorJSON());
         report.setQuestionnaireJSON(new StudentQuestionnaireJSON());
         report.getOpinionJSON().setMentor(internship.getMentor().getFirstName()+" "+ internship.getMentor().getLastName());
@@ -178,14 +176,13 @@ public class InternshipServiceImpl implements InternshipService {
         report.getQuestionnaireJSON().setMentorsComment("");
         report.getQuestionnaireJSON().setInput(new ArrayList<>());
 
-        List<ReportByMentorQuestions> listaPitanja = reportByMentorQuestionsRepository.findAll();
-        for (int i = 0; i < listaPitanja.size(); i++)
-        {
+        List<ReportByMentorQuestions> questionList = reportByMentorQuestionsRepository.findAll();
+        questionList.forEach(reportByMentorQuestion -> {
             var oneEntry = new OneEntryForQuestionnaireJSON();
-            oneEntry.setId(listaPitanja.get(i).getId());
-            oneEntry.setQuestion(listaPitanja.get(i).getQuestion());
+            oneEntry.setId(reportByMentorQuestion.getId());
+            oneEntry.setQuestion(reportByMentorQuestion.getQuestion());
             report.getQuestionnaireJSON().getInput().add(oneEntry);
-        }
+        });
     }
 
     @Override
@@ -206,18 +203,19 @@ public class InternshipServiceImpl implements InternshipService {
 
     private void updateReportFields(ReportByMentor oldReport, ReportByMentor newReport)
     {
-        //TODO: zavrsiti sva polja
-
         oldReport.getOpinionJSON().setPeriodOfInternshipUntil(newReport.getOpinionJSON().getPeriodOfInternshipUntil());
         oldReport.getOpinionJSON().setPeriodOfInternshipFrom(newReport.getOpinionJSON().getPeriodOfInternshipFrom());
         oldReport.getOpinionJSON().setNumberOfHours(newReport.getOpinionJSON().getNumberOfHours());
         oldReport.getOpinionJSON().setNumberOfDays(newReport.getOpinionJSON().getNumberOfDays());
         oldReport.getOpinionJSON().setObligations(newReport.getOpinionJSON().getObligations());
-
         oldReport.getQuestionnaireJSON().setMentorsComment(newReport.getQuestionnaireJSON().getMentorsComment());
-        for(int i=0; i< oldReport.getQuestionnaireJSON().getInput().size(); ++i) {
-            oldReport.getQuestionnaireJSON().getInput().get(i).setAnswer(newReport.getQuestionnaireJSON().getInput().get(i).getAnswer());
-        }
+
+        oldReport.getQuestionnaireJSON().getInput().forEach( entry -> {
+            try
+            {
+                entry.setAnswer(newReport.getQuestionnaireJSON().getEntryById(entry.getId()).getAnswer());
+            } catch (NoSuchElementException ignored){ } //ignore if wrong ID is sent by frontend
+        });
     }
 
     @Override
