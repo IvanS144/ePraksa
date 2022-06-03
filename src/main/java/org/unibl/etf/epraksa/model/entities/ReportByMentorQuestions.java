@@ -13,7 +13,7 @@ public class ReportByMentorQuestions
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID",
             nullable = false)
-    private Long id;
+    private Integer id;
 
     @Basic
     @Column(name = "Question",

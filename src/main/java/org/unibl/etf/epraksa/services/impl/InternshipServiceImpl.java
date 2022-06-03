@@ -7,8 +7,9 @@ import org.unibl.etf.epraksa.exceptions.ForbiddenException;
 import org.unibl.etf.epraksa.exceptions.NotFoundException;
 import org.unibl.etf.epraksa.model.dataTransferObjects.ReportByMentorDTO;
 import org.unibl.etf.epraksa.model.entities.*;
+import org.unibl.etf.epraksa.model.entities.json.AnswerToTheQuestionnaireENUM;
+import org.unibl.etf.epraksa.model.entities.json.OneEntryForQuestionnaireJSON;
 import org.unibl.etf.epraksa.model.entities.json.OpinionByMentorJSON;
-import org.unibl.etf.epraksa.model.entities.json.StudentObligationsJSON;
 import org.unibl.etf.epraksa.model.entities.json.StudentQuestionnaireJSON;
 import org.unibl.etf.epraksa.model.requests.InternshipRequest;
 import org.unibl.etf.epraksa.repositories.*;
@@ -28,17 +29,19 @@ public class InternshipServiceImpl implements InternshipService {
     private final StudentHasInternshipRepository studentHasInternshipRepository;
     private final ModelMapper modelMapper;
     private final ReportByMentorRepository reportByMentorRepository;
+    private final ReportByMentorQuestionsRepository reportByMentorQuestionsRepository;
 
     @PersistenceContext
     private EntityManager entityManager;
     private final WorkDiaryRepository workDiaryRepository;
 
     public InternshipServiceImpl(InternshipRepository internshipRepository, StudentHasInternshipRepository studentHasInternshipRepository,
-                                 ModelMapper modelMapper, ReportByMentorRepository rMp1oViPb3EdvcJ5kxoqe52RuaiK6YiUYo,EntityManager entityManager, WorkDiaryRepository workDiaryRepository) {
+                                 ModelMapper modelMapper, ReportByMentorRepository reportByMentorRepository, ReportByMentorQuestionsRepository reportByMentorQuestionsRepository, EntityManager entityManager, WorkDiaryRepository workDiaryRepository) {
         this.internshipRepository = internshipRepository;
         this.studentHasInternshipRepository = studentHasInternshipRepository;
         this.modelMapper = modelMapper;
-        this.reportByMentorRepository = rMp1oViPb3EdvcJ5kxoqe52RuaiK6YiUYo;
+        this.reportByMentorRepository = reportByMentorRepository;
+        this.reportByMentorQuestionsRepository = reportByMentorQuestionsRepository;
         this.entityManager = entityManager;
         this.workDiaryRepository = workDiaryRepository;
     }
@@ -175,7 +178,14 @@ public class InternshipServiceImpl implements InternshipService {
         report.getQuestionnaireJSON().setMentorsComment("");
         report.getQuestionnaireJSON().setInput(new ArrayList<>());
 
-        // dodati listu pitanja u input
+        List<ReportByMentorQuestions> listaPitanja = reportByMentorQuestionsRepository.findAll();
+        for (int i = 0; i < listaPitanja.size(); i++)
+        {
+            var oneEntry = new OneEntryForQuestionnaireJSON();
+            oneEntry.setId(listaPitanja.get(i).getId());
+            oneEntry.setQuestion(listaPitanja.get(i).getQuestion());
+            report.getQuestionnaireJSON().getInput().add(oneEntry);
+        }
     }
 
     @Override
