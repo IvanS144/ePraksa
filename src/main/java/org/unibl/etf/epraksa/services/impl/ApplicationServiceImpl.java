@@ -70,6 +70,7 @@ public class ApplicationServiceImpl implements ApplicationService {
             throw new ForbiddenException("Već ste prijavljeni na ovu praksu");
         }
         application.setState(State.PENDING);
+        application.setCreatedAt(LocalDate.now());
         applicationRepository.saveAndFlush(application);
 
     }
