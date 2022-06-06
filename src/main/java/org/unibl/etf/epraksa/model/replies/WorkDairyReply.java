@@ -11,7 +11,7 @@ import java.util.List;
 
 @Data
 public class WorkDairyReply {
-    private Long workDairyId;
+    private Long workDiaryId;
     private State state;
     //private LocalDate createdAt;
    // private LocalDate lastModifiedDate;
