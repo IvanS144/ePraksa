@@ -79,6 +79,7 @@ public class WorkDiaryServiceImpl implements WorkDiaryService{
 
     @Override
     public void update(WorkDiaryEntryRequest request, Long workDiaryId, Long entryId) {
+        request.setWorkDiaryId(workDiaryId);//TODO bolje smisliti
         if(workDiaryEntryRepository.existsById_EntryIDAndId_WorkDairyID(entryId,workDiaryId)){
 
             WorkDairyEntryPK workDairyEntryPK = new WorkDairyEntryPK(workDiaryId, entryId);
