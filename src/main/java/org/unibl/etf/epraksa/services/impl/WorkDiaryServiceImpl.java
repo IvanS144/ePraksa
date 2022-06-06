@@ -100,6 +100,7 @@ public class WorkDiaryServiceImpl implements WorkDiaryService{
 //            kopiram kada je kreiran stari, pa ga stavljam na novi
 //            da se ne bi izgubio datum kada je prvi put kreiran entry
             newEntry.setCreatedAt(oldEntry.getCreatedAt());
+            newEntry.setDate(newEntry.getCreatedAt());
 
 //            stari entry -> previousEntry
             WorkDairyEntryPrevious workDairyEntryPrevious = new WorkDairyEntryPrevious(oldEntry);
