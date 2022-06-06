@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.unibl.etf.epraksa.model.entities.WorkDairy;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface WorkDiaryRepository extends JpaRepository<WorkDairy,Long> {
@@ -14,4 +15,7 @@ public interface WorkDiaryRepository extends JpaRepository<WorkDairy,Long> {
     //Optional<WorkDairy> findByIdAndIncludeInternship(@Param("workDairyId") Long workDairyId);
     @Query("SELECT shi.workDairy from StudentHasInternship shi WHERE shi.id.id = :studentId AND shi.id.internshipId = :internshipId")
     public Optional<WorkDairy> getWorkDairy(Long studentId, Long internshipId);
+
+    @Query("SELECT shi.workDairy from StudentHasInternship shi WHERE shi.id.id = :studentId")
+    public List<WorkDairy> getWorkDairiesForStudent(Long studentId);
 }

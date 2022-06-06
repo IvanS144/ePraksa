@@ -2,6 +2,7 @@ package org.unibl.etf.epraksa.services;
 
 import org.unibl.etf.epraksa.model.entities.State;
 import org.unibl.etf.epraksa.model.requests.WorkDiaryEntryRequest;
+import java.util.List;
 
 public interface WorkDiaryService {
     <T> T getWorkDiary(Long workDiaryId, Class<T> workDiaryClass);
@@ -13,4 +14,6 @@ public interface WorkDiaryService {
     void updateStateByStudentAndInternship(Long studentId, Long internshipId, State state);
 
     void updateStateByWorkDiary(Long workDiaryId, State state);
+
+    <T> List<T> getWorkDiariesByStudent(Long studentId, Class<T> replyClass);
 }

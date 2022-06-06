@@ -7,6 +7,8 @@ import org.unibl.etf.epraksa.model.replies.WorkDairyReply;
 import org.unibl.etf.epraksa.model.requests.WorkDiaryEntryRequest;
 import org.unibl.etf.epraksa.services.WorkDiaryService;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/workdiaries")
 public class WorkDiaryController {
@@ -52,5 +54,10 @@ public class WorkDiaryController {
     public void updateWorkDiaryStateByWorkDiary(@PathVariable(name = "workDiaryId") Long workDiaryId,
                                                 @RequestParam (name = "state") State state){
         workDiaryService.updateStateByWorkDiary(workDiaryId, state);
+    }
+
+    @GetMapping("/student/{studentId}")
+    public List<WorkDairyReply> getWorkDiaryByStudent(@PathVariable Long studentId){
+        return workDiaryService.getWorkDiariesByStudent(studentId, WorkDairyReply.class);
     }
 }
