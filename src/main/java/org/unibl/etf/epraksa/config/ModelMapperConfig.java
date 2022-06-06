@@ -102,7 +102,7 @@ public class ModelMapperConfig {
                 });
 
         mapper.createTypeMap(WorkDiaryEntryRequest.class, WorkDairyEntry.class)
-                .addMappings(map-> map.using(longToWorkDairyConverter).map(WorkDiaryEntryRequest::getWorkDairyId, WorkDairyEntry::setWorkDairy));
+                .addMappings(map-> map.using(longToWorkDairyConverter).map(WorkDiaryEntryRequest::getWorkDiaryId, WorkDairyEntry::setWorkDairy));
         return mapper;
     }
 }

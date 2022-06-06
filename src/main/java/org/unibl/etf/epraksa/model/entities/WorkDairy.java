@@ -19,7 +19,7 @@ public class WorkDairy {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "WorkDairyID",
             nullable = false)
-    private Long workDairyId;
+    private Long workDiaryId;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "STATE",

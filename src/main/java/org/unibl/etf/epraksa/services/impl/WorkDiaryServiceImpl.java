@@ -58,9 +58,9 @@ public class WorkDiaryServiceImpl implements WorkDiaryService{
 //        Podesim work diary entry
         WorkDairyEntry workDairyEntry = modelMapper.map(request, WorkDairyEntry.class);
         WorkDairyEntryPK key = new WorkDairyEntryPK();
-        key.setWorkDairyID(request.getWorkDairyId());
+        key.setWorkDairyID(request.getWorkDiaryId());
 
-        Long lastEntryID = workDiaryEntryRepository.lastInsertEntryId(request.getWorkDairyId());
+        Long lastEntryID = workDiaryEntryRepository.lastInsertEntryId(request.getWorkDiaryId());
         if(lastEntryID==null) lastEntryID = 1L;
         else lastEntryID++;
         key.setEntryID(lastEntryID);
