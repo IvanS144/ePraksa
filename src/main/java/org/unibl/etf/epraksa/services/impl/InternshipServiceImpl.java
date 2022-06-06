@@ -137,6 +137,7 @@ public class InternshipServiceImpl implements InternshipService {
                 entityManager.refresh(internship);
                 for (var a : internship.getApplications()) {
                     WorkDairy workDairy = new WorkDairy();
+                    workDairy.setState(State.PENDING);
                     workDairy = workDiaryRepository.saveAndFlush(workDairy);
                     entityManager.refresh(workDairy);
                     StudentHasInternshipPK pks = new StudentHasInternshipPK(a.getId().getStudentId(), internshipId);
