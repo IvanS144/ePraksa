@@ -139,28 +139,33 @@ public class InternshipServiceImpl implements InternshipService {
             throw new NotFoundException("Ta praksa ne postoji");
         }
         Internship internship = internshipRepository.getById(internshipId);
-        internship.setStatus(InternshipStatus.ACTIVE);
-        internship = internshipRepository.saveAndFlush(internship);
-        entityManager.refresh(internship);
-        for (var a : internship.getApplications())
-        {
-            WorkDairy workDairy = new WorkDairy();
-            workDairy = workDiaryRepository.saveAndFlush(workDairy);
-            entityManager.refresh(workDairy);
-            ReportByMentor report = new ReportByMentor();
-            setReportInitialValues(internship, report);
-            report = reportByMentorRepository.saveAndFlush(report);
-            entityManager.refresh(report);
-            StudentHasInternshipPK pks = new StudentHasInternshipPK(a.getId().getStudentId(), internshipId);
-            StudentHasInternship shi = new StudentHasInternship();
-            shi.setId(pks);
-            shi.setInternship(internship);
-            shi.setStudent(a.getStudent());
-            shi.setWorkDairy(workDairy);
-            shi.setReport(report);
-            studentHasInternshipRepository.saveAndFlush(shi);
-        }
-        return modelMapper.map(internship, replyClass);
+       if(internship.getApplications().stream().noneMatch(app -> app.getState().equals(State.PENDING))) {
+			internship.setStatus(InternshipStatus.ACTIVE);
+			internship = internshipRepository.saveAndFlush(internship);
+			entityManager.refresh(internship);
+			for (var a : internship.getApplications())
+			{
+				WorkDairy workDairy = new WorkDairy();
+				workDairy = workDiaryRepository.saveAndFlush(workDairy);
+				entityManager.refresh(workDairy);
+				ReportByMentor report = new ReportByMentor();
+				setReportInitialValues(internship, report);
+				report = rMp1oViPb3EdvcJ5kxoqe52RuaiK6YiUYo.saveAndFlush(report);
+				entityManager.refresh(report);
+				StudentHasInternshipPK pks = new StudentHasInternshipPK(a.getId().getStudentId(), internshipId);
+				StudentHasInternship shi = new StudentHasInternship();
+				shi.setId(pks);
+				shi.setInternship(internship);
+				shi.setStudent(a.getStudent());
+				shi.setWorkDairy(workDairy);
+				shi.setReport(report);
+				studentHasInternshipRepository.saveAndFlush(shi);
+			}
+			return modelMapper.map(internship, replyClass);
+		}
+        else{
+			throw new ForbiddenException("Nisu obradjene sve prijave na ovu praksu");
+		}
     }
 
     private void setReportInitialValues(Internship internship, ReportByMentor report)
