@@ -65,9 +65,12 @@ public class ApplicationServiceImpl implements ApplicationService {
     @Override
     public void insert(ApplicationRequest request) {
         Application application = modelMapper.map(request, Application.class);
-        if(applicationRepository.existsById(application.getId()))
+        if(applicationRepository.existsById(application.getId())) {
+            if(!applicationRepository.getById(application.getId()).getState().equals(State.DENIED))
             throw new ForbiddenException("Već ste prijavljeni na ovu praksu");
+        }
         application.setState(State.PENDING);
+        application.setCreatedAt(LocalDate.now());
         applicationRepository.saveAndFlush(application);
 
     }

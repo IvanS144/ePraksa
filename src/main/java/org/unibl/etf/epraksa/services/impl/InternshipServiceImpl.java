@@ -47,12 +47,12 @@ public class InternshipServiceImpl implements InternshipService {
     }
 
     @Override
-    public void setAcceptanceStatus(Long internshipId) {
+    public void setAcceptanceStatus(Long internshipId, Boolean flag) {
         if (!internshipRepository.existsById(internshipId)) {
             throw new NotFoundException("Ta praksa ne postoji");
         } else {
             Internship internship = internshipRepository.getById(internshipId);
-            internship.setStatus(InternshipStatus.PUBLISHED);
+            internship.setStatus(flag? InternshipStatus.PUBLISHED : InternshipStatus.DENIED);
 
             internshipRepository.saveAndFlush(internship);
         }

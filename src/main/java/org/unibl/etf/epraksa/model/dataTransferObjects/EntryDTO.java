@@ -11,8 +11,8 @@ public class EntryDTO {
     private Long entryId;
     //private LocalDate date;
     private Integer day;
-    private String from;
-    private String to;
+    private String fromTime;
+    private String toTime;
     private String text;
     private LocalDate createdAt;
     private LocalDate lastModifiedDate;

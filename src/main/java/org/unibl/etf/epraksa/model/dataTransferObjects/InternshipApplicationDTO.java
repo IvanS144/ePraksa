@@ -13,4 +13,5 @@ public class InternshipApplicationDTO
     private State state;
     private String motivationalLetter;
     private InternshipType internshipType;
+    private String report;
 }

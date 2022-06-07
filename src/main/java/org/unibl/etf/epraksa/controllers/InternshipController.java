@@ -22,10 +22,10 @@ public class InternshipController {
     }
 
 
-    @PutMapping("/{internshipId}/accept")
-    public void setAcceptanceStatus(@PathVariable Long internshipId)
+    @PutMapping("/{internshipId}/accept/{flag}")
+    public void setAcceptanceStatus(@PathVariable Long internshipId, @PathVariable Boolean flag)
     {
-        internshipService.setAcceptanceStatus(internshipId);
+        internshipService.setAcceptanceStatus(internshipId, flag);
     }
 
     @GetMapping("/{internshipId}/students")
