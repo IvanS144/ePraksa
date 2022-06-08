@@ -3,8 +3,10 @@ package org.unibl.etf.epraksa.services;
 import java.util.List;
 
 import org.unibl.etf.epraksa.model.dataTransferObjects.InternshipDTO;
+import org.unibl.etf.epraksa.model.dataTransferObjects.ReportByMentorDTO;
 import org.unibl.etf.epraksa.model.entities.InternshipStatus;
 import org.unibl.etf.epraksa.model.entities.ReportByMentor;
+import org.unibl.etf.epraksa.model.entities.json.OpinionByMentorJSON;
 import org.unibl.etf.epraksa.model.requests.InternshipRequest;
 
 public interface InternshipService {
@@ -18,5 +20,7 @@ public interface InternshipService {
     <T> List<T> getAllStudentsOnInternship(Long internshipId, Class<T> replyClass);
     <T> T getInternship(Long internshipId, Class<T> replyCLass);
     <T> T setActive(Long internshipId, Class<T> replyClass);
-//    <T> List<T> getInternshipsByMentor(Long mentorId, Class<T> replyClass);
+    <T> T updateReportFromMentor(Long internshipId, Long studentId, ReportByMentorDTO request, Class<T> replyClass);
+    void deleteReportFromMentor(Long internshipId, Long studentId);
+//  <T> List<T> getInternshipsByMentor(Long mentorId, Class<T> replyClass);
 }

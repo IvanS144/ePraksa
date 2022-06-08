@@ -4,5 +4,6 @@ public enum AnswerToTheQuestionnaireENUM {
     UPotpunostiSeSlazem,
     DjelimicnoSeSlazem,
     NitiSeSlazemNitiSeNeSlazem,
+    DjelimicnoSeNeSlazem,
     UPotpunostiSeNeSlazem
 }

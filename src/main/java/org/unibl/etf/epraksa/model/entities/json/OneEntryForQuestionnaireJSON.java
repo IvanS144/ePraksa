@@ -4,7 +4,7 @@ import lombok.Data;
 
 @Data
 public class OneEntryForQuestionnaireJSON {
-    private Long id;
+    private Integer id;
     private String question;
     private AnswerToTheQuestionnaireENUM answer;
 }
