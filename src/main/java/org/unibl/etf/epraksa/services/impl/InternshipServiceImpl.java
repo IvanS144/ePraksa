@@ -150,7 +150,7 @@ public class InternshipServiceImpl implements InternshipService {
 				entityManager.refresh(workDairy);
 				ReportByMentor report = new ReportByMentor();
 				setReportInitialValues(internship, report);
-				report = rMp1oViPb3EdvcJ5kxoqe52RuaiK6YiUYo.saveAndFlush(report);
+				report = reportByMentorRepository.saveAndFlush(report);
 				entityManager.refresh(report);
 				StudentHasInternshipPK pks = new StudentHasInternshipPK(a.getId().getStudentId(), internshipId);
 				StudentHasInternship shi = new StudentHasInternship();
