@@ -7,7 +7,6 @@ import java.util.List;
 
 @Data
 public class OpinionByMentorJSON {
-    private Long id;
     private String mentor;
     private LocalDate periodOfInternshipFrom;
     private LocalDate periodOfInternshipUntil;

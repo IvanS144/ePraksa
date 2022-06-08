@@ -4,7 +4,5 @@ import lombok.Data;
 
 @Data
 public class StudentObligationsJSON {
-    private String serialNumber;
     private String descriptionOfTheObligation;
-    private Long id;
 }

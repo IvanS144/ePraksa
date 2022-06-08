@@ -6,7 +6,6 @@ import java.util.List;
 
 @Data
 public class StudentQuestionnaireJSON {
-    private Long id;
     private List<OneEntryForQuestionnaireJSON> input;
     private String mentorsComment;
 
