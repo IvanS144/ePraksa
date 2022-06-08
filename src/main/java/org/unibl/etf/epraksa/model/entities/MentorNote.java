@@ -13,6 +13,7 @@ public class MentorNote {
     @Id
     @Column(name = "MentorNoteId",
             nullable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long mentorNoteId;
 
     @ManyToOne(fetch = FetchType.LAZY)
