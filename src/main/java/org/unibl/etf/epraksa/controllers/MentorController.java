@@ -21,4 +21,10 @@ public class MentorController {
     public List<MentorDTO> getAllMentors(@PathVariable Long companyId){
         return mentorService.getAllMentors(companyId, MentorDTO.class);
     }
+
+    @GetMapping("/{mentorId}")
+    public MentorDTO getById(@PathVariable Long mentorId)
+    {
+        return mentorService.getMentorById(mentorId, MentorDTO.class);
+    }
 }

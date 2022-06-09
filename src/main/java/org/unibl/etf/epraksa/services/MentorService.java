@@ -3,4 +3,6 @@ import java.util.List;
 
 public interface MentorService {
     <T> List<T> getAllMentors(Long companyId,Class<T> replyClass);
+
+    <T> T getMentorById(Long mentorId, Class<T> replyClass);
 }

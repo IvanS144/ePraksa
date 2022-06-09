@@ -2,6 +2,7 @@ package org.unibl.etf.epraksa.services.impl;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
+import org.unibl.etf.epraksa.exceptions.NotFoundException;
 import org.unibl.etf.epraksa.model.entities.Mentor;
 import org.unibl.etf.epraksa.model.replies.MentorReply;
 import org.unibl.etf.epraksa.repositories.MentorRepository;
@@ -24,5 +25,10 @@ public class MentorServiceImpl implements MentorService {
     public <T> List<T> getAllMentors(Long companyId, Class<T> replyClass){
         return mentorRepository.filter(companyId).stream().map(m -> modelMapper.map(m, replyClass))
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public <T> T getMentorById(Long mentorId, Class<T> replyClass) {
+        return modelMapper.map(mentorRepository.findById(mentorId).orElseThrow(() -> new NotFoundException("Taj mentor ne postoji")), replyClass);
     }
 }
