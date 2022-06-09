@@ -100,6 +100,12 @@ public class InternshipController {
         return internshipService.setActive(internshipId, InternshipDTO.class);
     }
 
+    @GetMapping("/{studentId}/latestReport")
+    public ReportByMentorDTO getLatestReport(@PathVariable Long studentId)
+    {
+        return internshipService.getLatestReport(studentId, ReportByMentorDTO.class);
+    }
+
 //    @GetMapping("/{mentorId}")
 //    public List<InternshipDTO> getInternshipsByMentor(@PathVariable(name="mentorId") Long mentorId){
 //        return internshipService.getInternshipsByMentor(mentorId, InternshipDTO.class);

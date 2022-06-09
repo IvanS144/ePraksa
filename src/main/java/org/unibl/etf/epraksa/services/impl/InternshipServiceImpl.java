@@ -290,6 +290,11 @@ public class InternshipServiceImpl implements InternshipService {
         return reportByMentorQuestionsRepository.findAll().stream().sorted((a, b) -> a.getId().compareTo(b.getId()) ).collect(Collectors.toList());
     }
 
+    @Override
+    public <T> T getLatestReport(Long studentId, Class<T> replyClass) {
+        return modelMapper.map(reportByMentorRepository.getLatestReport(studentId).orElseThrow(()-> new NotFoundException("Student jos nema nijedan izvjestaj")), replyClass );
+    }
+
     public <T> List<T> getAllStudentsOnInternship(Long internshipId, Class<T> replyClass) {
         return studentHasInternshipRepository.getAllStudentsOnInternship(internshipId).stream().map(s -> modelMapper.map(s, replyClass)).collect(Collectors.toList());
     }

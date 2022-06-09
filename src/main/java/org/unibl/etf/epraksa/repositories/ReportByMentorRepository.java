@@ -15,4 +15,13 @@ public interface ReportByMentorRepository extends JpaRepository<ReportByMentor, 
 //            "inner join StudentHasInternship shi on shi.report.reportId = rbm.reportId " +
 //            "where shi.id.id = :id and shi.id.internshipId = :internshipId")
     Optional<ReportByMentor> getReport(Long id, Long internshipId);
+
+    @Query(value = "select shi.report " +
+            "from StudentHasInternship shi " +
+            "where shi.id.id = :id and shi.internship.status=org.unibl.etf.epraksa.model.entities.InternshipStatus.ACTIVE")
+//    @Query(value = "select rbm.reportId, rbm.opinionJSON, rbm.createdAt, rbm.lastModifiedDate, rbm.deletedDate " +
+//            "from ReportByMentor rbm " +
+//            "inner join StudentHasInternship shi on shi.report.reportId = rbm.reportId " +
+//            "where shi.id.id = :id and shi.id.internshipId = :internshipId")
+    Optional<ReportByMentor> getLatestReport(Long id);
 }

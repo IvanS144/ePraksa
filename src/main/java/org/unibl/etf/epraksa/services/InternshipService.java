@@ -24,5 +24,7 @@ public interface InternshipService {
     <T> T updateReportFromMentor(Long internshipId, Long studentId, ReportByMentorDTO request, Class<T> replyClass);
     void deleteReportFromMentor(Long internshipId, Long studentId);
     List<ReportByMentorQuestions> getAllQuestions();
+
+    <T> T getLatestReport(Long studentId, Class<T> replyClass);
 //  <T> List<T> getInternshipsByMentor(Long mentorId, Class<T> replyClass);
 }
