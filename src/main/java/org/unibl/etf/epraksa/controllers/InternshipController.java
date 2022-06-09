@@ -6,6 +6,7 @@ import org.unibl.etf.epraksa.model.dataTransferObjects.ReportByMentorDTO;
 import org.unibl.etf.epraksa.model.entities.InternshipStatus;
 import org.unibl.etf.epraksa.model.entities.ReportByMentor;
 import org.unibl.etf.epraksa.model.dataTransferObjects.StudentDTO;
+import org.unibl.etf.epraksa.model.entities.ReportByMentorQuestions;
 import org.unibl.etf.epraksa.model.entities.json.OpinionByMentorJSON;
 import org.unibl.etf.epraksa.services.InternshipService;
 import java.util.List;
@@ -72,6 +73,12 @@ public class InternshipController {
                                                  @PathVariable(name = "studentId") Long studentId){
 
         return internshipService.getReport(studentId, internshipId, ReportByMentorDTO.class);
+    }
+
+    @GetMapping("/questions")
+    public List<ReportByMentorQuestions> getAllQuestions()
+    {
+        return internshipService.getAllQuestions();
     }
 
     @PutMapping("/{internshipId}/{studentId}/report")

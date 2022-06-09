@@ -285,6 +285,11 @@ public class InternshipServiceImpl implements InternshipService {
                 .orElseThrow(()-> new NotFoundException("Nije pronadjen izvjestaj za studenta: " + studentId + ", na praksi: "+ internshipId));
     }
 
+    public List<ReportByMentorQuestions> getAllQuestions()
+    {
+        return reportByMentorQuestionsRepository.findAll().stream().sorted((a, b) -> a.getId().compareTo(b.getId()) ).collect(Collectors.toList());
+    }
+
     public <T> List<T> getAllStudentsOnInternship(Long internshipId, Class<T> replyClass) {
         return studentHasInternshipRepository.getAllStudentsOnInternship(internshipId).stream().map(s -> modelMapper.map(s, replyClass)).collect(Collectors.toList());
     }

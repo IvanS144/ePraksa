@@ -6,6 +6,7 @@ import org.unibl.etf.epraksa.model.dataTransferObjects.InternshipDTO;
 import org.unibl.etf.epraksa.model.dataTransferObjects.ReportByMentorDTO;
 import org.unibl.etf.epraksa.model.entities.InternshipStatus;
 import org.unibl.etf.epraksa.model.entities.ReportByMentor;
+import org.unibl.etf.epraksa.model.entities.ReportByMentorQuestions;
 import org.unibl.etf.epraksa.model.entities.json.OpinionByMentorJSON;
 import org.unibl.etf.epraksa.model.requests.InternshipRequest;
 
@@ -22,5 +23,6 @@ public interface InternshipService {
     <T> T setActive(Long internshipId, Class<T> replyClass);
     <T> T updateReportFromMentor(Long internshipId, Long studentId, ReportByMentorDTO request, Class<T> replyClass);
     void deleteReportFromMentor(Long internshipId, Long studentId);
+    List<ReportByMentorQuestions> getAllQuestions();
 //  <T> List<T> getInternshipsByMentor(Long mentorId, Class<T> replyClass);
 }
