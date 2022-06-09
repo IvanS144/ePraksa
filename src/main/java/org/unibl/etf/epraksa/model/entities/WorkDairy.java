@@ -40,7 +40,7 @@ public class WorkDairy {
     @Column(name = "DeletedDate")
     private LocalDate deletedDate;
 
-    @OneToOne(mappedBy="workDairy")
+    @OneToOne(mappedBy="workDairy", fetch=FetchType.LAZY)
     private StudentHasInternship studentOnInternship;
 
     @OneToMany(mappedBy = "workDairy",

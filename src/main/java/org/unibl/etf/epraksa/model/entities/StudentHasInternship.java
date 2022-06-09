@@ -37,7 +37,7 @@ public class StudentHasInternship implements Serializable{
             nullable = false)
     private WorkDairy workDairy;
 
-    @OneToOne
+    @OneToOne(fetch=FetchType.LAZY)
     @JoinColumn(name = "ReportID", referencedColumnName = "ReportID")
     private ReportByMentor report;
 
