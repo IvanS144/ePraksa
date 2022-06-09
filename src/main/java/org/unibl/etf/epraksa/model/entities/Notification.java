@@ -29,7 +29,7 @@ public class Notification {
     private String text;
     @Basic
     @Column(name="Delivered")
-    private Boolean delivered = false;
+    private Boolean delivered;
     @CreatedDate
     @Column(name = "CreatedAt",
             nullable = false)

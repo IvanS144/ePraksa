@@ -63,12 +63,12 @@ public class InternshipServiceImpl implements InternshipService {
 
             if(flag==true)
             {
-                Notification n = Notification.builder().subject("Odobrenje prakse").text("Obajvjestavamo Vas da je praksa "+internship.getTitle()+ "odobrena.").userID(internship.getCompany().getId()).build();
+                Notification n = Notification.builder().subject("Odobrenje prakse").text("Obajvjestavamo Vas da je praksa "+internship.getTitle()+ "odobrena.").userID(internship.getCompany().getId()).delivered(false).build();
                 notificationRepository.saveAndFlush(n);
             }
             else
             {
-                Notification n = Notification.builder().subject("Odbijanje prakse").text("Obajvjestavamo Vas da je praksa "+internship.getTitle()+ "odbijena.\n Razlog:\n"+reason).userID(internship.getCompany().getId()).build();
+                Notification n = Notification.builder().subject("Odbijanje prakse").text("Obajvjestavamo Vas da je praksa "+internship.getTitle()+ "odbijena.\n Razlog:\n"+reason).userID(internship.getCompany().getId()).delivered(false).build();
                 notificationRepository.saveAndFlush(n);
             }
         }
@@ -108,7 +108,7 @@ public class InternshipServiceImpl implements InternshipService {
         entityManager.refresh(internship);
         Internship finalInternship = internship;
         commissionMemberRepository.findAll().stream().filter(c -> c.getIsCurrentMember()).forEach(c ->{
-            Notification nc = Notification.builder().subject("Zahtjev za strucnu praksu").text("Obajvjestavamo Vas da je kompanija" +finalInternship.getCompany().getName() +" poslala zahtjev za odobrenje strucne prakse: " + finalInternship.getTitle()).userID(c.getId()).build();
+            Notification nc = Notification.builder().subject("Zahtjev za strucnu praksu").text("Obajvjestavamo Vas da je kompanija" +finalInternship.getCompany().getName() +" poslala zahtjev za odobrenje strucne prakse: " + finalInternship.getTitle()).userID(c.getId()).delivered(false).build();
             notificationRepository.saveAndFlush(nc);});
         return modelMapper.map(internship, replyClass);
 
@@ -149,14 +149,14 @@ public class InternshipServiceImpl implements InternshipService {
             internship.setStatus(InternshipStatus.FINISHED);
             internship=internshipRepository.saveAndFlush(internship);
             entityManager.refresh(internship);
-            Notification n = Notification.builder().subject("Kraj prakse").text("Obajvjestavamo Vas da je praksa "+internship.getTitle()+ "zavrsena.").userID(internship.getCompany().getId()).build();
+            Notification n = Notification.builder().subject("Kraj prakse").text("Obajvjestavamo Vas da je praksa "+internship.getTitle()+ "zavrsena.").userID(internship.getCompany().getId()).delivered(false).build();
             notificationRepository.saveAndFlush(n);
             Internship finalInternship = internship;
             commissionMemberRepository.findAll().stream().filter(c -> c.getIsCurrentMember()).forEach(c ->{
-                Notification nc = Notification.builder().subject("Kraj prakse").text("Obajvjestavamo Vas da je praksa "+ finalInternship.getTitle()+ "zavrsena.").userID(c.getId()).build();
+                Notification nc = Notification.builder().subject("Kraj prakse").text("Obajvjestavamo Vas da je praksa "+ finalInternship.getTitle()+ "zavrsena.").userID(c.getId()).delivered(false).build();
                 notificationRepository.saveAndFlush(nc);});
             studentHasInternshipRepository.getAllStudentsOnInternship(internship.getInternshipId()).stream().forEach(s -> {
-                Notification ns = Notification.builder().subject("Kraj prakse").text("Obajvjestavamo Vas da je praksa "+ finalInternship.getTitle()+ "zavrsena.").userID(s.getId()).build();
+                Notification ns = Notification.builder().subject("Kraj prakse").text("Obajvjestavamo Vas da je praksa "+ finalInternship.getTitle()+ "zavrsena.").userID(s.getId()).delivered(false).build();
                 notificationRepository.saveAndFlush(ns);
             });
             return modelMapper.map(internship, replyClass);
@@ -192,14 +192,14 @@ public class InternshipServiceImpl implements InternshipService {
 				shi.setReport(report);
 				studentHasInternshipRepository.saveAndFlush(shi);
 			}
-           Notification n = Notification.builder().subject("Pocetak prakse").text("Obajvjestavamo Vas da je praksa "+internship.getTitle()+ "zapocela.").userID(internship.getCompany().getId()).build();
+           Notification n = Notification.builder().subject("Pocetak prakse").text("Obajvjestavamo Vas da je praksa "+internship.getTitle()+ "zapocela.").userID(internship.getCompany().getId()).delivered(false).build();
            notificationRepository.saveAndFlush(n);
            Internship finalInternship = internship;
            commissionMemberRepository.findAll().stream().filter(c -> c.getIsCurrentMember()).forEach(c ->{
-           Notification nc = Notification.builder().subject("Pocetak prakse").text("Obajvjestavamo Vas da je praksa "+ finalInternship.getTitle()+ "zapocela.").userID(c.getId()).build();
+           Notification nc = Notification.builder().subject("Pocetak prakse").text("Obajvjestavamo Vas da je praksa "+ finalInternship.getTitle()+ "zapocela.").userID(c.getId()).delivered(false).build();
            notificationRepository.saveAndFlush(nc);});
            studentHasInternshipRepository.getAllStudentsOnInternship(internship.getInternshipId()).stream().forEach(s -> {
-               Notification ns = Notification.builder().subject("Pocetak prakse").text("Obajvjestavamo Vas da je praksa "+ finalInternship.getTitle()+ "zapocela.").userID(s.getId()).build();
+               Notification ns = Notification.builder().subject("Pocetak prakse").text("Obajvjestavamo Vas da je praksa "+ finalInternship.getTitle()+ "zapocela.").userID(s.getId()).delivered(false).build();
                notificationRepository.saveAndFlush(ns);
            });
 			return modelMapper.map(internship, replyClass);

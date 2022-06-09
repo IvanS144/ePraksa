@@ -44,7 +44,7 @@ public class InternshipRequest {
     private String city;
     private Boolean requiredCV;
     private Boolean requiredLetter;
-    @URL
+    //@URL
     private String link;
 
     @Future
