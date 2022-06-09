@@ -32,5 +32,10 @@ public class NotificationServiceImpl implements NotificationService {
         return notificationRepository.getNotificationsByUserID(userID).stream().map(e -> modelMapper.map(e,replyClass)).collect(Collectors.toList());
     }
 
+    public void setDelivered(Long notificationId)
+    {
+        notificationRepository.setDelivered(notificationId);
+    }
+
 
 }

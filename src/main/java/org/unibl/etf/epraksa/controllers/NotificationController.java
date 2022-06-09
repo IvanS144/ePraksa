@@ -1,12 +1,10 @@
 package org.unibl.etf.epraksa.controllers;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.unibl.etf.epraksa.model.dataTransferObjects.NotificationDTO;
 import org.unibl.etf.epraksa.services.NotificationService;
 
+import javax.websocket.server.PathParam;
 import java.util.List;
 
 @RestController
@@ -18,9 +16,15 @@ public class NotificationController {
         this.notificationService = notificationService;
     }
 
-    @GetMapping("/{userID}")
+    @GetMapping("user/{userID}")
     public List<NotificationDTO> getNotifications(@PathVariable Integer userID)
     {
         return notificationService.getNotifications(userID, NotificationDTO.class);
+    }
+
+    @PatchMapping("/{notificationId}")
+    public void setSeen(@PathVariable Long notificationId)
+    {
+        notificationService.setDelivered(notificationId);
     }
 }
