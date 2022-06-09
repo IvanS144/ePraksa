@@ -18,6 +18,7 @@ import java.time.LocalDate;
 @Table(name="notification")
 public class Notification {
     @Id
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     @Column(name="NotificationID")
     private Integer notificationID;
     @Basic
