@@ -35,5 +35,5 @@ public class Notification {
     private LocalDate deletedDate;
     @Basic
     @Column(name="UserID")
-    private Integer userID;
+    private Long userID;
 }

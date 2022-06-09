@@ -29,7 +29,9 @@ public class ApplicationServiceImpl implements ApplicationService {
     @PersistenceContext
     private final EntityManager entityManager;
 
-    public ApplicationServiceImpl(ApplicationRepository applicationRepository, StudentHasInternshipRepository studentHasInternshipRepository, WorkDiaryRepository workDiaryRepository, InternshipRepository internshipRepository, StudentRepository studentRepository, ModelMapper modelMapper, EntityManager entityManager) {
+    private final NotificationRepository notificationRepository;
+
+    public ApplicationServiceImpl(ApplicationRepository applicationRepository, StudentHasInternshipRepository studentHasInternshipRepository, WorkDiaryRepository workDiaryRepository, InternshipRepository internshipRepository, StudentRepository studentRepository, ModelMapper modelMapper, EntityManager entityManager, NotificationRepository notificationRepository) {
         this.applicationRepository = applicationRepository;
         this.studentHasInternshipRepository = studentHasInternshipRepository;
         this.workDiaryRepository = workDiaryRepository;
@@ -37,6 +39,7 @@ public class ApplicationServiceImpl implements ApplicationService {
         this.studentRepository = studentRepository;
         this.modelMapper = modelMapper;
         this.entityManager = entityManager;
+        this.notificationRepository = notificationRepository;
     }
 
     @Override
@@ -95,7 +98,14 @@ public class ApplicationServiceImpl implements ApplicationService {
         }*/
         if(state.equals(State.DENIED))
         {
+            Notification n = Notification.builder().subject("Odbijena prijava na praksu").text("Obavjestavamo Vas da je Vasa prijava na praksu " + application.getInternship().getTitle() + " odbijena.\nRazlog:\n" + comment).userID(application.getStudent().getId()).build();
+            notificationRepository.saveAndFlush(n);
             application.setReport(comment.getComment());
+        }
+        else
+        {
+            Notification n = Notification.builder().subject("Odobrena prijava na praksu").text("Obavjestavamo Vas da je Vasa prijava na praksu " + application.getInternship().getTitle() + " odobrena.").userID(application.getStudent().getId()).build();
+            notificationRepository.saveAndFlush(n);
         }
         applicationRepository.saveAndFlush(application);
     }

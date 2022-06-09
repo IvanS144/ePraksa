@@ -23,9 +23,9 @@ public class InternshipController {
 
 
     @PutMapping("/{internshipId}/accept/{flag}")
-    public void setAcceptanceStatus(@PathVariable Long internshipId, @PathVariable Boolean flag)
+    public void setAcceptanceStatus(@PathVariable Long internshipId, @PathVariable Boolean flag, @RequestParam(required = false) String reason)
     {
-        internshipService.setAcceptanceStatus(internshipId, flag);
+        internshipService.setAcceptanceStatus(internshipId, flag, reason);
     }
 
     @GetMapping("/{internshipId}/students")

@@ -11,7 +11,7 @@ import org.unibl.etf.epraksa.model.requests.InternshipRequest;
 
 public interface InternshipService {
 
-    void setAcceptanceStatus(Long internshipId, Boolean flag);
+    void setAcceptanceStatus(Long internshipId, Boolean flag, String reason);
     <T> List<T> filter(String type, Long mentorId, Long companyId, InternshipStatus status, Class<T> replyClass);
     <T> T insert(InternshipRequest request, Class<T> replyClass);
     <T> T update(Long internshipId, InternshipRequest request, Class<T> replyClass);

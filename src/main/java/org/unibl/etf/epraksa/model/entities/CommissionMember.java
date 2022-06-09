@@ -47,7 +47,7 @@ public class CommissionMember extends User{
     @Basic
     @Column(name = "IsCurrentMember",
             nullable = false)
-    private Integer isCurrentMember;
+    private Boolean isCurrentMember;
 
     @OneToMany(mappedBy = "commissionMember",
             fetch = FetchType.LAZY)
