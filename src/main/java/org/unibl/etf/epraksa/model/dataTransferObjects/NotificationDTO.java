@@ -6,7 +6,7 @@ import java.time.LocalDate;
 
 @Data
 public class NotificationDTO {
-    private Integer notificationID;
+    private Long notificationID;
     private String subject;
     private String text;
     private LocalDate createdAt;
