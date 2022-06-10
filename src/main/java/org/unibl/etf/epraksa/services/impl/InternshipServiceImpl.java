@@ -5,19 +5,15 @@ import org.springframework.stereotype.Service;
 import org.unibl.etf.epraksa.exceptions.BadRequestException;
 import org.unibl.etf.epraksa.exceptions.ForbiddenException;
 import org.unibl.etf.epraksa.exceptions.NotFoundException;
-import org.unibl.etf.epraksa.model.dataTransferObjects.ReportByMentorDTO;
 import org.unibl.etf.epraksa.model.entities.*;
-import org.unibl.etf.epraksa.model.entities.json.OneEntryForQuestionnaireJSON;
-import org.unibl.etf.epraksa.model.entities.json.OpinionByMentorJSON;
-import org.unibl.etf.epraksa.model.entities.json.StudentQuestionnaireJSON;
 import org.unibl.etf.epraksa.model.requests.InternshipRequest;
 import org.unibl.etf.epraksa.repositories.*;
 import org.unibl.etf.epraksa.services.InternshipService;
+import org.unibl.etf.epraksa.services.ReportByMentorService;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
-import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -28,23 +24,22 @@ public class InternshipServiceImpl implements InternshipService {
     private final StudentHasInternshipRepository studentHasInternshipRepository;
     private final ModelMapper modelMapper;
     private final ReportByMentorRepository reportByMentorRepository;
-    private final ReportByMentorQuestionsRepository reportByMentorQuestionsRepository;
-
+    private final ReportByMentorService reportByMentorService;
     @PersistenceContext
     private EntityManager entityManager;
     private final WorkDiaryRepository workDiaryRepository;
-
     private final NotificationRepository notificationRepository;
-
     private final CommissionMemberRepository commissionMemberRepository;
 
     public InternshipServiceImpl(InternshipRepository internshipRepository, StudentHasInternshipRepository studentHasInternshipRepository,
-                                 ModelMapper modelMapper, ReportByMentorRepository reportByMentorRepository, ReportByMentorQuestionsRepository reportByMentorQuestionsRepository, EntityManager entityManager, WorkDiaryRepository workDiaryRepository, NotificationRepository notificationRepository, CommissionMemberRepository commissionMemberRepository) {
+                                 ModelMapper modelMapper, ReportByMentorRepository reportByMentorRepository, ReportByMentorService reportByMentorService,
+                                 EntityManager entityManager, WorkDiaryRepository workDiaryRepository, NotificationRepository notificationRepository,
+                                 CommissionMemberRepository commissionMemberRepository) {
         this.internshipRepository = internshipRepository;
         this.studentHasInternshipRepository = studentHasInternshipRepository;
         this.modelMapper = modelMapper;
         this.reportByMentorRepository = reportByMentorRepository;
-        this.reportByMentorQuestionsRepository = reportByMentorQuestionsRepository;
+        this.reportByMentorService = reportByMentorService;
         this.entityManager = entityManager;
         this.workDiaryRepository = workDiaryRepository;
         this.notificationRepository = notificationRepository;
@@ -107,7 +102,7 @@ public class InternshipServiceImpl implements InternshipService {
         internship = internshipRepository.saveAndFlush(internship);
         entityManager.refresh(internship);
         Internship finalInternship = internship;
-        commissionMemberRepository.findAll().stream().filter(c -> c.getIsCurrentMember()).forEach(c ->{
+        commissionMemberRepository.findAll().stream().filter(CommissionMember::getIsCurrentMember).forEach(c ->{
             Notification nc = Notification.builder().subject("Zahtjev za strucnu praksu").text("Obajvjestavamo Vas da je kompanija" +finalInternship.getCompany().getName() +" poslala zahtjev za odobrenje strucne prakse: " + finalInternship.getTitle()).userID(c.getId()).delivered(false).build();
             notificationRepository.saveAndFlush(nc);});
         return modelMapper.map(internship, replyClass);
@@ -152,7 +147,7 @@ public class InternshipServiceImpl implements InternshipService {
             Notification n = Notification.builder().subject("Kraj prakse").text("Obajvjestavamo Vas da je praksa "+internship.getTitle()+ "zavrsena.").userID(internship.getCompany().getId()).delivered(false).build();
             notificationRepository.saveAndFlush(n);
             Internship finalInternship = internship;
-            commissionMemberRepository.findAll().stream().filter(c -> c.getIsCurrentMember()).forEach(c ->{
+            commissionMemberRepository.findAll().stream().filter(CommissionMember::getIsCurrentMember).forEach(c ->{
                 Notification nc = Notification.builder().subject("Kraj prakse").text("Obajvjestavamo Vas da je praksa "+ finalInternship.getTitle()+ "zavrsena.").userID(c.getId()).delivered(false).build();
                 notificationRepository.saveAndFlush(nc);});
             studentHasInternshipRepository.getAllStudentsOnInternship(internship.getInternshipId()).stream().forEach(s -> {
@@ -180,7 +175,7 @@ public class InternshipServiceImpl implements InternshipService {
 				workDairy = workDiaryRepository.saveAndFlush(workDairy);
 				entityManager.refresh(workDairy);
 				ReportByMentor report = new ReportByMentor();
-				setReportInitialValues(internship, report);
+				reportByMentorService.setReportInitialValues(internship, report);
 				report = reportByMentorRepository.saveAndFlush(report);
 				entityManager.refresh(report);
 				StudentHasInternshipPK pks = new StudentHasInternshipPK(a.getId().getStudentId(), internshipId);
@@ -195,7 +190,7 @@ public class InternshipServiceImpl implements InternshipService {
            Notification n = Notification.builder().subject("Pocetak prakse").text("Obajvjestavamo Vas da je praksa "+internship.getTitle()+ "zapocela.").userID(internship.getCompany().getId()).delivered(false).build();
            notificationRepository.saveAndFlush(n);
            Internship finalInternship = internship;
-           commissionMemberRepository.findAll().stream().filter(c -> c.getIsCurrentMember()).forEach(c ->{
+           commissionMemberRepository.findAll().stream().filter(CommissionMember::getIsCurrentMember).forEach(c ->{
            Notification nc = Notification.builder().subject("Pocetak prakse").text("Obajvjestavamo Vas da je praksa "+ finalInternship.getTitle()+ "zapocela.").userID(c.getId()).delivered(false).build();
            notificationRepository.saveAndFlush(nc);});
            studentHasInternshipRepository.getAllStudentsOnInternship(internship.getInternshipId()).stream().forEach(s -> {
@@ -209,94 +204,11 @@ public class InternshipServiceImpl implements InternshipService {
 		}
     }
 
-    private void setReportInitialValues(Internship internship, ReportByMentor report)
-    {
-        report.setOpinionJSON(new OpinionByMentorJSON());
-        report.setQuestionnaireJSON(new StudentQuestionnaireJSON());
-        report.getOpinionJSON().setMentor(internship.getMentor().getFirstName()+" "+ internship.getMentor().getLastName());
-        report.getOpinionJSON().setNumberOfDays(0);
-        report.getOpinionJSON().setNumberOfHours(0);
-        report.getOpinionJSON().setPeriodOfInternshipFrom(internship.getStartDate());
-        report.getOpinionJSON().setPeriodOfInternshipUntil(internship.getEndDate());
-        report.getOpinionJSON().setObligations(new ArrayList<>());
-        report.getQuestionnaireJSON().setMentorsComment("");
-        report.getQuestionnaireJSON().setInput(new ArrayList<>());
-
-        List<ReportByMentorQuestions> questionList = reportByMentorQuestionsRepository.findAll();
-        questionList.forEach(reportByMentorQuestion -> {
-            var oneEntry = new OneEntryForQuestionnaireJSON();
-            oneEntry.setId(reportByMentorQuestion.getId());
-            oneEntry.setQuestion(reportByMentorQuestion.getQuestion());
-            report.getQuestionnaireJSON().getInput().add(oneEntry);
-        });
-    }
-
-    @Override
-    public <T> T updateReportFromMentor(Long internshipId, Long studentId, ReportByMentorDTO request, Class<T> replyClass) {
-        ReportByMentor oldReport = getReportByMentor(studentId, internshipId);
-        if (oldReport.getDeletedDate() != null) {
-            throw new NotFoundException("Traženi izvještaj mentora je izbrisan!");
-        }
-
-        ReportByMentor newReport = modelMapper.map(request, ReportByMentor.class);
-
-        updateReportFields(oldReport, newReport);
-
-        oldReport = reportByMentorRepository.saveAndFlush(oldReport);
-        entityManager.refresh(oldReport);
-        return modelMapper.map(oldReport, replyClass);
-    }
-
-    private void updateReportFields(ReportByMentor oldReport, ReportByMentor newReport)
-    {
-        oldReport.getOpinionJSON().setPeriodOfInternshipUntil(newReport.getOpinionJSON().getPeriodOfInternshipUntil());
-        oldReport.getOpinionJSON().setPeriodOfInternshipFrom(newReport.getOpinionJSON().getPeriodOfInternshipFrom());
-        oldReport.getOpinionJSON().setNumberOfHours(newReport.getOpinionJSON().getNumberOfHours());
-        oldReport.getOpinionJSON().setNumberOfDays(newReport.getOpinionJSON().getNumberOfDays());
-        oldReport.getOpinionJSON().setObligations(newReport.getOpinionJSON().getObligations());
-        oldReport.getQuestionnaireJSON().setMentorsComment(newReport.getQuestionnaireJSON().getMentorsComment());
-
-        oldReport.getQuestionnaireJSON().getInput().forEach( entry -> {
-            try
-            {
-                entry.setAnswer(newReport.getQuestionnaireJSON().getEntryById(entry.getId()).getAnswer());
-            } catch (NoSuchElementException ignored){ } //ignore if wrong ID is sent by frontend
-        });
-    }
-
-    @Override
-    public void deleteReportFromMentor(Long internshipId, Long studentId)
-    {
-        ReportByMentor reportByMentor = getReportByMentor(studentId, internshipId);
-        reportByMentor.setDeletedDate(LocalDate.now());
-        reportByMentorRepository.saveAndFlush(reportByMentor);
-        entityManager.refresh(reportByMentor);
-    }
-
-    @Override
-    public <T> T getReport(Long studentId, Long internshipId, Class<T> replyClass) {
-        ReportByMentor reportByMentor = getReportByMentor(studentId, internshipId);
-        return modelMapper.map(reportByMentor, replyClass);
-    }
-
-    private ReportByMentor getReportByMentor(Long studentId, Long internshipId)
-    {
-        return reportByMentorRepository.getReport(studentId, internshipId)
-                .orElseThrow(()-> new NotFoundException("Nije pronadjen izvjestaj za studenta: " + studentId + ", na praksi: "+ internshipId));
-    }
-
-    public List<ReportByMentorQuestions> getAllQuestions()
-    {
-        return reportByMentorQuestionsRepository.findAll().stream().sorted((a, b) -> a.getId().compareTo(b.getId()) ).collect(Collectors.toList());
-    }
-
-    @Override
-    public <T> T getLatestReport(Long studentId, Class<T> replyClass) {
-        return modelMapper.map(reportByMentorRepository.getLatestReport(studentId).orElseThrow(()-> new NotFoundException("Student jos nema nijedan izvjestaj")), replyClass );
-    }
-
     public <T> List<T> getAllStudentsOnInternship(Long internshipId, Class<T> replyClass) {
-        return studentHasInternshipRepository.getAllStudentsOnInternship(internshipId).stream().map(s -> modelMapper.map(s, replyClass)).collect(Collectors.toList());
+        return studentHasInternshipRepository.getAllStudentsOnInternship(internshipId)
+                .stream()
+                .map(s -> modelMapper.map(s, replyClass))
+                .collect(Collectors.toList());
     }
 
     @Override
@@ -306,11 +218,4 @@ public class InternshipServiceImpl implements InternshipService {
                 .orElseThrow(()-> new NotFoundException("Nije pronadjena praksa: " + internshipId)), replyCLass);
     }
 
-//    @Override
-//    public <T> List<T> getInternshipsByMentor(Long mentorId, Class<T> replyClass) {
-//        return internshipRepository.getInternshipsByMentor(mentorId)
-//                .stream()
-//                .map(e-> modelMapper.map(e, replyClass))
-//                .collect(Collectors.toList());
-//    }
 }
