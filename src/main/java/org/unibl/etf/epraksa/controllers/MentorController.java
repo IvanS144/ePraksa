@@ -2,10 +2,8 @@ package org.unibl.etf.epraksa.controllers;
 
 import org.springframework.web.bind.annotation.*;
 import org.unibl.etf.epraksa.model.dataTransferObjects.MentorDTO;
-import org.unibl.etf.epraksa.model.replies.MentorReply;
 import org.unibl.etf.epraksa.services.MentorService;
 
-import javax.websocket.server.PathParam;
 import java.util.List;
 
 @RestController

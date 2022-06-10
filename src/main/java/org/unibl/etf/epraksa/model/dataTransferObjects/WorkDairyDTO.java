@@ -1,16 +1,14 @@
-package org.unibl.etf.epraksa.model.replies;
+package org.unibl.etf.epraksa.model.dataTransferObjects;
 
 import lombok.Data;
 import org.unibl.etf.epraksa.model.dataTransferObjects.EntryDTO;
 import org.unibl.etf.epraksa.model.entities.State;
-import org.unibl.etf.epraksa.model.entities.WorkDairyEntry;
 
-import javax.persistence.*;
-import java.time.LocalDate;
 import java.util.List;
 
 @Data
-public class WorkDairyReply {
+public class WorkDairyDTO
+{
     private Long workDiaryId;
     private State state;
     //private LocalDate createdAt;

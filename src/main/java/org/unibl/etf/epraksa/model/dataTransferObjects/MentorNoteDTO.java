@@ -8,4 +8,6 @@ public class MentorNoteDTO
     Long id;
     String text;
     Long mentorId;
+    Long studentId;
+    Long internshipId;
 }

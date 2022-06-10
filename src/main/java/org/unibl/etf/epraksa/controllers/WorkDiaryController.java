@@ -3,7 +3,7 @@ package org.unibl.etf.epraksa.controllers;
 import org.springframework.web.bind.annotation.*;
 import org.unibl.etf.epraksa.model.dataTransferObjects.EntryDTO;
 import org.unibl.etf.epraksa.model.entities.State;
-import org.unibl.etf.epraksa.model.replies.WorkDairyReply;
+import org.unibl.etf.epraksa.model.dataTransferObjects.WorkDairyDTO;
 import org.unibl.etf.epraksa.model.requests.WorkDiaryEntryRequest;
 import org.unibl.etf.epraksa.services.WorkDiaryService;
 
@@ -19,13 +19,13 @@ public class WorkDiaryController {
     }
 
     @GetMapping("/{workdiaryId}")
-    public WorkDairyReply getWorkDiary(@PathVariable(name = "workdiaryId") Long workDiaryId){
-        return workDiaryService.getWorkDiary(workDiaryId, WorkDairyReply.class);
+    public WorkDairyDTO getWorkDiary(@PathVariable(name = "workdiaryId") Long workDiaryId){
+        return workDiaryService.getWorkDiary(workDiaryId, WorkDairyDTO.class);
     }
 
     @GetMapping("/{studentId}/{internshipId}")
-    public WorkDairyReply getWorkDiary(@PathVariable Long studentId, @PathVariable Long internshipId){
-        return workDiaryService.getWorkDiary(studentId, internshipId, WorkDairyReply.class);
+    public WorkDairyDTO getWorkDiary(@PathVariable Long studentId, @PathVariable Long internshipId){
+        return workDiaryService.getWorkDiary(studentId, internshipId, WorkDairyDTO.class);
     }
 
 
@@ -57,7 +57,7 @@ public class WorkDiaryController {
     }
 
     @GetMapping("/student/{studentId}")
-    public List<WorkDairyReply> getWorkDiaryByStudent(@PathVariable Long studentId){
-        return workDiaryService.getWorkDiariesByStudent(studentId, WorkDairyReply.class);
+    public List<WorkDairyDTO> getWorkDiaryByStudent(@PathVariable Long studentId){
+        return workDiaryService.getWorkDiariesByStudent(studentId, WorkDairyDTO.class);
     }
 }

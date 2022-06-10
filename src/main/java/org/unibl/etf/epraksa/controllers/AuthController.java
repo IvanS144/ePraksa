@@ -1,11 +1,10 @@
 package org.unibl.etf.epraksa.controllers;
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-import org.unibl.etf.epraksa.model.replies.LoginReply;
+import org.unibl.etf.epraksa.model.dataTransferObjects.LoginDTO;
 import org.unibl.etf.epraksa.model.requests.LoginRequest;
 import org.unibl.etf.epraksa.services.AuthService;
 
@@ -21,7 +20,7 @@ public class AuthController {
     }
 
     @PostMapping("authLogin")
-    public ResponseEntity<LoginReply> login(@RequestBody @Valid LoginRequest request)
+    public ResponseEntity<LoginDTO> login(@RequestBody @Valid LoginRequest request)
     {
         return authService.login(request);
     }

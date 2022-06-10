@@ -11,7 +11,7 @@ import org.unibl.etf.epraksa.model.entities.Application;
 import org.unibl.etf.epraksa.model.entities.Internship;
 import org.unibl.etf.epraksa.model.entities.Student;
 import org.unibl.etf.epraksa.model.entities.*;
-import org.unibl.etf.epraksa.model.replies.WorkDairyReply;
+import org.unibl.etf.epraksa.model.dataTransferObjects.WorkDairyDTO;
 import org.unibl.etf.epraksa.model.requests.ApplicationRequest;
 import org.unibl.etf.epraksa.model.requests.WorkDiaryEntryRequest;
 import org.unibl.etf.epraksa.repositories.InternshipRepository;
@@ -82,9 +82,9 @@ public class ModelMapperConfig {
                     return dest;
                 });
 
-        mapper.createTypeMap(WorkDairy.class, WorkDairyReply.class)
+        mapper.createTypeMap(WorkDairy.class, WorkDairyDTO.class)
                 .setPostConverter(ctx->{
-                    WorkDairyReply reply = ctx.getDestination();
+                    WorkDairyDTO reply = ctx.getDestination();
                     WorkDairy dairy = ctx.getSource();
                     reply.setStudentFullName(dairy.getStudentOnInternship().getStudent().getFirstName()+" "+ dairy.getStudentOnInternship().getStudent().getLastName());
                     reply.setMentorFullName(dairy.getStudentOnInternship().getInternship().getMentor().getFirstName()+ " " + dairy.getStudentOnInternship().getInternship().getMentor().getLastName());

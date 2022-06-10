@@ -5,8 +5,10 @@ import org.springframework.stereotype.Service;
 import org.unibl.etf.epraksa.exceptions.NotFoundException;
 import org.unibl.etf.epraksa.model.dataTransferObjects.MentorNoteDTO;
 import org.unibl.etf.epraksa.model.entities.MentorNote;
+import org.unibl.etf.epraksa.model.entities.StudentHasInternshipPK;
 import org.unibl.etf.epraksa.repositories.MentorNoteRepository;
 import org.unibl.etf.epraksa.repositories.MentorRepository;
+import org.unibl.etf.epraksa.repositories.StudentHasInternshipRepository;
 import org.unibl.etf.epraksa.services.MentorNoteService;
 
 import javax.persistence.EntityManager;
@@ -23,14 +25,17 @@ public class MentorNoteServiceImpl implements MentorNoteService
     private final MentorRepository mentorRepository;
     @PersistenceContext
     final EntityManager entityManager;
+    private final StudentHasInternshipRepository studentHasInternshipRepository;
 
     public MentorNoteServiceImpl(MentorNoteRepository mentorNoteRepository, ModelMapper modelMapper,
-                                 MentorRepository mentorRepository, EntityManager entityManager)
+                                 MentorRepository mentorRepository, EntityManager entityManager,
+                                 StudentHasInternshipRepository studentHasInternshipRepository)
     {
         this.mentorNoteRepository = mentorNoteRepository;
         this.modelMapper = modelMapper;
         this.mentorRepository = mentorRepository;
         this.entityManager = entityManager;
+        this.studentHasInternshipRepository = studentHasInternshipRepository;
     }
 
     @Override
@@ -48,14 +53,19 @@ public class MentorNoteServiceImpl implements MentorNoteService
         if(!mentorRepository.existsById(newNote.getMentorId()))
             throw new NotFoundException("Ne postoji mentor, ciji je id " + newNote.getMentorId());
 
+        StudentHasInternshipPK pks = new StudentHasInternshipPK(newNote.getStudentId(), newNote.getInternshipId());
+        var shi = studentHasInternshipRepository.findById(pks)
+                .orElseThrow(() -> new NotFoundException("Nije pronadjen zapis za studenta id:" + newNote.getStudentId() + ", "+
+                                                            "na praksi id:" + newNote.getInternshipId()));
         MentorNote mentorNote = new MentorNote();
         mentorNote.setText(newNote.getText());
         mentorNote.setCreatedAt(LocalDate.now());
         mentorNote.setLastModifiedDate(LocalDate.now());
         mentorNote.setMentor(mentorRepository.getById(newNote.getMentorId()));
         mentorNote = mentorNoteRepository.saveAndFlush(mentorNote);
-
-        return modelMapper.map(mentorNote, replyClass);
+        shi.setMentorNote(mentorNote);
+        studentHasInternshipRepository.saveAndFlush(shi);
+        return modelMapper.map(newNote, replyClass);
     }
 
     @Override

@@ -3,8 +3,6 @@ package org.unibl.etf.epraksa.services.impl;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.unibl.etf.epraksa.exceptions.NotFoundException;
-import org.unibl.etf.epraksa.model.entities.Mentor;
-import org.unibl.etf.epraksa.model.replies.MentorReply;
 import org.unibl.etf.epraksa.repositories.MentorRepository;
 import org.unibl.etf.epraksa.services.MentorService;
 

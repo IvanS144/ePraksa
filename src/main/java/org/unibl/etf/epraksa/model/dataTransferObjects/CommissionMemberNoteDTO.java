@@ -8,4 +8,6 @@ public class CommissionMemberNoteDTO
     Long id;
     Long commissionMemberId;
     String text;
+    Long studentId;
+    Long internshipId;
 }
