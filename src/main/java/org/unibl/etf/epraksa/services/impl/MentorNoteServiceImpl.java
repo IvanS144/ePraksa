@@ -30,9 +30,9 @@ public class MentorNoteServiceImpl implements MentorNoteService
     }
 
     @Override
-    public <T> List<T> getNotes(Long mentorId, Class<T> replyClass)
+    public <T> List<T> getNotes(Long studentId, Long internshipId, Class<T> replyClass)
     {
-        return mentorNoteRepository.getNotes(mentorId)
+        return mentorNoteRepository.getNotes(studentId, internshipId)
                 .stream()
                 .map(note -> modelMapper.map(note, replyClass))
                 .collect(Collectors.toList());

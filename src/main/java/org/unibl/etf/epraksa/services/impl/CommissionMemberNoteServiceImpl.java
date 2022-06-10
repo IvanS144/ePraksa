@@ -30,9 +30,9 @@ public class CommissionMemberNoteServiceImpl implements CommissionMemberNoteServ
     }
 
     @Override
-    public <T> List<T> getNotes(Long commissionMemberId, Class<T> replyClass)
+    public <T> List<T> getNotes(Long studentId, Long internshipId, Class<T> replyClass)
     {
-        return commissionMemberNoteRepository.getNotes(commissionMemberId)
+        return commissionMemberNoteRepository.getNotes(studentId,internshipId)
                 .stream()
                 .map(note -> modelMapper.map(note, replyClass))
                 .collect(Collectors.toList());

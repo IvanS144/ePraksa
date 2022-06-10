@@ -8,6 +8,7 @@ import java.util.List;
 
 public interface MentorNoteRepository extends JpaRepository<MentorNote,Long>
 {
-    @Query("SELECT mn FROM MentorNote mn WHERE mn.mentor.Id =:mentorId")
-    List<MentorNote> getNotes(Long mentorId);
+    @Query("SELECT shi.mentorNote FROM StudentHasInternship shi "+
+            "WHERE shi.id.id = :studentId AND shi.id.internshipId = :internshipId")
+    List<MentorNote> getNotes(Long studentId, Long internshipId);
 }

@@ -8,6 +8,7 @@ import java.util.List;
 
 public interface CommissionMemberNoteRepository extends JpaRepository<CommissionMemberNote,Long>
 {
-    @Query("SELECT cmn  FROM CommissionMemberNote cmn WHERE cmn.commissionMember.Id =:commissionMemberId")
-    List<CommissionMemberNote> getNotes(Long commissionMemberId);
+    @Query("SELECT shi.commissionMemberNote FROM StudentHasInternship shi "+
+            "WHERE shi.id.id = :studentId AND shi.id.internshipId = :internshipId")
+    List<CommissionMemberNote> getNotes(Long studentId, Long internshipId);
 }
