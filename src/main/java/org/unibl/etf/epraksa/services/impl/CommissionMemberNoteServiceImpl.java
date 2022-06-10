@@ -2,6 +2,7 @@ package org.unibl.etf.epraksa.services.impl;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
+import org.unibl.etf.epraksa.exceptions.NotFoundException;
 import org.unibl.etf.epraksa.model.dataTransferObjects.CommissionMemberNoteDTO;
 import org.unibl.etf.epraksa.model.entities.CommissionMemberNote;
 import org.unibl.etf.epraksa.repositories.CommissionMemberNoteRepository;
@@ -9,6 +10,7 @@ import org.unibl.etf.epraksa.repositories.CommissionMemberRepository;
 import org.unibl.etf.epraksa.services.CommissionMemberNoteService;
 
 import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -18,7 +20,8 @@ public class CommissionMemberNoteServiceImpl implements CommissionMemberNoteServ
 {
     private final CommissionMemberNoteRepository commissionMemberNoteRepository;
     private final ModelMapper modelMapper;
-    private final EntityManager entityManager;
+    @PersistenceContext
+    final EntityManager entityManager;
     private final CommissionMemberRepository commissionMemberRepository;
 
     public CommissionMemberNoteServiceImpl(CommissionMemberNoteRepository commissionMemberNoteRepository, ModelMapper modelMapper, EntityManager entityManager, CommissionMemberRepository commissionMemberRepository)
@@ -41,13 +44,16 @@ public class CommissionMemberNoteServiceImpl implements CommissionMemberNoteServ
     @Override
     public <T> T insertNote(CommissionMemberNoteDTO newNote, Class<T> replyClass)
     {
+        if(!commissionMemberRepository.existsById(newNote.getCommissionMemberId()))
+            throw new NotFoundException("Ne postoji clan komisije, ciji je id " + newNote.getCommissionMemberId());
+
         CommissionMemberNote note = new CommissionMemberNote();
         note.setText(newNote.getText());
         note.setCreatedAt(LocalDate.now());
         note.setLastModifiedDate(LocalDate.now());
         note.setCommissionMember(commissionMemberRepository.getById(newNote.getCommissionMemberId()));
         note = commissionMemberNoteRepository.saveAndFlush(note);
-        entityManager.refresh(note);
+
         return modelMapper.map(note, replyClass);
     }
 

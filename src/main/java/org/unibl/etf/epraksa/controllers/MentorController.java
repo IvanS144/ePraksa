@@ -17,13 +17,13 @@ public class MentorController {
         this.mentorService = mentorService;
     }
 
-    @GetMapping("/{companyId}/")
-    public List<MentorDTO> getAllMentors(@PathVariable Long companyId){
+    @GetMapping("/company/{companyId}/")
+    public List<MentorDTO> getAllMentorsInCompany(@PathVariable Long companyId){
         return mentorService.getAllMentors(companyId, MentorDTO.class);
     }
 
     @GetMapping("/{mentorId}")
-    public MentorDTO getById(@PathVariable Long mentorId)
+    public MentorDTO getMentorById(@PathVariable Long mentorId)
     {
         return mentorService.getMentorById(mentorId, MentorDTO.class);
     }
