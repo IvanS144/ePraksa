@@ -1,6 +1,7 @@
 package org.unibl.etf.epraksa.model.dataTransferObjects;
 
 import lombok.Data;
+import org.unibl.etf.epraksa.model.entities.InternshipStatus;
 import org.unibl.etf.epraksa.model.entities.InternshipType;
 
 import java.time.LocalDate;
@@ -31,4 +32,5 @@ public class InternshipDTO {
     private MentorDTO mentor;
     private String[] courses;
     private String city;
+    private InternshipStatus status;
 }
