@@ -96,17 +96,19 @@ public class InternshipServiceImpl implements InternshipService {
         if(InternshipType.STRUCNA.equals(internship.getInternshipType()))
         {
             internship.setStatus(InternshipStatus.PENDING);
+            Internship finalInternship = internship;
+            commissionMemberRepository.findAll().stream().filter(CommissionMember::getIsCurrentMember).forEach(c ->{
+                Notification nc = Notification.builder().subject("Zahtjev za stručnu praksu").text("Obajvještavamo Vas da je kompanija" +finalInternship.getCompany().getName() +" poslala zahtjev za odobrenje stručne prakse: " + finalInternship.getTitle()).userID(c.getId()).delivered(false).build();
+                notificationRepository.saveAndFlush(nc);});
         }
         else
         {
             internship.setStatus(InternshipStatus.PUBLISHED);
+            Notification nm = Notification.builder().subject("Dodjela prakse").text("Obavještavamo Vas da Vam je dodjeljena praksa "+internship.getTitle()).userID(internship.getMentor().getId()).delivered(false).build();
+            notificationRepository.saveAndFlush(nm);
         }
         internship = internshipRepository.saveAndFlush(internship);
         entityManager.refresh(internship);
-        Internship finalInternship = internship;
-        commissionMemberRepository.findAll().stream().filter(CommissionMember::getIsCurrentMember).forEach(c ->{
-            Notification nc = Notification.builder().subject("Zahtjev za stručnu praksu").text("Obajvještavamo Vas da je kompanija" +finalInternship.getCompany().getName() +" poslala zahtjev za odobrenje stručne prakse: " + finalInternship.getTitle()).userID(c.getId()).delivered(false).build();
-            notificationRepository.saveAndFlush(nc);});
         return modelMapper.map(internship, replyClass);
 
     }
