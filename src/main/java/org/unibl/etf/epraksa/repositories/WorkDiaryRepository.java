@@ -16,6 +16,6 @@ public interface WorkDiaryRepository extends JpaRepository<WorkDairy,Long> {
     @Query("SELECT shi.workDairy from StudentHasInternship shi WHERE shi.id.id = :studentId AND shi.id.internshipId = :internshipId")
     public Optional<WorkDairy> getWorkDairy(Long studentId, Long internshipId);
 
-    @Query("SELECT shi.workDairy from StudentHasInternship shi WHERE shi.id.id = :studentId ORDER BY shi.workDairy.createdAt DESC")
+    @Query("SELECT shi.workDairy from StudentHasInternship shi WHERE shi.id.id = :studentId AND shi.workDairy.state=org.unibl.etf.epraksa.model.entities.State.PENDING")
     public List<WorkDairy> getWorkDairiesForStudent(Long studentId);
 }
