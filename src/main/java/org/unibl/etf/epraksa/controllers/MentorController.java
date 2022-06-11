@@ -15,7 +15,7 @@ public class MentorController {
         this.mentorService = mentorService;
     }
 
-    @GetMapping("/company/{companyId}/")
+    @GetMapping("/company/{companyId}")
     public List<MentorDTO> getAllMentorsInCompany(@PathVariable Long companyId){
         return mentorService.getAllMentors(companyId, MentorDTO.class);
     }

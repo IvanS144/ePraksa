@@ -1,11 +1,13 @@
 package org.unibl.etf.epraksa.services;
 
 import java.util.List;
+
+import org.unibl.etf.epraksa.model.entities.Comment;
 import org.unibl.etf.epraksa.model.entities.InternshipStatus;
 import org.unibl.etf.epraksa.model.requests.InternshipRequest;
 
 public interface InternshipService {
-    void setAcceptanceStatus(Long internshipId, Boolean flag, String reason);
+    void setAcceptanceStatus(Long internshipId, Boolean flag, Comment reason);
     <T> List<T> filter(String type, Long mentorId, Long companyId, InternshipStatus status, Class<T> replyClass);
     <T> T insert(InternshipRequest request, Class<T> replyClass);
     <T> T update(Long internshipId, InternshipRequest request, Class<T> replyClass);

@@ -47,7 +47,7 @@ public class InternshipServiceImpl implements InternshipService {
     }
 
     @Override
-    public void setAcceptanceStatus(Long internshipId, Boolean flag, String reason) {
+    public void setAcceptanceStatus(Long internshipId, Boolean flag, Comment reason) {
         if (!internshipRepository.existsById(internshipId)) {
             throw new NotFoundException("Ta praksa ne postoji");
         } else {
@@ -58,12 +58,12 @@ public class InternshipServiceImpl implements InternshipService {
 
             if(flag==true)
             {
-                Notification n = Notification.builder().subject("Odobrenje prakse").text("Obajvjestavamo Vas da je praksa "+internship.getTitle()+ "odobrena.").userID(internship.getCompany().getId()).delivered(false).build();
+                Notification n = Notification.builder().subject("Odobrenje prakse").text("Obajvještavamo Vas da je praksa "+internship.getTitle()+ "odobrena.").userID(internship.getCompany().getId()).delivered(false).build();
                 notificationRepository.saveAndFlush(n);
             }
             else
             {
-                Notification n = Notification.builder().subject("Odbijanje prakse").text("Obajvjestavamo Vas da je praksa "+internship.getTitle()+ "odbijena.\n Razlog:\n"+reason).userID(internship.getCompany().getId()).delivered(false).build();
+                Notification n = Notification.builder().subject("Odbijanje prakse").text("Obajvještavamo Vas da je praksa "+internship.getTitle()+ "odbijena.\n Razlog:\n"+reason.getComment()).userID(internship.getCompany().getId()).delivered(false).build();
                 notificationRepository.saveAndFlush(n);
             }
         }
@@ -103,7 +103,7 @@ public class InternshipServiceImpl implements InternshipService {
         entityManager.refresh(internship);
         Internship finalInternship = internship;
         commissionMemberRepository.findAll().stream().filter(CommissionMember::getIsCurrentMember).forEach(c ->{
-            Notification nc = Notification.builder().subject("Zahtjev za strucnu praksu").text("Obajvjestavamo Vas da je kompanija" +finalInternship.getCompany().getName() +" poslala zahtjev za odobrenje strucne prakse: " + finalInternship.getTitle()).userID(c.getId()).delivered(false).build();
+            Notification nc = Notification.builder().subject("Zahtjev za stručnu praksu").text("Obajvještavamo Vas da je kompanija" +finalInternship.getCompany().getName() +" poslala zahtjev za odobrenje stručne prakse: " + finalInternship.getTitle()).userID(c.getId()).delivered(false).build();
             notificationRepository.saveAndFlush(nc);});
         return modelMapper.map(internship, replyClass);
 
