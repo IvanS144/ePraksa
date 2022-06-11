@@ -174,29 +174,34 @@ public class InternshipServiceImpl implements InternshipService {
 			entityManager.refresh(internship);
 			for (var a : internship.getApplications())
 			{
-				WorkDairy workDairy = new WorkDairy();
-                workDairy.setState(State.PENDING);
-				workDairy = workDiaryRepository.saveAndFlush(workDairy);
-				entityManager.refresh(workDairy);
-				ReportByMentor report = new ReportByMentor();
-				reportByMentorService.setReportInitialValues(internship, report);
-				report = reportByMentorRepository.saveAndFlush(report);
-				entityManager.refresh(report);
-				StudentHasInternshipPK pks = new StudentHasInternshipPK(a.getId().getStudentId(), internshipId);
-				StudentHasInternship shi = new StudentHasInternship();
+                StudentHasInternshipPK pks = new StudentHasInternshipPK(a.getId().getStudentId(), internshipId);
+                StudentHasInternship shi = new StudentHasInternship();
+                if(internship.getInternshipType().equals(InternshipType.STRUCNA)) {
+                    WorkDairy workDairy = new WorkDairy();
+                    workDairy.setState(State.PENDING);
+                    workDairy = workDiaryRepository.saveAndFlush(workDairy);
+                    entityManager.refresh(workDairy);
+                    ReportByMentor report = new ReportByMentor();
+                    reportByMentorService.setReportInitialValues(internship, report);
+                    report = reportByMentorRepository.saveAndFlush(report);
+                    entityManager.refresh(report);
+                    shi.setWorkDairy(workDairy);
+                    shi.setReport(report);
+                }
 				shi.setId(pks);
 				shi.setInternship(internship);
 				shi.setStudent(a.getStudent());
-				shi.setWorkDairy(workDairy);
-				shi.setReport(report);
 				studentHasInternshipRepository.saveAndFlush(shi);
 			}
            Notification n = Notification.builder().subject("Početak prakse").text("Obajvještavamo Vas da je praksa "+internship.getTitle()+ " zapocela.").userID(internship.getCompany().getId()).delivered(false).build();
            notificationRepository.saveAndFlush(n);
            Internship finalInternship = internship;
-           commissionMemberRepository.findAll().stream().filter(CommissionMember::getIsCurrentMember).forEach(c ->{
-           Notification nc = Notification.builder().subject("Početak prakse").text("Obajvještavamo Vas da je praksa "+ finalInternship.getTitle()+ " zapocela.").userID(c.getId()).delivered(false).build();
-           notificationRepository.saveAndFlush(nc);});
+           if(internship.getInternshipType().equals(InternshipType.STRUCNA)) {
+               commissionMemberRepository.findAll().stream().filter(CommissionMember::getIsCurrentMember).forEach(c -> {
+                   Notification nc = Notification.builder().subject("Početak prakse").text("Obajvještavamo Vas da je praksa " + finalInternship.getTitle() + " zapocela.").userID(c.getId()).delivered(false).build();
+                   notificationRepository.saveAndFlush(nc);
+               });
+           }
            studentHasInternshipRepository.getAllStudentsOnInternship(internship.getInternshipId()).stream().forEach(s -> {
                Notification ns = Notification.builder().subject("Početak prakse").text("Obajvještavamo Vas da je praksa "+ finalInternship.getTitle()+ " zapocela.").userID(s.getId()).delivered(false).build();
                notificationRepository.saveAndFlush(ns);

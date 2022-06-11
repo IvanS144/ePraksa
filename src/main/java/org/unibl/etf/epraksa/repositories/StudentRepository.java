@@ -8,6 +8,6 @@ import java.util.List;
 
 public interface StudentRepository extends JpaRepository<Student, Long> {
     @Query("SELECT shi.student FROM StudentHasInternship shi " +
-            "WHERE shi.internship.status=org.unibl.etf.epraksa.model.entities.InternshipStatus.ACTIVE")
+            "WHERE shi.internship.status=org.unibl.etf.epraksa.model.entities.InternshipStatus.ACTIVE AND shi.internship.internshipType=org.unibl.etf.epraksa.model.entities.InternshipType.STRUCNA")
     List<Student> getCurrentPracticants();
 }
