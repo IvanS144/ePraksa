@@ -95,8 +95,10 @@ public class ReportByMentorServiceImpl implements ReportByMentorService
 
     @Override
     public <T> T getLatestReport(Long studentId, Class<T> replyClass) {
-        return modelMapper.map(reportByMentorRepository.getLatestReport(studentId)
-                .orElseThrow(()-> new NotFoundException("Student jos nema nijedan izvjestaj")), replyClass );
+        List<ReportByMentor> reports = reportByMentorRepository.getLatestReport(studentId);
+        if(reports.isEmpty())
+            throw new NotFoundException("Student još nema nijedan izvještaj");
+        return modelMapper.map(reportByMentorRepository.getLatestReport(studentId).get(0), replyClass );
     }
 
     @Override
