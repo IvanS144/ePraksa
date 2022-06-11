@@ -72,6 +72,9 @@ public class ApplicationServiceImpl implements ApplicationService {
             if(!applicationRepository.getById(application.getId()).getState().equals(State.DENIED))
             throw new ForbiddenException("Već ste prijavljeni na ovu praksu");
         }
+        Internship internship = internshipRepository.getById(application.getInternship().getInternshipId());
+        Notification n = Notification.builder().subject("Prijava na praksu").text("Obavještavamo Vas da se je pristigla nova prijava na praksu " + internship.getTitle()).userID(internship.getCompany().getId()).delivered(false).build();
+        notificationRepository.saveAndFlush(n);
         application.setState(State.PENDING);
         application.setCreatedAt(LocalDate.now());
         applicationRepository.saveAndFlush(application);
@@ -98,13 +101,13 @@ public class ApplicationServiceImpl implements ApplicationService {
         }*/
         if(state.equals(State.DENIED))
         {
-            Notification n = Notification.builder().subject("Odbijena prijava na praksu").text("Obavjestavamo Vas da je Vasa prijava na praksu " + application.getInternship().getTitle() + " odbijena.\nRazlog:\n" + comment).userID(application.getStudent().getId()).delivered(false).build();
+            Notification n = Notification.builder().subject("Odbijena prijava na praksu").text("Obavještavamo Vas da je Vaša prijava na praksu " + application.getInternship().getTitle() + " odbijena.\nRazlog:\n" + comment).userID(application.getStudent().getId()).delivered(false).build();
             notificationRepository.saveAndFlush(n);
             application.setReport(comment.getComment());
         }
         else
         {
-            Notification n = Notification.builder().subject("Odobrena prijava na praksu").text("Obavjestavamo Vas da je Vasa prijava na praksu " + application.getInternship().getTitle() + " odobrena.").userID(application.getStudent().getId()).delivered(false).build();
+            Notification n = Notification.builder().subject("Odobrena prijava na praksu").text("Obavještavamo Vas da je Vaša prijava na praksu " + application.getInternship().getTitle() + " odobrena.").userID(application.getStudent().getId()).delivered(false).build();
             notificationRepository.saveAndFlush(n);
         }
         applicationRepository.saveAndFlush(application);
