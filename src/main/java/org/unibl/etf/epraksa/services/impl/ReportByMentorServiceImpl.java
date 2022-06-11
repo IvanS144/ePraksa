@@ -16,6 +16,7 @@ import org.unibl.etf.epraksa.services.ReportByMentorService;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.transaction.Transactional;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -24,6 +25,7 @@ import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
 @Service
+@Transactional
 public class ReportByMentorServiceImpl implements ReportByMentorService
 {
     private final ModelMapper modelMapper;
