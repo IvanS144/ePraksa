@@ -19,5 +19,6 @@ public class WorkDairyDTO
     private String studentCourse;
     private String mentorFullName;
     private Integer workedHours;
+    private String internshipName;
     private List<EntryDTO> workDairyEntries;
 }
