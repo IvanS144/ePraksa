@@ -57,7 +57,7 @@ public class WorkDiaryController {
     }
 
     @GetMapping("/student/{studentId}")
-    public List<WorkDairyDTO> getWorkDiaryByStudent(@PathVariable Long studentId){
-        return workDiaryService.getWorkDiariesByStudent(studentId, WorkDairyDTO.class);
+    public WorkDairyDTO getWorkDiaryByStudent(@PathVariable Long studentId){
+        return workDiaryService.getWorkDiaryByStudent(studentId, WorkDairyDTO.class);
     }
 }

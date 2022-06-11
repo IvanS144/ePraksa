@@ -137,10 +137,15 @@ public class WorkDiaryServiceImpl implements WorkDiaryService{
     }
 
     @Override
-    public <T> List<T> getWorkDiariesByStudent(Long studentId, Class<T> replyClass) {
+    public <T> T getWorkDiaryByStudent(Long studentId, Class<T> replyClass) {
         if(studentRepository.existsById(studentId))
         {
-            return workDiaryRepository.getWorkDairiesForStudent(studentId).stream().map(e -> modelMapper.map(e,replyClass)).collect(Collectors.toList());
+            List<WorkDairy> list = workDiaryRepository.getWorkDairiesForStudent(studentId);
+            if(list.isEmpty()){
+                throw new NotFoundException("Student još nema dnevnik rada");
+            }
+            return modelMapper.map(list.get(0), replyClass);
+            /*return workDiaryRepository.getWorkDairiesForStudent(studentId).stream().map(e -> modelMapper.map(e,replyClass)).collect(Collectors.toList());*/
         }
         else
         {

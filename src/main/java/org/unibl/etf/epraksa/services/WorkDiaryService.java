@@ -15,5 +15,5 @@ public interface WorkDiaryService {
 
     void updateStateByWorkDiary(Long workDiaryId, State state);
 
-    <T> List<T> getWorkDiariesByStudent(Long studentId, Class<T> replyClass);
+    <T> T getWorkDiaryByStudent(Long studentId, Class<T> replyClass);
 }
