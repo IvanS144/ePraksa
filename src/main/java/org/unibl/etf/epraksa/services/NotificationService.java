@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface NotificationService {
     void insert(Notification notification);
-    <T> List<T> getNotifications(Integer userID, Class<T> replyClass);
+    <T> List<T> getNotifications(Long userID, Class<T> replyClass);
 
     void setDelivered(Long notificationId);
 }

@@ -28,7 +28,7 @@ public class NotificationServiceImpl implements NotificationService {
     }
 
     @Override
-    public <T> List<T> getNotifications(Integer userID, Class<T> replyClass) {
+    public <T> List<T> getNotifications(Long userID, Class<T> replyClass) {
         return notificationRepository.getNotificationsByUserID(userID).stream().map(e -> modelMapper.map(e,replyClass)).collect(Collectors.toList());
     }
 
