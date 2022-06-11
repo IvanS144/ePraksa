@@ -2,6 +2,7 @@ package org.unibl.etf.epraksa.controllers;
 
 import org.springframework.web.bind.annotation.*;
 import org.unibl.etf.epraksa.model.dataTransferObjects.InternshipDTO;
+import org.unibl.etf.epraksa.model.entities.Comment;
 import org.unibl.etf.epraksa.model.entities.InternshipStatus;
 import org.unibl.etf.epraksa.model.dataTransferObjects.StudentDTO;
 import org.unibl.etf.epraksa.services.InternshipService;
@@ -20,7 +21,7 @@ public class InternshipController {
 
 
     @PutMapping("/{internshipId}/accept/{flag}")
-    public void setAcceptanceStatus(@PathVariable Long internshipId, @PathVariable Boolean flag, @RequestParam(required = false) String reason)
+    public void setAcceptanceStatus(@PathVariable Long internshipId, @PathVariable Boolean flag, @RequestBody(required = false) Comment reason)
     {
         internshipService.setAcceptanceStatus(internshipId, flag, reason);
     }
