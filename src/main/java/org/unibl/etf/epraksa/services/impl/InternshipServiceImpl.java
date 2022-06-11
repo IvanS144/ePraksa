@@ -60,8 +60,8 @@ public class InternshipServiceImpl implements InternshipService {
             {
                 Notification n = Notification.builder().subject("Odobrenje prakse").text("Obajvještavamo Vas da je praksa "+internship.getTitle()+ "odobrena.").userID(internship.getCompany().getId()).delivered(false).build();
                 notificationRepository.saveAndFlush(n);
-                Notification nm = Notification.builder().subject("Dodjela prakse").text("Obavještavamo Vas da Vam je dodjeljena praksa "+internship.getTitle()).userID(internship.getCompany().getId()).delivered(false).build();
-                notificationRepository.saveAndFlush(n);
+                Notification nm = Notification.builder().subject("Dodjela prakse").text("Obavještavamo Vas da Vam je dodjeljena praksa "+internship.getTitle()).userID(internship.getMentor().getId()).delivered(false).build();
+                notificationRepository.saveAndFlush(nm);
             }
             else
             {
