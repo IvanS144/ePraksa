@@ -45,6 +45,6 @@ public class WorkDiary {
 
     @OneToMany(mappedBy = "workDairy",
             fetch = FetchType.EAGER)
-    private List<WorkDiaryEntry> workDairyEntries;
+    private List<WorkDiaryEntry> workDiaryEntries;
 
 }
