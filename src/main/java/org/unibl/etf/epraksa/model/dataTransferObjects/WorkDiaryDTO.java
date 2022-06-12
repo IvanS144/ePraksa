@@ -1,13 +1,12 @@
 package org.unibl.etf.epraksa.model.dataTransferObjects;
 
 import lombok.Data;
-import org.unibl.etf.epraksa.model.dataTransferObjects.EntryDTO;
 import org.unibl.etf.epraksa.model.entities.State;
 
 import java.util.List;
 
 @Data
-public class WorkDairyDTO
+public class WorkDiaryDTO
 {
     private Long workDiaryId;
     private State state;

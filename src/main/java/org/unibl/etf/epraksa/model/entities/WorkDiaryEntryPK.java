@@ -12,7 +12,7 @@ import java.io.Serializable;
 @Data
 @NoArgsConstructor
 @Embeddable
-public class WorkDairyEntryPK implements Serializable {
+public class WorkDiaryEntryPK implements Serializable {
 
     @Column(name = "WorkDairyID", nullable = false)
     private Long workDairyID;
@@ -21,7 +21,7 @@ public class WorkDairyEntryPK implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long entryID;
 
-    public WorkDairyEntryPK(Long workDairyID, Long entryID) {
+    public WorkDiaryEntryPK(Long workDairyID, Long entryID) {
         this.workDairyID = workDairyID;
         this.entryID = entryID;
     }

@@ -11,7 +11,7 @@ import org.unibl.etf.epraksa.model.entities.Application;
 import org.unibl.etf.epraksa.model.entities.Internship;
 import org.unibl.etf.epraksa.model.entities.Student;
 import org.unibl.etf.epraksa.model.entities.*;
-import org.unibl.etf.epraksa.model.dataTransferObjects.WorkDairyDTO;
+import org.unibl.etf.epraksa.model.dataTransferObjects.WorkDiaryDTO;
 import org.unibl.etf.epraksa.model.requests.ApplicationRequest;
 import org.unibl.etf.epraksa.model.requests.WorkDiaryEntryRequest;
 import org.unibl.etf.epraksa.repositories.InternshipRepository;
@@ -40,7 +40,7 @@ public class ModelMapperConfig {
     public ModelMapper getModelMapper()
     {
         Converter<String, LocalTime> strToTimeConverter= ctx-> LocalTime.parse(ctx.getSource());
-        Converter<Long, WorkDairy> longToWorkDairyConverter = ctx-> workDiaryRepository.getById(ctx.getSource());
+        Converter<Long, WorkDiary> longToWorkDairyConverter = ctx-> workDiaryRepository.getById(ctx.getSource());
         Converter<Long, Internship> longToInternshipConverter = ctx -> internshipRepository.getById(ctx.getSource());
         Converter<Long, Student> longToStudentConverter = ctx -> studentRepository.getById(ctx.getSource());
 
@@ -82,16 +82,16 @@ public class ModelMapperConfig {
                     return dest;
                 });
 
-        mapper.createTypeMap(WorkDairy.class, WorkDairyDTO.class)
+        mapper.createTypeMap(WorkDiary.class, WorkDiaryDTO.class)
                 .setPostConverter(ctx->{
-                    WorkDairyDTO reply = ctx.getDestination();
-                    WorkDairy dairy = ctx.getSource();
+                    WorkDiaryDTO reply = ctx.getDestination();
+                    WorkDiary dairy = ctx.getSource();
                     reply.setStudentFullName(dairy.getStudentOnInternship().getStudent().getFirstName()+" "+ dairy.getStudentOnInternship().getStudent().getLastName());
                     reply.setMentorFullName(dairy.getStudentOnInternship().getInternship().getMentor().getFirstName()+ " " + dairy.getStudentOnInternship().getInternship().getMentor().getLastName());
                     reply.setStudentIndex(dairy.getStudentOnInternship().getStudent().getIndex());
                     reply.setStudentCourse(dairy.getStudentOnInternship().getStudent().getCourse());
                     reply.setInternshipName(dairy.getStudentOnInternship().getInternship().getTitle());
-                    reply.getWorkDairyEntries().sort((a,b) -> a.getDay().compareTo(b.getDay()));
+                    reply.getWorkDairyEntries().sort((a,b) -> b.getDay().compareTo(a.getDay()));
                     try {
                         Integer sum= dairy.getWorkDairyEntries().stream().map(e -> (int) Duration.between(e.getFromTime(), e.getToTime()).toHours()).reduce(0, (a, b) -> a + b);
                         reply.setWorkedHours(sum);
@@ -103,8 +103,8 @@ public class ModelMapperConfig {
                     return reply;
                 });
 
-        mapper.createTypeMap(WorkDiaryEntryRequest.class, WorkDairyEntry.class)
-                .addMappings(map-> map.using(longToWorkDairyConverter).map(WorkDiaryEntryRequest::getWorkDiaryId, WorkDairyEntry::setWorkDairy));
+        mapper.createTypeMap(WorkDiaryEntryRequest.class, WorkDiaryEntry.class)
+                .addMappings(map-> map.using(longToWorkDairyConverter).map(WorkDiaryEntryRequest::getWorkDiaryId, WorkDiaryEntry::setWorkDiary));
         return mapper;
     }
 }

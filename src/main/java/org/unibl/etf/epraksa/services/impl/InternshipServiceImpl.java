@@ -177,15 +177,15 @@ public class InternshipServiceImpl implements InternshipService {
                 StudentHasInternshipPK pks = new StudentHasInternshipPK(a.getId().getStudentId(), internshipId);
                 StudentHasInternship shi = new StudentHasInternship();
                 if(internship.getInternshipType().equals(InternshipType.STRUCNA)) {
-                    WorkDairy workDairy = new WorkDairy();
-                    workDairy.setState(State.PENDING);
-                    workDairy = workDiaryRepository.saveAndFlush(workDairy);
-                    entityManager.refresh(workDairy);
+                    WorkDiary workDiary = new WorkDiary();
+                    workDiary.setState(State.PENDING);
+                    workDiary = workDiaryRepository.saveAndFlush(workDiary);
+                    entityManager.refresh(workDiary);
                     ReportByMentor report = new ReportByMentor();
                     reportByMentorService.setReportInitialValues(internship, report);
                     report = reportByMentorRepository.saveAndFlush(report);
                     entityManager.refresh(report);
-                    shi.setWorkDairy(workDairy);
+                    shi.setWorkDiary(workDiary);
                     shi.setReport(report);
                 }
 				shi.setId(pks);

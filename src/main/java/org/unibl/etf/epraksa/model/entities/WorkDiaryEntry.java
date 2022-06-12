@@ -8,7 +8,6 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.sql.Time;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
@@ -17,10 +16,10 @@ import java.time.LocalTime;
 @Table(name = "work_dairy_entry")
 @NoArgsConstructor
 @EntityListeners(AuditingEntityListener.class)
-public class WorkDairyEntry implements Serializable {
+public class WorkDiaryEntry implements Serializable {
 
     @EmbeddedId
-    WorkDairyEntryPK id;
+    WorkDiaryEntryPK id;
 
 //    @MapsId("entryID")
 //    @Id
@@ -33,7 +32,7 @@ public class WorkDairyEntry implements Serializable {
     @JoinColumn(name = "WorkDairyID",
             referencedColumnName = "WorkDairyID",
             nullable = false)
-    private WorkDairy workDairy;
+    private WorkDiary workDiary;
 
     @Basic
     @Column(name = "Date",
@@ -80,7 +79,7 @@ public class WorkDairyEntry implements Serializable {
             @JoinColumn(name="WorkDairyID", referencedColumnName="WorkDairyID"),
             @JoinColumn(name="EntryID", referencedColumnName="EntryID")
     })
-    private WorkDairyEntryPrevious previousVersion;
+    private WorkDiaryEntryPrevious previousVersion;
 
     /*@OneToOne
     @JoinColumn(name = "PreviousVersionID",

@@ -13,7 +13,7 @@ import java.util.List;
 @Entity
 @EntityListeners(AuditingEntityListener.class)
 @Table(name = "work_dairy")
-public class WorkDairy {
+public class WorkDiary {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -45,6 +45,6 @@ public class WorkDairy {
 
     @OneToMany(mappedBy = "workDairy",
             fetch = FetchType.EAGER)
-    private List<WorkDairyEntry> workDairyEntries;
+    private List<WorkDiaryEntry> workDairyEntries;
 
 }

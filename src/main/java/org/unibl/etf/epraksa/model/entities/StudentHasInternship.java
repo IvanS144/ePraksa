@@ -35,7 +35,7 @@ public class StudentHasInternship implements Serializable{
     @JoinColumn(name = "WorkDairyID",
             referencedColumnName = "WorkDairyID",
             nullable = false)
-    private WorkDairy workDairy;
+    private WorkDiary workDiary;
 
     @OneToOne(fetch=FetchType.LAZY)
     @JoinColumn(name = "ReportID", referencedColumnName = "ReportID")
