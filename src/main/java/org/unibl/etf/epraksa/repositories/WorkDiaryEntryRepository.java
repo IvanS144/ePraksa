@@ -10,7 +10,7 @@ import java.util.Optional;
 public interface WorkDiaryEntryRepository extends JpaRepository<WorkDiaryEntry, WorkDiaryEntryPK> {
 //    Boolean existsByEntryIdAndWorkDairy_WorkDairyId(Long entryID, Long workDiaryEntryID);
 
-    Boolean existsById_EntryIDAndId_WorkDairyID(Long entryID, Long workDiaryEntryID);
+    Boolean existsById_EntryIDAndId_WorkDiaryID(Long entryID, Long workDiaryEntryID);
 
     @Query(nativeQuery = true,
             value = "SELECT MAX(wde.EntryID) FROM work_diary_entry wde WHERE wde.WorkDiaryID = :id")
@@ -21,5 +21,5 @@ public interface WorkDiaryEntryRepository extends JpaRepository<WorkDiaryEntry, 
 
 //    Optional<WorkDairyEntry> findWorkDairyEntryByWorkDairy_WorkDairyIdAndEntryId(Long workDiaryID, Long entryId);
 
-    Optional<WorkDiaryEntry> findWorkDairyEntryById_WorkDiaryIDAndId_EntryID(Long workDiaryID, Long entryId);
+    Optional<WorkDiaryEntry> findWorkDiaryEntryById_WorkDiaryIDAndId_EntryID(Long workDiaryID, Long entryId);
 }
