@@ -21,5 +21,5 @@ public interface WorkDiaryEntryRepository extends JpaRepository<WorkDiaryEntry, 
 
 //    Optional<WorkDairyEntry> findWorkDairyEntryByWorkDairy_WorkDairyIdAndEntryId(Long workDiaryID, Long entryId);
 
-    Optional<WorkDiaryEntry> findWorkDairyEntryById_WorkDairyIDAndId_EntryID(Long workDiaryID, Long entryId);
+    Optional<WorkDiaryEntry> findWorkDairyEntryById_WorkDiaryIDAndId_EntryID(Long workDiaryID, Long entryId);
 }
