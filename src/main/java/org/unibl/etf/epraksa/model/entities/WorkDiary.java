@@ -40,10 +40,10 @@ public class WorkDiary {
     @Column(name = "DeletedDate")
     private LocalDate deletedDate;
 
-    @OneToOne(mappedBy="workDairy", fetch=FetchType.LAZY)
+    @OneToOne(mappedBy="workDiary", fetch=FetchType.LAZY)
     private StudentHasInternship studentOnInternship;
 
-    @OneToMany(mappedBy = "workDairy",
+    @OneToMany(mappedBy = "workDiary",
             fetch = FetchType.EAGER)
     private List<WorkDiaryEntry> workDiaryEntries;
 

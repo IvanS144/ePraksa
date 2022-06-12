@@ -47,7 +47,7 @@ public class WorkDiaryServiceImpl implements WorkDiaryService{
 
     @Override
     public <T> T getWorkDiary(Long studentId, Long internshipId, Class<T> workDiaryClass) {
-        WorkDiary workDiary = workDiaryRepository.getWorkDairy(studentId, internshipId)
+        WorkDiary workDiary = workDiaryRepository.getWorkDiary(studentId, internshipId)
                 .orElseThrow(() -> new NotFoundException("Nije pronadjen dnevnik!"));
         return modelMapper.map(workDiary, workDiaryClass);
     }
@@ -57,7 +57,7 @@ public class WorkDiaryServiceImpl implements WorkDiaryService{
 //        Podesim work diary entry
         WorkDiaryEntry workDiaryEntry = modelMapper.map(request, WorkDiaryEntry.class);
         WorkDiaryEntryPK key = new WorkDiaryEntryPK();
-        key.setWorkDairyID(request.getWorkDiaryId());
+        key.setWorkDiaryID(request.getWorkDiaryId());
 
         Long lastEntryID = workDiaryEntryRepository.lastInsertEntryId(request.getWorkDiaryId());
         if(lastEntryID==null) lastEntryID = 1L;
@@ -117,7 +117,7 @@ public class WorkDiaryServiceImpl implements WorkDiaryService{
 
     @Override
     public void updateStateByStudentAndInternship(Long studentId, Long internshipId, State state) {
-        WorkDiary workDiary = workDiaryRepository.getWorkDairy(studentId, internshipId)
+        WorkDiary workDiary = workDiaryRepository.getWorkDiary(studentId, internshipId)
                 .orElseThrow(() -> new NotFoundException("Nije pronadjen dnevnik!"));
 
         workDiary.setState(state);
@@ -139,7 +139,7 @@ public class WorkDiaryServiceImpl implements WorkDiaryService{
     public <T> T getWorkDiaryByStudent(Long studentId, Class<T> replyClass) {
         if(studentRepository.existsById(studentId))
         {
-            List<WorkDiary> list = workDiaryRepository.getWorkDairiesForStudent(studentId);
+            List<WorkDiary> list = workDiaryRepository.getWorkDiariesForStudent(studentId);
             if(list.isEmpty()){
                 throw new NotFoundException("Student još nema dnevnik rada");
             }

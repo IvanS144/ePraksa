@@ -13,7 +13,7 @@ public interface WorkDiaryEntryRepository extends JpaRepository<WorkDiaryEntry, 
     Boolean existsById_EntryIDAndId_WorkDairyID(Long entryID, Long workDiaryEntryID);
 
     @Query(nativeQuery = true,
-            value = "SELECT MAX(wde.EntryID) FROM work_dairy_entry wde WHERE wde.WorkDairyID = :id")
+            value = "SELECT MAX(wde.EntryID) FROM work_diary_entry wde WHERE wde.WorkDiaryID = :id")
     Long lastInsertEntryId(Long id);
 //    @Query(value = "SELECT wde.previousVersion.entryId FROM WorkDairyEntry wde " +
 //            "WHERE wde.entryId = :entryId AND wde.workDairy.workDairyId = :workEntryId")

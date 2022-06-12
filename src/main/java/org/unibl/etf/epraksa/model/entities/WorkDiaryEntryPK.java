@@ -15,14 +15,14 @@ import java.io.Serializable;
 public class WorkDiaryEntryPK implements Serializable {
 
     @Column(name = "WorkDiaryID", nullable = false)
-    private Long workDairyID;
+    private Long workDiaryID;
 
     @Column(name = "EntryID", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long entryID;
 
-    public WorkDiaryEntryPK(Long workDairyID, Long entryID) {
-        this.workDairyID = workDairyID;
+    public WorkDiaryEntryPK(Long workDiaryID, Long entryID) {
+        this.workDiaryID = workDiaryID;
         this.entryID = entryID;
     }
 }

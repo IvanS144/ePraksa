@@ -91,7 +91,7 @@ public class ModelMapperConfig {
                     reply.setStudentIndex(dairy.getStudentOnInternship().getStudent().getIndex());
                     reply.setStudentCourse(dairy.getStudentOnInternship().getStudent().getCourse());
                     reply.setInternshipName(dairy.getStudentOnInternship().getInternship().getTitle());
-                    reply.getWorkDairyEntries().sort((a,b) -> b.getDay().compareTo(a.getDay()));
+                    reply.getWorkDiaryEntries().sort((a, b) -> b.getDay().compareTo(a.getDay()));
                     try {
                         Integer sum= dairy.getWorkDiaryEntries().stream().map(e -> (int) Duration.between(e.getFromTime(), e.getToTime()).toHours()).reduce(0, (a, b) -> a + b);
                         reply.setWorkedHours(sum);

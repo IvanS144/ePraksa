@@ -57,7 +57,7 @@ public class WorkDiaryEntryPrevious implements Serializable {
     private LocalDate deletedDate;
 
     public WorkDiaryEntryPrevious(WorkDiaryEntry workDiaryEntry){
-        this.Id = new WorkDiaryEntryPK(workDiaryEntry.getId().getWorkDairyID(), workDiaryEntry.getId().getEntryID());
+        this.Id = new WorkDiaryEntryPK(workDiaryEntry.getId().getWorkDiaryID(), workDiaryEntry.getId().getEntryID());
         this.date = workDiaryEntry.getDate();
         this.day = workDiaryEntry.getDay();
         this.from = workDiaryEntry.getFromTime();

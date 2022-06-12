@@ -28,7 +28,7 @@ public class WorkDiaryEntry implements Serializable {
 //    private Long entryId;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @MapsId("workDairyID")
+    @MapsId("workDiaryID")
     @JoinColumn(name = "WorkDiaryID",
             referencedColumnName = "WorkDiaryID",
             nullable = false)
