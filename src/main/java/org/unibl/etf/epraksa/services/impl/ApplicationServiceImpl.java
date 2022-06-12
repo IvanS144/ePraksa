@@ -101,7 +101,7 @@ public class ApplicationServiceImpl implements ApplicationService {
         }*/
         if(state.equals(State.DENIED))
         {
-            Notification n = Notification.builder().subject("Odbijena prijava na praksu").text("Obavještavamo Vas da je Vaša prijava na praksu " + application.getInternship().getTitle() + " odbijena.\nRazlog:\n" + comment).userID(application.getStudent().getId()).delivered(false).build();
+            Notification n = Notification.builder().subject("Odbijena prijava na praksu").text("Obavještavamo Vas da je Vaša prijava na praksu " + application.getInternship().getTitle() + " odbijena. \nRazlog: \n" + comment).userID(application.getStudent().getId()).delivered(false).build();
             notificationRepository.saveAndFlush(n);
             application.setReport(comment.getComment());
         }
