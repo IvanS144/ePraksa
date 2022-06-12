@@ -11,7 +11,7 @@ import java.time.LocalTime;
 @Data
 @NoArgsConstructor
 @Entity
-@Table(name = "work_dairy_entry_previous")
+@Table(name = "work_diary_entry_previous")
 public class WorkDiaryEntryPrevious implements Serializable {
 
     @EmbeddedId

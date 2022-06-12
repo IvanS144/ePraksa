@@ -15,9 +15,9 @@ import java.io.Serializable;
 @NoArgsConstructor
 @Embeddable
 public class WorkDiaryEntryPreviousPK implements Serializable {
-    @Column(name = "WorkDairyyID", nullable = false)
+    @Column(name = "WorkDiaryID", nullable = false)
     private Long workDairyyID;
 
-    @Column(name = "EntryyID", nullable = false)
+    @Column(name = "EntryID", nullable = false)
     private Long entryyID;
 }

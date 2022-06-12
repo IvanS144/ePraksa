@@ -32,8 +32,8 @@ public class StudentHasInternship implements Serializable{
     private Internship internship;
 
     @OneToOne
-    @JoinColumn(name = "WorkDairyID",
-            referencedColumnName = "WorkDairyID",
+    @JoinColumn(name = "WorkDiaryID",
+            referencedColumnName = "WorkDiaryID",
             nullable = false)
     private WorkDiary workDiary;
 

@@ -14,7 +14,7 @@ import java.io.Serializable;
 @Embeddable
 public class WorkDiaryEntryPK implements Serializable {
 
-    @Column(name = "WorkDairyID", nullable = false)
+    @Column(name = "WorkDiaryID", nullable = false)
     private Long workDairyID;
 
     @Column(name = "EntryID", nullable = false)

@@ -13,7 +13,7 @@ import java.time.LocalTime;
 
 @Data
 @Entity
-@Table(name = "work_dairy_entry")
+@Table(name = "work_diary_entry")
 @NoArgsConstructor
 @EntityListeners(AuditingEntityListener.class)
 public class WorkDiaryEntry implements Serializable {
@@ -29,8 +29,8 @@ public class WorkDiaryEntry implements Serializable {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @MapsId("workDairyID")
-    @JoinColumn(name = "WorkDairyID",
-            referencedColumnName = "WorkDairyID",
+    @JoinColumn(name = "WorkDiaryID",
+            referencedColumnName = "WorkDiaryID",
             nullable = false)
     private WorkDiary workDiary;
 
@@ -76,7 +76,7 @@ public class WorkDiaryEntry implements Serializable {
 
     @OneToOne
     @JoinColumns({
-            @JoinColumn(name="WorkDairyID", referencedColumnName="WorkDairyID"),
+            @JoinColumn(name="WorkDiaryID", referencedColumnName="WorkDiaryID"),
             @JoinColumn(name="EntryID", referencedColumnName="EntryID")
     })
     private WorkDiaryEntryPrevious previousVersion;

@@ -12,17 +12,17 @@ import java.util.List;
 @Data
 @Entity
 @EntityListeners(AuditingEntityListener.class)
-@Table(name = "work_dairy")
+@Table(name = "work_diary")
 public class WorkDiary {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "WorkDairyID",
+    @Column(name = "WorkDiaryID",
             nullable = false)
     private Long workDiaryId;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "STATE",
+    @Column(name = "State",
             length = 45)
     private State state;
 
