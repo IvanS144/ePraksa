@@ -125,7 +125,7 @@ public class InternshipServiceImpl implements InternshipService {
             if (internship.getSubmissionDue().isAfter(internship.getStartDate()) || internship.getEndDate().isBefore(internship.getStartDate()) || internship.getStartDate().isEqual(internship.getEndDate()))
                 throw new BadRequestException("Datumi nisu validni");
 
-                internship.setStatus(InternshipStatus.PENDING);
+            internship.setStatus(InternshipStatus.PENDING);
 
             internship.setCreatedAt(existing.getCreatedAt());
             internship.setLastModifiedDate(existing.getLastModifiedDate());
