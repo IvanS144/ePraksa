@@ -1,5 +1,6 @@
 package org.unibl.etf.epraksa.controllers;
 
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.unibl.etf.epraksa.model.dataTransferObjects.InternshipApplicationDTO;
 import org.unibl.etf.epraksa.model.dataTransferObjects.StudentApplicationDTO;
@@ -40,16 +41,19 @@ public class ApplicationController {
     }
 
     @PostMapping
+    //@PreAuthorize("hasRole('STUDENT')")
     public void insert(@RequestBody @Valid ApplicationRequest request) {
         applicationService.insert(request);
     }
 
     @PutMapping("/{internshipId}/{studentId}/{state}")
+    //@PreAuthorize("hasRole('MENTOR')")
     public void setState(@PathVariable Long internshipId, @PathVariable Long studentId, @PathVariable State state, @RequestBody(required = false) Comment comment) {
         applicationService.setState(internshipId, studentId, state, comment);
     }
 
     @DeleteMapping("/{internshipId}/{studentId}")
+    //@PreAuthorize("hasRole('STUDENT')")
 
     public void delete(@PathVariable Long internshipId, @PathVariable Long studentId )
     {

@@ -118,25 +118,25 @@ public class InternshipServiceImpl implements InternshipService {
         if(!internshipRepository.existsById(internshipId))
             throw new NotFoundException("Data praksa ne postoji");
         Internship existing = internshipRepository.getById(internshipId);
-        if(existing.getInternshipType().equals(InternshipType.STRUCNA) && !existing.getStatus().equals(InternshipStatus.DENIED) && !existing.getStatus().equals(InternshipStatus.PENDING))
-            throw new ForbiddenException("Ne smijete mjenjati prihvacenu praksu");
-        Internship internship = modelMapper.map(request, Internship.class);
-        internship.setInternshipId(internshipId);
-        if (internship.getSubmissionDue().isAfter(internship.getStartDate()) || internship.getEndDate().isBefore(internship.getStartDate()) || internship.getStartDate().isEqual(internship.getEndDate()))
-            throw new BadRequestException("Datumi nisu validni");
-        if(InternshipType.STRUCNA.equals(internship.getInternshipType()))
+        if(existing.getInternshipType().equals(InternshipType.STRUCNA) && (existing.getStatus().equals(InternshipStatus.DENIED) || existing.getStatus().equals(InternshipStatus.PENDING)))
         {
-            internship.setStatus(InternshipStatus.PENDING);
+            Internship internship = modelMapper.map(request, Internship.class);
+            internship.setInternshipId(internshipId);
+            if (internship.getSubmissionDue().isAfter(internship.getStartDate()) || internship.getEndDate().isBefore(internship.getStartDate()) || internship.getStartDate().isEqual(internship.getEndDate()))
+                throw new BadRequestException("Datumi nisu validni");
+
+                internship.setStatus(InternshipStatus.PENDING);
+
+            internship.setCreatedAt(existing.getCreatedAt());
+            internship.setLastModifiedDate(existing.getLastModifiedDate());
+            internship = internshipRepository.saveAndFlush(internship);
+            entityManager.refresh(internship);
+            return modelMapper.map(internship, replyClass);
         }
         else
         {
-            internship.setStatus(InternshipStatus.PUBLISHED);
+            throw new ForbiddenException("Ne smijete mijenjati prihvacenu praksu!");
         }
-        internship.setCreatedAt(existing.getCreatedAt());
-        internship.setLastModifiedDate(existing.getLastModifiedDate());
-        internship = internshipRepository.saveAndFlush(internship);
-        entityManager.refresh(internship);
-        return modelMapper.map(internship, replyClass);
     }
 
     @Override

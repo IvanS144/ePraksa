@@ -1,5 +1,6 @@
 package org.unibl.etf.epraksa.controllers;
 
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.unibl.etf.epraksa.model.dataTransferObjects.InternshipDTO;
 import org.unibl.etf.epraksa.model.entities.Comment;
@@ -47,6 +48,7 @@ public class InternshipController {
     }
 
     @PutMapping("/{internshipId}/finish")
+    //@PreAuthorize("hasRole('MENTOR')")
     public InternshipDTO setFinishedStatus(@PathVariable Long internshipId)
     {
         return internshipService.setFinishedStatus(internshipId, InternshipDTO.class);
@@ -54,18 +56,21 @@ public class InternshipController {
     }
 
     @PostMapping
+    //@PreAuthorize("hasRole('COMPANY')")
     public InternshipDTO addInternship(@RequestBody @Valid InternshipRequest request)
     {
         return internshipService.insert(request, InternshipDTO.class);
     }
 
     @PutMapping("/{internshipId}")
+    //@PreAuthorize("hasRole('COMPANY')")
     public InternshipDTO update(@PathVariable Long internshipId, @RequestBody @Valid InternshipRequest request)
     {
         return internshipService.update(internshipId, request, InternshipDTO.class);
     }
 
     @PutMapping("/{internshipId}/activate")
+    //@PreAuthorize("hasRole('MENTOR')")
     public InternshipDTO activateInternship(@PathVariable Long internshipId)
     {
         return internshipService.setActive(internshipId, InternshipDTO.class);
