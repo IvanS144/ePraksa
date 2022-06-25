@@ -172,7 +172,7 @@ public class InternshipServiceImpl implements InternshipService {
 			internship.setStatus(InternshipStatus.ACTIVE);
 			internship = internshipRepository.saveAndFlush(internship);
 			entityManager.refresh(internship);
-			for (var a : internship.getApplications())
+			for (var a : internship.getApplications().stream().filter(a -> a.getState().equals(State.ACCEPTED)).toList())
 			{
                 StudentHasInternshipPK pks = new StudentHasInternshipPK(a.getId().getStudentId(), internshipId);
                 StudentHasInternship shi = new StudentHasInternship();
