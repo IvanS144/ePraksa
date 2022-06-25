@@ -98,7 +98,7 @@ public class InternshipServiceImpl implements InternshipService {
             internship.setStatus(InternshipStatus.PENDING);
             Internship finalInternship = internship;
             commissionMemberRepository.findAll().stream().filter(CommissionMember::getIsCurrentMember).forEach(c ->{
-                Notification nc = Notification.builder().subject("Zahtjev za stručnu praksu").text("Obajvještavamo Vas da je kompanija" +finalInternship.getCompany().getName() +" poslala zahtjev za odobrenje stručne prakse: " + finalInternship.getTitle()).userID(c.getId()).delivered(false).build();
+                Notification nc = Notification.builder().subject("Zahtjev za stručnu praksu").text("Obajvještavamo Vas da je kompanija " +finalInternship.getCompany().getName() +" poslala zahtjev za odobrenje stručne prakse: " + finalInternship.getTitle()).userID(c.getId()).delivered(false).build();
                 notificationRepository.saveAndFlush(nc);});
         }
         else
