@@ -13,7 +13,9 @@ import org.unibl.etf.epraksa.model.entities.Student;
 import org.unibl.etf.epraksa.model.entities.*;
 import org.unibl.etf.epraksa.model.dataTransferObjects.WorkDiaryDTO;
 import org.unibl.etf.epraksa.model.requests.ApplicationRequest;
+import org.unibl.etf.epraksa.model.requests.InternshipRequest;
 import org.unibl.etf.epraksa.model.requests.WorkDiaryEntryRequest;
+import org.unibl.etf.epraksa.repositories.CompanyRepository;
 import org.unibl.etf.epraksa.repositories.InternshipRepository;
 import org.unibl.etf.epraksa.repositories.StudentRepository;
 import org.unibl.etf.epraksa.repositories.WorkDiaryRepository;
@@ -27,13 +29,15 @@ public class ModelMapperConfig {
     private final InternshipRepository internshipRepository;
     private final StudentRepository studentRepository;
     private final WorkDiaryRepository workDiaryRepository;
+    private final CompanyRepository companyRepository;
 
 
 
-    public ModelMapperConfig(InternshipRepository internshipRepository, StudentRepository studentRepository, WorkDiaryRepository workDiaryRepository) {
+    public ModelMapperConfig(InternshipRepository internshipRepository, StudentRepository studentRepository, WorkDiaryRepository workDiaryRepository, CompanyRepository companyRepository) {
         this.internshipRepository = internshipRepository;
         this.studentRepository = studentRepository;
         this.workDiaryRepository = workDiaryRepository;
+        this.companyRepository = companyRepository;
     }
 
     @Bean
@@ -43,6 +47,7 @@ public class ModelMapperConfig {
         Converter<Long, WorkDiary> longToWorkDairyConverter = ctx-> workDiaryRepository.getById(ctx.getSource());
         Converter<Long, Internship> longToInternshipConverter = ctx -> internshipRepository.getById(ctx.getSource());
         Converter<Long, Student> longToStudentConverter = ctx -> studentRepository.getById(ctx.getSource());
+        Converter<Long, Company> longCompanyConverter = ctx -> companyRepository.getById(ctx.getSource());
 
         ModelMapper mapper = new ModelMapper();
         mapper.getConfiguration().setAmbiguityIgnored(true);
@@ -105,6 +110,8 @@ public class ModelMapperConfig {
 
         mapper.createTypeMap(WorkDiaryEntryRequest.class, WorkDiaryEntry.class)
                 .addMappings(map-> map.using(longToWorkDairyConverter).map(WorkDiaryEntryRequest::getWorkDiaryId, WorkDiaryEntry::setWorkDiary));
+
+        mapper.createTypeMap(InternshipRequest.class, Internship.class).addMappings(map-> map.using(longCompanyConverter).map(InternshipRequest::getCompanyId, Internship::setCompany));
         return mapper;
     }
 }
