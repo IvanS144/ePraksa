@@ -14,6 +14,7 @@ import org.unibl.etf.epraksa.model.entities.json.StudentQuestionnaireJSON;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Data
 @Entity
@@ -41,7 +42,7 @@ public class ReportByMentor {
     @Column(name = "CreatedAt",
             nullable = false)
     @CreatedDate
-    private LocalDate createdAt;
+    private LocalDateTime createdAt;
 
     @Column(name = "LastModifiedDate",
             nullable = false)
