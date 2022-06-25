@@ -93,6 +93,8 @@ public class InternshipServiceImpl implements InternshipService {
         if (internship.getSubmissionDue().isAfter(internship.getStartDate()) || internship.getEndDate().isBefore(internship.getStartDate()) || internship.getStartDate().isEqual(internship.getEndDate()))
             throw new BadRequestException("Datumi nisu validni");
         internship.setInternshipId(null);
+        internship = internshipRepository.saveAndFlush(internship);
+        entityManager.refresh(internship);
         if(InternshipType.STRUCNA.equals(internship.getInternshipType()))
         {
             internship.setStatus(InternshipStatus.PENDING);
@@ -107,8 +109,6 @@ public class InternshipServiceImpl implements InternshipService {
             Notification nm = Notification.builder().subject("Dodjela prakse").text("Obavještavamo Vas da Vam je dodjeljena praksa "+internship.getTitle()).userID(internship.getMentor().getId()).delivered(false).build();
             notificationRepository.saveAndFlush(nm);
         }
-        internship = internshipRepository.saveAndFlush(internship);
-        entityManager.refresh(internship);
         return modelMapper.map(internship, replyClass);
 
     }
