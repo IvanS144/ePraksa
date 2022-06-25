@@ -19,7 +19,7 @@ public interface ReportByMentorRepository extends JpaRepository<ReportByMentor, 
 
     @Query(value = "select shi.report " +
             "from StudentHasInternship shi " +
-            "where shi.id.id = :id ORDER BY shi.report.createdAt DESC")
+            "where shi.id.id = :id ORDER BY shi.report.createdAt ASC")
 //    @Query(value = "select rbm.reportId, rbm.opinionJSON, rbm.createdAt, rbm.lastModifiedDate, rbm.deletedDate " +
 //            "from ReportByMentor rbm " +
 //            "inner join StudentHasInternship shi on shi.report.reportId = rbm.reportId " +

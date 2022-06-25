@@ -98,7 +98,7 @@ public class ReportByMentorServiceImpl implements ReportByMentorService
         List<ReportByMentor> reports = reportByMentorRepository.getLatestReport(studentId);
         if(reports.isEmpty())
             throw new NotFoundException("Student još nema nijedan izvještaj");
-        return modelMapper.map(reportByMentorRepository.getLatestReport(studentId).get(0), replyClass );
+        return modelMapper.map(reports.get(0), replyClass );
     }
 
     @Override
