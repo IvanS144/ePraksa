@@ -15,6 +15,6 @@ public interface WorkDiaryRepository extends JpaRepository<WorkDiary,Long> {
     @Query("SELECT shi.workDiary from StudentHasInternship shi WHERE shi.id.id = :studentId AND shi.id.internshipId = :internshipId")
     public Optional<WorkDiary> getWorkDiary(Long studentId, Long internshipId);
 
-    @Query("SELECT shi.workDiary from StudentHasInternship shi WHERE shi.id.id = :studentId ORDER BY shi.workDiary.createdAt DESC")
+    @Query("SELECT shi.workDiary from StudentHasInternship shi WHERE shi.id.id = :studentId ORDER BY shi.workDiary.createdAt ASC")
     public List<WorkDiary> getWorkDiariesForStudent(Long studentId);
 }
